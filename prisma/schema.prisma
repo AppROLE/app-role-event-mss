@@ -8,17 +8,17 @@ datasource db {
 }
 
 model Features {
-  id                   Int                    @id @default(autoincrement())
+  id                   String                 @id @default(uuid())
   name                 String
   icon                 String?
   FeaturesInInstitutes FeaturesInInstitutes[]
 }
 
 model FeaturesInInstitutes {
-  id           Int @id @default(autoincrement())
-  feature_id   Int
-  institute_id Int
-  role_id      Int
+  id           String @id @default(uuid())
+  feature_id   String
+  institute_id String
+  role_id      String
 
   Feature             Features            @relation(fields: [feature_id], references: [id])
   Institute           Institutes          @relation(fields: [institute_id], references: [id])
@@ -26,29 +26,29 @@ model FeaturesInInstitutes {
 }
 
 model MusicalGenre {
-  id                Int                 @id @default(autoincrement())
+  id                String              @id @default(uuid())
   name              String
   MusicalGenreEvent MusicalGenreEvent[]
 }
 
 model MusicalGenreEvent {
-  id              Int @id @default(autoincrement())
-  musicalgenre_id Int
-  event_id        Int
+  id              String @id @default(uuid())
+  musicalgenre_id String
+  event_id        String
 
   MusicalGenre MusicalGenre @relation(fields: [musicalgenre_id], references: [id])
   Event        Event        @relation(fields: [event_id], references: [id])
 }
 
 model Institutes {
-  id             Int     @id @default(autoincrement())
+  id             String  @id @default(uuid())
   name           String
   logo           String?
   description    String
   institute_type String
   address        String
   price          Float
-  district_id    Int
+  district_id    String
 
   District             District               @relation(fields: [district_id], references: [id])
   Events               Event[]
@@ -60,9 +60,9 @@ model Institutes {
 }
 
 model Review {
-  id           Int    @id @default(autoincrement())
-  user_id      Int
-  institute_id Int
+  id           String @id @default(uuid())
+  user_id      String
+  institute_id String
   star         Int
   review       String
 
@@ -71,10 +71,10 @@ model Review {
 }
 
 model Favorite {
-  id           Int @id @default(autoincrement())
-  institute_id Int
-  event_id     Int
-  user_id      Int
+  id           String @id @default(uuid())
+  institute_id String
+  event_id     String
+  user_id      String
 
   Institute Institutes @relation(fields: [institute_id], references: [id])
   Event     Event      @relation(fields: [event_id], references: [id])
@@ -82,17 +82,17 @@ model Favorite {
 }
 
 model Event {
-  id           Int      @id @default(autoincrement())
-  institute_id Int
+  id           String   @id @default(uuid())
+  institute_id String
   name         String
   description  String
   banner_url   String?
   logo_url     String?
   address      String
-  price        Float?
+  price        String?
   age_range    String?
   event_date   DateTime
-  district_id  Int
+  district_id  String
 
   Institute         Institutes          @relation(fields: [institute_id], references: [id])
   District          District            @relation(fields: [district_id], references: [id])
@@ -102,9 +102,9 @@ model Event {
 }
 
 model Presence {
-  id            Int     @id @default(autoincrement())
-  user_id       Int
-  event_id      Int
+  id            String  @id @default(uuid())
+  user_id       String
+  event_id      String
   promoter_code String?
 
   User  Users @relation(fields: [user_id], references: [id])
@@ -112,7 +112,7 @@ model Presence {
 }
 
 model Users {
-  id            Int      @id @default(autoincrement())
+  id            String   @id @default(uuid())
   name          String
   username      String
   email         String   @unique
@@ -131,39 +131,39 @@ model Users {
 }
 
 model Follow {
-  id      Int @id @default(autoincrement())
-  user_id Int
-  follow  Int
+  id      String @id @default(uuid())
+  user_id String
+  follow  String
 
   User Users @relation(fields: [user_id], references: [id])
 }
 
 model Galery {
-  id           Int @id @default(autoincrement())
-  photo_id     Int
-  institute_id Int
+  id           String @id @default(uuid())
+  photo_id     String
+  institute_id String
 
   Photo     Photos     @relation(fields: [photo_id], references: [id])
   Institute Institutes @relation(fields: [institute_id], references: [id])
 }
 
 model Photos {
-  id       Int      @id @default(autoincrement())
+  id       String   @id @default(uuid())
   url      String
   Galeries Galery[]
 }
 
 model RoleType {
-  id                   Int                   @id @default(autoincrement())
+  id                   String                @id @default(uuid())
   name                 String
   RoleTypeInInstitutes RoleTypeInInstitute[]
 }
 
 model RoleTypeInInstitute {
-  id           Int @id @default(autoincrement())
-  roletype_id  Int
-  institute_id Int
-  role_id      Int
+  id           String @id @default(uuid())
+  roletype_id  String
+  institute_id String
+  role_id      String
 
   RoleType             RoleType               @relation(fields: [roletype_id], references: [id])
   Institute            Institutes             @relation(fields: [institute_id], references: [id])
@@ -171,7 +171,7 @@ model RoleTypeInInstitute {
 }
 
 model District {
-  id         Int          @id @default(autoincrement())
+  id         String       @id @default(uuid())
   name       String
   region     String
   Institutes Institutes[]
