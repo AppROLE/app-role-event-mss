@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Features {
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  icon                 String?
+  FeaturesInInstitutes FeaturesInInstitutes[]
+}
+
+model FeaturesInInstitutes {
+  id           Int @id @default(autoincrement())
+  feature_id   Int
+  institute_id Int
+  role_id      Int
+
+  Feature             Features            @relation(fields: [feature_id], references: [id])
+  Institute           Institutes          @relation(fields: [institute_id], references: [id])
+  RoleTypeInInstitute RoleTypeInInstitute @relation(fields: [role_id], references: [id])
+}
+
+model MusicalGenre {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  MusicalGenreEvent MusicalGenreEvent[]
+}
+
+model MusicalGenreEvent {
+  id              Int @id @default(autoincrement())
+  musicalgenre_id Int
+  event_id        Int
+
+  MusicalGenre MusicalGenre @relation(fields: [musicalgenre_id], references: [id])
+  Event        Event        @relation(fields: [event_id], references: [id])
+}
+
+model Institutes {
+  id             Int     @id @default(autoincrement())
+  name           String
+  logo           String?
+  description    String
+  institute_type String
+  address        String
+  price          Float
+  district_id    Int
+
+  District             District               @relation(fields: [district_id], references: [id])
+  Events               Event[]
+  Reviews              Review[]
+  Favorites            Favorite[]
+  FeaturesInInstitutes FeaturesInInstitutes[]
+  RoleTypeInInstitutes RoleTypeInInstitute[]
+  Galery               Galery[]
+}
+
+model Review {
+  id           Int    @id @default(autoincrement())
+  user_id      Int
+  institute_id Int
+  star         Int
+  review       String
+
+  User      Users      @relation(fields: [user_id], references: [id])
+  Institute Institutes @relation(fields: [institute_id], references: [id])
+}
+
+model Favorite {
+  id           Int @id @default(autoincrement())
+  institute_id Int
+  event_id     Int
+  user_id      Int
+
+  Institute Institutes @relation(fields: [institute_id], references: [id])
+  Event     Event      @relation(fields: [event_id], references: [id])
+  User      Users      @relation(fields: [user_id], references: [id])
+}
+
+model Event {
+  id           Int      @id @default(autoincrement())
+  institute_id Int
+  name         String
+  description  String
+  banner_url   String?
+  logo_url     String?
+  address      String
+  price        Float?
+  age_range    String?
+  event_date   DateTime
+  district_id  Int
+
+  Institute         Institutes          @relation(fields: [institute_id], references: [id])
+  District          District            @relation(fields: [district_id], references: [id])
+  Presence          Presence[]
+  MusicalGenreEvent MusicalGenreEvent[]
+  Favorite          Favorite[]
+}
+
+model Presence {
+  id            Int     @id @default(autoincrement())
+  user_id       Int
+  event_id      Int
+  promoter_code String?
+
+  User  Users @relation(fields: [user_id], references: [id])
+  Event Event @relation(fields: [event_id], references: [id])
+}
+
+model Users {
+  id            Int      @id @default(autoincrement())
+  name          String
+  username      String
+  email         String   @unique
+  password      String
+  created_at    DateTime @default(now())
+  lnk_instagram String?
+  lnk_tiktok    String?
+  lnk_twitter   String?
+  bg_photo      String?
+  profile_photo String?
+
+  Reviews   Review[]
+  Favorites Favorite[]
+  Presences Presence[]
+  Follows   Follow[]
+}
+
+model Follow {
+  id      Int @id @default(autoincrement())
+  user_id Int
+  follow  Int
+
+  User Users @relation(fields: [user_id], references: [id])
+}
+
+model Galery {
+  id           Int @id @default(autoincrement())
+  photo_id     Int
+  institute_id Int
+
+  Photo     Photos     @relation(fields: [photo_id], references: [id])
+  Institute Institutes @relation(fields: [institute_id], references: [id])
+}
+
+model Photos {
+  id       Int      @id @default(autoincrement())
+  url      String
+  Galeries Galery[]
+}
+
+model RoleType {
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  RoleTypeInInstitutes RoleTypeInInstitute[]
+}
+
+model RoleTypeInInstitute {
+  id           Int @id @default(autoincrement())
+  roletype_id  Int
+  institute_id Int
+  role_id      Int
+
+  RoleType             RoleType               @relation(fields: [roletype_id], references: [id])
+  Institute            Institutes             @relation(fields: [institute_id], references: [id])
+  FeaturesInInstitutes FeaturesInInstitutes[]
+}
+
+model District {
+  id         Int          @id @default(autoincrement())
+  name       String
+  region     String
+  Institutes Institutes[]
+  Events     Event[]
+}
