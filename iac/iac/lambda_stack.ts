@@ -44,7 +44,7 @@ export class LambdaStack extends Construct {
         path.join(__dirname, `../../src/modules/${moduleName}`)
       ),
       handler: `app.${moduleName}_presenter.lambda_handler`,
-      runtime: lambda.Runtime.PYTHON_3_11,
+      runtime: lambda.Runtime.NODEJS_20_X,
       layers: [this.sharedLayer, this.libLayer, this.prismaLayer],
       environment: environmentVariables,
       timeout: Duration.seconds(30),
@@ -78,7 +78,7 @@ export class LambdaStack extends Construct {
       `AppROLEMssSharedLayer-${stage}`,
       {
         code: lambda.Code.fromAsset(path.join(__dirname, "../shared")),
-        compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
+        compatibleRuntimes: [lambda.Runtime.NODEJS_20_X],
       }
     );
 
@@ -86,8 +86,8 @@ export class LambdaStack extends Construct {
       this,
       `AppROLEMssLibLayer-${stage}`,
       {
-        code: lambda.Code.fromAsset(path.join(__dirname, "../requirements")),
-        compatibleRuntimes: [lambda.Runtime.PYTHON_3_11],
+        code: lambda.Code.fromAsset(path.join(__dirname, "../dependencies")),
+        compatibleRuntimes: [lambda.Runtime.NODEJS_20_X],
       }
     );
 
