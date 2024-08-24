@@ -7,173 +7,116 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Features {
-  id                   String                 @id @default(uuid())
-  name                 String
-  icon                 String?
-  FeaturesInInstitutes FeaturesInInstitutes[]
-}
-
-model FeaturesInInstitutes {
-  id           String @id @default(uuid())
-  feature_id   String
-  institute_id String
-  role_id      String
-
-  Feature             Features            @relation(fields: [feature_id], references: [id])
-  Institute           Institutes          @relation(fields: [institute_id], references: [id])
-  RoleTypeInInstitute RoleTypeInInstitute @relation(fields: [role_id], references: [id])
-}
-
-model MusicalGenre {
-  id                String              @id @default(uuid())
-  name              String
-  MusicalGenreEvent MusicalGenreEvent[]
-}
-
-model MusicalGenreEvent {
-  id              String @id @default(uuid())
-  musicalgenre_id String
-  event_id        String
-
-  MusicalGenre MusicalGenre @relation(fields: [musicalgenre_id], references: [id])
-  Event        Event        @relation(fields: [event_id], references: [id])
-}
-
-model Institutes {
-  id             String  @id @default(uuid())
-  name           String
-  logo           String?
-  description    String
-  institute_type String
-  address        String
-  price          Float
-  district_id    String
-
-  District             District               @relation(fields: [district_id], references: [id])
-  Events               Event[]
-  Reviews              Review[]
-  Favorites            Favorite[]
-  FeaturesInInstitutes FeaturesInInstitutes[]
-  RoleTypeInInstitutes RoleTypeInInstitute[]
-  Galery               Galery[]
-}
-
-model Review {
-  id           String @id @default(uuid())
-  user_id      String
-  institute_id String
-  star         Int
-  review       String
-
-  User      Users      @relation(fields: [user_id], references: [id])
-  Institute Institutes @relation(fields: [institute_id], references: [id])
-}
-
-model Favorite {
-  id           String @id @default(uuid())
-  institute_id String
-  event_id     String
-  user_id      String
-
-  Institute Institutes @relation(fields: [institute_id], references: [id])
-  Event     Event      @relation(fields: [event_id], references: [id])
-  User      Users      @relation(fields: [user_id], references: [id])
-}
-
-model Event {
-  id           String   @id @default(uuid())
-  institute_id String
+model User {
+  id           String     @id @default(uuid())
   name         String
-  description  String
-  banner_url   String?
-  logo_url     String?
-  address      String
-  price        String?
-  age_range    String?
-  event_date   DateTime
-  district_id  String
-
-  Institute         Institutes          @relation(fields: [institute_id], references: [id])
-  District          District            @relation(fields: [district_id], references: [id])
-  Presence          Presence[]
-  MusicalGenreEvent MusicalGenreEvent[]
-  Favorite          Favorite[]
-}
-
-model Presence {
-  id            String  @id @default(uuid())
-  user_id       String
-  event_id      String
-  promoter_code String?
-
-  User  Users @relation(fields: [user_id], references: [id])
-  Event Event @relation(fields: [event_id], references: [id])
-}
-
-model Users {
-  id            String   @id @default(uuid())
-  name          String
-  username      String
-  email         String   @unique
-  password      String
-  created_at    DateTime @default(now())
-  lnk_instagram String?
-  lnk_tiktok    String?
-  lnk_twitter   String?
-  bg_photo      String?
-  profile_photo String?
-
-  Reviews   Review[]
-  Favorites Favorite[]
-  Presences Presence[]
-  Follows   Follow[]
+  username     String
+  email        String     @unique
+  createdAt    DateTime   @default(now())
+  lnkInstagram String?
+  lnkTiktok    String?
+  bgPhoto      String?
+  profilePhoto String?
+  privacy      Boolean    @default(false)
+  followings   Follow[]   @relation("UserFollowing")
+  followers    Follow[]   @relation("UserFollower")
+  presences    Presence[]
+  reviews      Review[]
+  favorites    Favorite[]
 }
 
 model Follow {
-  id      String @id @default(uuid())
-  user_id String
-  follow  String
+  id             String @id @default(uuid())
+  userId         String
+  userFollowedId String
+  userFollowing  User   @relation("UserFollowing", fields: [userId], references: [id])
+  userFollower   User   @relation("UserFollower", fields: [userFollowedId], references: [id])
 
-  User Users @relation(fields: [user_id], references: [id])
+  @@unique([userId, userFollowedId])
 }
 
-model Galery {
-  id           String @id @default(uuid())
-  photo_id     String
-  institute_id String
-
-  Photo     Photos     @relation(fields: [photo_id], references: [id])
-  Institute Institutes @relation(fields: [institute_id], references: [id])
+model Institute {
+  id            String         @id @default(uuid())
+  name          String
+  logoPhoto     String?
+  description   String?
+  instituteType String?
+  address       String
+  price         Float?
+  districtId    String
+  events        Event[]
+  reviews       Review[]
+  photos        Photo[]
+  Favorite      Favorite[]
+  EventFeature  EventFeature[]
 }
 
-model Photos {
-  id       String   @id @default(uuid())
-  url      String
-  Galeries Galery[]
+model Event {
+  id          String         @id @default(uuid())
+  name        String
+  bannerUrl   String?
+  logoUrl     String?
+  address     String
+  price       Float?
+  description String?
+  ageRange    String?
+  eventDate   DateTime
+  districtId  String
+  instituteId String
+  institute   Institute      @relation(fields: [instituteId], references: [id])
+  presences   Presence[]
+  favorites   Favorite[]
+  features    EventFeature[]
 }
 
-model RoleType {
-  id                   String                @id @default(uuid())
-  name                 String
-  RoleTypeInInstitutes RoleTypeInInstitute[]
+model Favorite {
+  id          String    @id @default(uuid())
+  instituteId String
+  eventId     String
+  userId      String
+  event       Event     @relation(fields: [eventId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  institute   Institute @relation(fields: [instituteId], references: [id])
 }
 
-model RoleTypeInInstitute {
-  id           String @id @default(uuid())
-  roletype_id  String
-  institute_id String
-  role_id      String
-
-  RoleType             RoleType               @relation(fields: [roletype_id], references: [id])
-  Institute            Institutes             @relation(fields: [institute_id], references: [id])
-  FeaturesInInstitutes FeaturesInInstitutes[]
+model Presence {
+  id           String  @id @default(uuid())
+  userId       String
+  eventId      String
+  promoterCode String?
+  user         User    @relation(fields: [userId], references: [id])
+  event        Event   @relation(fields: [eventId], references: [id])
 }
 
-model District {
-  id         String       @id @default(uuid())
-  name       String
-  region     String
-  Institutes Institutes[]
-  Events     Event[]
+model Review {
+  id          String    @id @default(uuid())
+  userId      String
+  instituteId String
+  star        Int
+  review      String?
+  user        User      @relation(fields: [userId], references: [id])
+  institute   Institute @relation(fields: [instituteId], references: [id])
+}
+
+model Photo {
+  id          String    @id @default(uuid())
+  instituteId String
+  url         String
+  institute   Institute @relation(fields: [instituteId], references: [id])
+}
+
+model Feature {
+  id            String         @id @default(uuid())
+  name          String
+  eventFeatures EventFeature[]
+}
+
+model EventFeature {
+  id          String    @id @default(uuid())
+  eventId     String
+  featureId   String
+  instituteId String
+  event       Event     @relation(fields: [eventId], references: [id])
+  feature     Feature   @relation(fields: [featureId], references: [id])
+  institute   Institute @relation(fields: [instituteId], references: [id])
 }
