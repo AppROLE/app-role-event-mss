@@ -22,31 +22,22 @@ interface EventProps {
 }
 
 export class Event {
-  private event_id?: string;
-  private event_name: string;
-  private event_description: string;
-  private background_photo?: string;
-  private event_logo?: string;
-  private address: string;
-  private price: number;
-  private age_range: string[];
-  private event_date: Date;
-  private event_init_hour: string;
-  private district_id: string;
-  private institute_id: string;
-  private event_status: STATUS;
+  private readonly event_id?: string;
+  private readonly event_name: string;
+  private readonly event_description: string;
+  private readonly background_photo?: string;
+  private readonly event_logo?: string;
+  private readonly address: string;
+  private readonly price: number;
+  private readonly age_range: string[];
+  private readonly event_date: Date;
+  private readonly event_init_hour: string;
+  private readonly district_id: string;
+  private readonly institute_id: string;
+  private readonly event_status: STATUS;
 
   constructor(props: EventProps) {
-    this.validateEventName(props.eventName);
-    this.validateEventDescription(props.eventDescription);
-    this.validateAddress(props.address);
-    this.validatePrice(props.price);
-    this.validateAgeRange(props.ageRange);
-    this.validateEventDate(props.eventDate);
-    this.validateEventInitHour(props.eventInitHour);
-    this.validateDistrictId(props.districtId);
-    this.validateInstituteId(props.instituteId);
-    this.validateEventStatus(props.eventStatus);
+    this.validate(props);
 
     this.event_name = props.eventName;
     this.event_description = props.eventDescription;
@@ -95,62 +86,37 @@ export class Event {
     return this.price;
   }
 
-  set eventName(newEventName: string) {
-    this.validateEventName(newEventName);
-    this.event_name = newEventName;
+  get ageRange(): string[] {
+    return this.age_range;
   }
 
-  set eventStatus(newEventStatus: STATUS) {
-    this.validateEventStatus(newEventStatus);
-    this.event_status = newEventStatus;
+  get eventDate(): Date {
+    return this.event_date;
   }
 
-  set eventDescription(newEventDescription: string) {
-    this.validateEventDescription(newEventDescription);
-    this.event_description = newEventDescription;
+  get eventInitHour(): string {
+    return this.event_init_hour;
   }
 
-  set backgroundPhoto(newBackgroundPhoto: string | undefined) {
-    this.background_photo = newBackgroundPhoto;
+  get districtId(): string {
+    return this.district_id;
   }
 
-  set eventLogo(newEventLogo: string | undefined) {
-    this.event_logo = newEventLogo;
+  get instituteId(): string {
+    return this.institute_id;
   }
 
-  set addressValue(newAddress: string) {
-    this.validateAddress(newAddress);
-    this.address = newAddress;
-  }
-
-  set priceValue(newPrice: number) {
-    this.validatePrice(newPrice);
-    this.price = newPrice;
-  }
-
-  set ageRange(newAgeRange: string[]) {
-    this.validateAgeRange(newAgeRange);
-    this.age_range = newAgeRange;
-  }
-
-  set eventDate(newEventDate: Date) {
-    this.validateEventDate(newEventDate);
-    this.event_date = newEventDate;
-  }
-
-  set eventInitHour(newEventInitHour: string) {
-    this.validateEventInitHour(newEventInitHour);
-    this.event_init_hour = newEventInitHour;
-  }
-
-  set districtId(newDistrictId: string) {
-    this.validateDistrictId(newDistrictId);
-    this.district_id = newDistrictId;
-  }
-
-  set instituteId(newInstituteId: string) {
-    this.validateInstituteId(newInstituteId);
-    this.institute_id = newInstituteId;
+  private validate(props: EventProps): void {
+    this.validateEventName(props.eventName);
+    this.validateEventDescription(props.eventDescription);
+    this.validateAddress(props.address);
+    this.validatePrice(props.price);
+    this.validateAgeRange(props.ageRange);
+    this.validateEventDate(props.eventDate);
+    this.validateEventInitHour(props.eventInitHour);
+    this.validateDistrictId(props.districtId);
+    this.validateInstituteId(props.instituteId);
+    this.validateEventStatus(props.eventStatus);
   }
 
   private validateEventName(eventName: string): void {
