@@ -1,37 +1,28 @@
 import { EntityError } from "../../helpers/errors/domain_errors";
-
-enum STATUS {
-  ACTIVE,
-  INACTIVE,
-  CANCELLED,
-}
+import { STATUS } from "../../domain/enums/status_enum";
 
 interface EventProps {
-  eventName: string;
-  eventDescription: string;
+  name: string;
+  description: string;
   address: string;
   price: number;
-  ageRange: string[];
+  ageRange: string;
   eventDate: Date;
-  eventInitHour: string;
   districtId: string;
   instituteId: string;
   eventStatus: STATUS;
-  backgroundPhoto?: string;
-  eventLogo?: string;
+  bannerUrl?: string;
 }
 
 export class Event {
   private readonly event_id?: string;
-  private readonly event_name: string;
-  private readonly event_description: string;
-  private readonly background_photo?: string;
-  private readonly event_logo?: string;
+  private readonly name: string;
+  private readonly description: string;
+  private readonly banner_url?: string;
   private readonly address: string;
   private readonly price: number;
-  private readonly age_range: string[];
+  private readonly age_range: string;
   private readonly event_date: Date;
-  private readonly event_init_hour: string;
   private readonly district_id: string;
   private readonly institute_id: string;
   private readonly event_status: STATUS;
@@ -39,19 +30,17 @@ export class Event {
   constructor(props: EventProps) {
     this.validate(props);
 
-    this.event_name = props.eventName;
-    this.event_description = props.eventDescription;
+    this.name = props.name;
+    this.description = props.description;
     this.address = props.address;
     this.price = props.price;
     this.age_range = props.ageRange;
     this.event_date = props.eventDate;
-    this.event_init_hour = props.eventInitHour;
     this.district_id = props.districtId;
     this.institute_id = props.instituteId;
     this.event_status = props.eventStatus;
 
-    this.background_photo = props.backgroundPhoto;
-    this.event_logo = props.eventLogo;
+    this.banner_url = props.bannerUrl;
   }
 
   get eventId(): string | undefined {
@@ -59,7 +48,7 @@ export class Event {
   }
 
   get eventName(): string {
-    return this.event_name;
+    return this.name;
   }
 
   get eventStatus(): STATUS {
@@ -67,15 +56,11 @@ export class Event {
   }
 
   get eventDescription(): string {
-    return this.event_description;
+    return this.description;
   }
 
-  get backgroundPhoto(): string | undefined {
-    return this.background_photo;
-  }
-
-  get eventLogo(): string | undefined {
-    return this.event_logo;
+  get bannerUrl(): string | undefined {
+    return this.banner_url;
   }
 
   get addressValue(): string {
@@ -86,16 +71,12 @@ export class Event {
     return this.price;
   }
 
-  get ageRange(): string[] {
+  get ageRange(): string {
     return this.age_range;
   }
 
   get eventDate(): Date {
     return this.event_date;
-  }
-
-  get eventInitHour(): string {
-    return this.event_init_hour;
   }
 
   get districtId(): string {
@@ -107,30 +88,25 @@ export class Event {
   }
 
   private validate(props: EventProps): void {
-    this.validateEventName(props.eventName);
-    this.validateEventDescription(props.eventDescription);
+    this.validateName(props.name);
+    this.validateDescription(props.description);
     this.validateAddress(props.address);
     this.validatePrice(props.price);
     this.validateAgeRange(props.ageRange);
     this.validateEventDate(props.eventDate);
-    this.validateEventInitHour(props.eventInitHour);
     this.validateDistrictId(props.districtId);
     this.validateInstituteId(props.instituteId);
     this.validateEventStatus(props.eventStatus);
   }
 
-  private validateEventName(eventName: string): void {
-    if (
-      !eventName ||
-      eventName.trim().length === 0 ||
-      eventName.trim().length > 100
-    ) {
+  private validateName(name: string): void {
+    if (!name || name.trim().length === 0 || name.trim().length > 100) {
       throw new EntityError("Invalid event name");
     }
   }
 
-  private validateEventDescription(eventDescription: string): void {
-    if (!eventDescription || eventDescription.trim().length > 500) {
+  private validateDescription(description: string): void {
+    if (!description || description.trim().length > 500) {
       throw new EntityError("Invalid event description");
     }
   }
@@ -151,23 +127,15 @@ export class Event {
     }
   }
 
-  private validateAgeRange(ageRange: string[]): void {
-    if (!Array.isArray(ageRange) || ageRange.length === 0) {
-      throw new EntityError("Age range must be a non-empty array");
+  private validateAgeRange(ageRange: string): void {
+    if (!ageRange || ageRange.trim().length === 0) {
+      throw new EntityError("Age range must be a non-empty string");
     }
   }
 
   private validateEventDate(eventDate: Date): void {
     if (!(eventDate instanceof Date) || isNaN(eventDate.getTime())) {
       throw new EntityError("Invalid event date");
-    }
-  }
-
-  private validateEventInitHour(eventInitHour: string): void {
-    if (!eventInitHour || !/^\d{2}:\d{2}$/.test(eventInitHour)) {
-      throw new EntityError(
-        "Invalid event initiation hour, must be in HH:MM format"
-      );
     }
   }
 
