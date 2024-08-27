@@ -11,4 +11,5 @@ export const envs = {
   STACK_NAME: process.env.STACK_NAME,
   AWS_REGION: process.env.AWS_REGION,
   STAGE: process.env.STAGE,
+  MONGO_URI: process.env.MONGO_URI,
 };
