@@ -1,0 +1,22 @@
+import mongoose, { Schema, Document } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
+
+export interface IPresence extends Document {
+  _id: string;
+  user_id: string;
+  event_id: string;
+  promoter_code: string;
+  checked_in_at: Date;
+}
+
+const PresenceSchema: Schema = new Schema<IPresence>({
+  _id: { type: String, default: uuidv4 },
+  user_id: { type: String, ref: "User", required: true },
+  event_id: { type: String, ref: "Event", required: true },
+  promoter_code: { type: String },
+  checked_in_at: { type: Date, default: Date.now },
+});
+
+PresenceSchema.index({ user_id: 1, event_id: 1 });
+
+export default mongoose.model<IPresence>("Presence", PresenceSchema);
