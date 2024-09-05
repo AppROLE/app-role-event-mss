@@ -1,22 +1,30 @@
-import { envs } from "../../../../envs";
-import mongoose from "mongoose";
-import User from "./user.model";
-import Institute from "./institute.model";
-import Event from "./event.model";
-import Feature from "./feature.model";
-import Presence from "./presence.model";
+import mongoose, { Mongoose } from "mongoose";
+import { Environments } from "../../../../shared/environments";
 
-const connectDB = async () => {
+let mongoConnection: Mongoose | null = null;
+
+export const connectDB = async (): Promise<Mongoose> => {
+  if (mongoConnection) {
+    console.log("Reusing existing MongoDB connection");
+    return mongoConnection;
+  }
+
   try {
-    if (!envs.MONGO_URI) {
+    if (!Environments.getEnvs().mongoUri) {
       throw new Error("MONGO_URI is not defined");
     }
-    await mongoose.connect(envs.MONGO_URI);
+    const stage = Environments.getEnvs().stage.toLowerCase();
+    const uri = Environments.getEnvs().mongoUri + stage;
+
+    console.log("Connecting to MongoDB, uri: ", uri);
+    console.log("Connecting to MongoDB, stage: ", stage);
+
+    mongoConnection = await mongoose.connect(uri);
     console.log("MongoDB connected");
+
+    return mongoConnection;
   } catch (error) {
     console.error("Error connecting to MongoDB", error);
-    process.exit(1);
+    process.exit(1); // Exit process on failure
   }
 };
-
-export { connectDB, User, Institute, Event, Feature, Presence };
