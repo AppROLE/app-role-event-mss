@@ -1,3 +1,4 @@
+// src/domain/entities/event.ts
 import { EntityError } from "../../helpers/errors/domain_errors";
 import { STATUS } from "../../domain/enums/status_enum";
 
@@ -39,7 +40,6 @@ export class Event {
     this.district_id = props.districtId;
     this.institute_id = props.instituteId;
     this.event_status = props.eventStatus;
-
     this.banner_url = props.bannerUrl;
   }
 
@@ -59,19 +59,19 @@ export class Event {
     return this.description;
   }
 
-  get bannerUrl(): string | undefined {
+  get eventBannerUrl(): string | undefined {
     return this.banner_url;
   }
 
-  get addressValue(): string {
+  get eventAddress(): string {
     return this.address;
   }
 
-  get priceValue(): number {
+  get eventPrice(): number {
     return this.price;
   }
 
-  get ageRange(): string {
+  get eventAgeRange(): string {
     return this.age_range;
   }
 
@@ -79,13 +79,14 @@ export class Event {
     return this.event_date;
   }
 
-  get districtId(): string {
+  get eventDistrictId(): string {
     return this.district_id;
   }
 
   get instituteId(): string {
     return this.institute_id;
   }
+
 
   private validate(props: EventProps): void {
     this.validateName(props.name);
