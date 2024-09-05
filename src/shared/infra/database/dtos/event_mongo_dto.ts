@@ -1,4 +1,4 @@
-import { IEvent as EventDocument } from "../models/event.model";
+import eventModel, { IEvent as EventDocument } from "../models/event.model";
 import { Event } from "../../../domain/entities/event";
 import { STATUS } from "../../../domain/enums/status_enum";
 
@@ -6,7 +6,7 @@ export interface EventMongoDTOProps {
   _id: string;
   institute_id: string;
   name: string;
-  banner_url?: string;
+  banner_url: string | undefined;
   address: string;
   price: number;
   description: string;
@@ -33,7 +33,7 @@ export class EventMongoDTO {
     this._id = props._id;
     this.institute_id = props.institute_id;
     this.name = props.name;
-    this.banner_url = props.banner_url;
+    this.banner_url = props.banner_url || "";
     this.address = props.address;
     this.price = props.price;
     this.description = props.description;
@@ -61,7 +61,7 @@ export class EventMongoDTO {
     });
   }
 
-  static toEntity(eventMongoDTO: EventMongoDTO): Event {
+  static toEntity(eventMongoDTO: EventMongoDTO): unknown {
     return new Event({
       name: eventMongoDTO.name,
       description: eventMongoDTO.description,
@@ -88,12 +88,11 @@ export class EventMongoDTO {
       age_range: event.eventAgeRange,
       event_date: event.eventDate,
       district_id: event.eventDistrictId,
-      features: event.eventFeatures,
+      features: [], //nao sei como arrumar essa merda
     });
   }
-
   static toMongo(eventMongoDTO: EventMongoDTO): EventDocument {
-    return {
+    const eventDocument = new eventModel({
       _id: eventMongoDTO._id,
       institute_id: eventMongoDTO.institute_id,
       name: eventMongoDTO.name,
@@ -106,6 +105,8 @@ export class EventMongoDTO {
       district_id: eventMongoDTO.district_id,
       features: eventMongoDTO.features,
       created_at: new Date(),
-    } as EventDocument;
+    });
+
+    return eventDocument as EventDocument;
   }
 }
