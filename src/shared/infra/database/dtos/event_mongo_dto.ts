@@ -1,4 +1,3 @@
-// src/dtos/eventMongoDTO.ts
 import { IEvent as EventDocument } from "../models/event.model";
 import { Event } from "../../../domain/entities/event";
 import { STATUS } from "../../../domain/enums/status_enum";
