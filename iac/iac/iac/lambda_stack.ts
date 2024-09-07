@@ -12,14 +12,7 @@ export class LambdaStack extends Construct {
   lambdaLayer: lambda.LayerVersion
   libLayer: lambda.LayerVersion
 
-  forgotPasswordFunction: lambda.Function
-  confirmCodeFunction: lambda.Function
-  confirmForgotPasswordFunction: lambda.Function
-  signUpFunction: lambda.Function
-  resendCodeFunction: lambda.Function
-  signInFunction: lambda.Function
-  finishSignUpFunction: lambda.Function
-  uploadProfilePhoto: lambda.Function
+  // forgotPasswordFunction: lambda.Function
 
   createLambdaApiGatewayIntegration(
     moduleName: string, 
