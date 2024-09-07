@@ -13,20 +13,22 @@ interface EventProps {
   instituteId: string;
   eventStatus: STATUS;
   bannerUrl?: string;
+  featuresIds?: string[];
 }
 
 export class Event {
-  private readonly event_id?: string;
-  private readonly name: string;
-  private readonly description: string;
-  private readonly banner_url?: string;
-  private readonly address: string;
-  private readonly price: number;
-  private readonly age_range: string;
-  private readonly event_date: Date;
-  private readonly district_id: string;
-  private readonly institute_id: string;
-  private readonly event_status: STATUS;
+  private event_id?: string;
+  private name: string;
+  private description: string;
+  private banner_url?: string;
+  private address: string;
+  private price: number;
+  private age_range: string;
+  private event_date: Date;
+  private district_id: string;
+  private institute_id: string;
+  private event_status: STATUS;
+  private features_ids: string[];
 
   constructor(props: EventProps) {
     this.validate(props);
@@ -41,6 +43,7 @@ export class Event {
     this.institute_id = props.instituteId;
     this.event_status = props.eventStatus;
     this.banner_url = props.bannerUrl;
+    this.features_ids = props.featuresIds || [];
   }
 
   get eventId(): string | undefined {
@@ -87,6 +90,62 @@ export class Event {
     return this.institute_id;
   }
 
+  get featuresIds(): string[] {
+    return this.features_ids;
+  }
+
+  set eventName(name: string) {
+    this.validateName(name);
+    this.name = name;
+  }
+
+  set eventDescription(description: string) {
+    this.validateDescription(description);
+    this.description = description;
+  }
+
+  set eventBannerUrl(bannerUrl: string) {
+    this.banner_url = bannerUrl;
+  }
+
+  set eventAddress(address: string) {
+    this.validateAddress(address);
+    this.address = address;
+  }
+
+  set eventPrice(price: number) {
+    this.validatePrice(price);
+    this.price = price;
+  }
+
+  set eventAgeRange(ageRange: string) {
+    this.validateAgeRange(ageRange);
+    this.age_range = ageRange;
+  }
+
+  set eventDate(eventDate: Date) {
+    this.validateEventDate(eventDate);
+    this.event_date = eventDate;
+  }
+
+  set eventDistrictId(districtId: string) {
+    this.validateDistrictId(districtId);
+    this.district_id = districtId;
+  }
+
+  set instituteId(instituteId: string) {
+    this.validateInstituteId(instituteId);
+    this.institute_id = instituteId;
+  }
+
+  set eventStatus(eventStatus: STATUS) {
+    this.validateEventStatus(eventStatus);
+    this.event_status = eventStatus;
+  }
+
+  set featuresIds(featuresIds: string[]) {
+    this.features_ids = featuresIds;
+  }
 
   private validate(props: EventProps): void {
     this.validateName(props.name);
