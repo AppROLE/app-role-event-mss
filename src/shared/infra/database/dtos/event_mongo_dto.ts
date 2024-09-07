@@ -88,9 +88,10 @@ export class EventMongoDTO {
       age_range: event.eventAgeRange,
       event_date: event.eventDate,
       district_id: event.eventDistrictId,
-      features: [], //nao sei como arrumar essa merda
+      features: event.featuresIds,
     });
   }
+
   static toMongo(eventMongoDTO: EventMongoDTO): EventDocument {
     const eventDocument = new eventModel({
       _id: eventMongoDTO._id,
