@@ -20,7 +20,7 @@ interface EventProps {
   galeryLink?: string[];
   bannerUrl?: string;
   features?: FEATURE[];
-  packageType?: PACKAGE_TYPE;
+  packageType?: PACKAGE_TYPE[];
   category?: CATEGORY;
 }
 
@@ -40,7 +40,7 @@ export class Event {
   private menu_link?: string;
   private galery_link?: string[];
   private features_list: string[];
-  private package_type?: PACKAGE_TYPE;
+  private package_type?: PACKAGE_TYPE[];
   private category?: CATEGORY;
 
   constructor(props: EventProps) {
@@ -60,7 +60,7 @@ export class Event {
     this.galery_link = props.galeryLink;
     this.banner_url = props.bannerUrl;
     this.features_list = props.features || [];
-    this.package_type = props.packageType;
+    this.package_type = props.packageType || [];
     this.category = props.category;
   }
 
@@ -112,8 +112,12 @@ export class Event {
     return this.features;
   }
 
-  get packageType(): PACKAGE_TYPE | undefined {
+  get packageType(): PACKAGE_TYPE[] | undefined {
     return this.package_type;
+  }
+
+  get categoryType(): CATEGORY | undefined {
+    return this.category;
   }
 
   set eventName(name: string) {
@@ -169,8 +173,10 @@ export class Event {
     this.features = features;
   }
 
-  set packageType(packageType: PACKAGE_TYPE) {
-    this.validatePackageType(packageType);
+  set packageType(packageType: PACKAGE_TYPE[]) {
+    packageType.forEach((type) => {
+      this.validatePackageType(type);
+    });
     this.package_type = packageType;
   }
 
@@ -206,7 +212,9 @@ export class Event {
       this.validateMenuLink(props.menuLink);
     }
     if (props.packageType) {
-      this.validatePackageType(props.packageType);
+      props.packageType.forEach((type) => {
+        this.validatePackageType(type);
+      });
     }
   }
 
