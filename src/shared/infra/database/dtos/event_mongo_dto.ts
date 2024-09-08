@@ -109,9 +109,9 @@ export class EventMongoDTO {
       event_date: event.eventDate,
       district_id: event.eventDistrictId,
       features: event.features,
-      music_type: event.musicType,
-      menu_link: event.menuLink,
-      galery_link: event.galeryLink,
+      music_type: event.musicType || [],
+      menu_link: event.menuLink || "",
+      galery_link: event.galeryLink || [],
       package_type: event.packageType || [],
       category: event.categoryType,
     });
