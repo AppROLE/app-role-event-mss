@@ -109,7 +109,7 @@ export class Event {
   }
 
   get features(): string[] {
-    return this.features;
+    return this.features_list;
   }
 
   get packageType(): PACKAGE_TYPE[] | undefined {
@@ -118,6 +118,18 @@ export class Event {
 
   get categoryType(): CATEGORY | undefined {
     return this.category;
+  }
+
+  get musicType(): MUSIC_TYPE[] | undefined {
+    return this.music_type;
+  }
+
+  get menuLink(): string | undefined {
+    return this.menu_link;
+  }
+
+  get galeryLink(): string[] | undefined {
+    return this.galery_link;
   }
 
   set eventName(name: string) {
@@ -170,7 +182,7 @@ export class Event {
   }
 
   set features(features: string[]) {
-    this.features = features;
+    this.features_list = features;
   }
 
   set packageType(packageType: PACKAGE_TYPE[]) {
@@ -194,6 +206,11 @@ export class Event {
     this.galery_link = galeryLink;
   }
 
+  set categoryType(category: CATEGORY) {
+    this.validateCategory(category);
+    this.category = category;
+  }
+
   private validate(props: EventProps): void {
     this.validateName(props.name);
     this.validateDescription(props.description);
@@ -215,6 +232,9 @@ export class Event {
       props.packageType.forEach((type) => {
         this.validatePackageType(type);
       });
+    }
+    if (props.category) {
+      this.validateCategory(props.category);
     }
   }
 
@@ -293,6 +313,12 @@ export class Event {
   private validateMenuLink(menuLink: string): void {
     if (!menuLink || menuLink.trim().length === 0) {
       throw new EntityError("Invalid menu link");
+    }
+  }
+
+  private validateCategory(category: CATEGORY): void {
+    if (!Object.values(CATEGORY).includes(category)) {
+      throw new EntityError("Invalid category");
     }
   }
 }
