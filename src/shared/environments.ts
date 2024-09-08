@@ -34,9 +34,7 @@ export class Environments {
       this.s3BucketName = (envs.S3_BUCKET_NAME.toLowerCase() +
         envs.STAGE.toLowerCase()) as string;
       this.region = envs.AWS_REGION as string;
-      this.clientId = envs.COGNITO_CLIENT_ID as string;
       this.mongoUri = envs.MONGO_URI as string;
-      this.cloudFrontUrl = `https://${envs.CLOUDFRONT_DISTRO}`;
     }
   }
 
