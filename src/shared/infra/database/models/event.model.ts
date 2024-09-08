@@ -12,6 +12,11 @@ export interface IEvent extends Document {
   age_range: string;
   event_date: Date;
   district_id: string;
+  music_type: string[];
+  menu_link: string;
+  galery_link: string[];
+  package_type: string[];
+  category: string;
   features: string[];
 }
 
@@ -27,6 +32,11 @@ const EventSchema: Schema = new Schema<IEvent>({
   event_date: { type: Date, required: true },
   district_id: { type: String, required: true },
   features: [{ type: String, ref: "Feature" }],
+  music_type: [{ type: String }],
+  menu_link: { type: String },
+  galery_link: [{ type: String }],
+  package_type: [{ type: String }],
+  category: { type: String },
 });
 
 export default mongoose.model<IEvent>("Event", EventSchema);
