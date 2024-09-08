@@ -14,6 +14,11 @@ export interface EventMongoDTOProps {
   event_date: Date;
   district_id: string;
   features: string[];
+  music_type: string[];
+  menu_link: string;
+  galery_link: string[];
+  package_type?: string[];
+  category?: string;
 }
 
 export class EventMongoDTO {
@@ -28,6 +33,11 @@ export class EventMongoDTO {
   private event_date: Date;
   private district_id: string;
   private features: string[];
+  private music_type: string[];
+  private menu_link: string;
+  private galery_link: string[];
+  private package_type: string[];
+  private category?: string;
 
   constructor(props: EventMongoDTOProps) {
     this._id = props._id;
@@ -41,6 +51,11 @@ export class EventMongoDTO {
     this.event_date = props.event_date;
     this.district_id = props.district_id;
     this.features = props.features;
+    this.music_type = props.music_type;
+    this.menu_link = props.menu_link;
+    this.galery_link = props.galery_link;
+    this.package_type = props.package_type || [];
+    this.category = props.category;
   }
 
   static fromMongo(eventDoc: EventDocument): EventMongoDTO {
@@ -58,6 +73,11 @@ export class EventMongoDTO {
       event_date: eventObject.event_date,
       district_id: eventObject.district_id,
       features: eventObject.features,
+      music_type: eventObject.music_type,
+      menu_link: eventObject.menu_link,
+      galery_link: eventObject.galery_link,
+      package_type: eventObject.package_type,
+      category: eventObject.category,
     });
   }
 
@@ -89,6 +109,11 @@ export class EventMongoDTO {
       event_date: event.eventDate,
       district_id: event.eventDistrictId,
       features: event.features,
+      music_type: event.musicType,
+      menu_link: event.menuLink,
+      galery_link: event.galeryLink,
+      package_type: event.packageType || [],
+      category: event.categoryType,
     });
   }
 
@@ -105,6 +130,11 @@ export class EventMongoDTO {
       event_date: eventMongoDTO.event_date,
       district_id: eventMongoDTO.district_id,
       features: eventMongoDTO.features,
+      music_type: eventMongoDTO.music_type,
+      menu_link: eventMongoDTO.menu_link,
+      galery_link: eventMongoDTO.galery_link,
+      package_type: eventMongoDTO.package_type,
+      category: eventMongoDTO.category,
       created_at: new Date(),
     });
 
