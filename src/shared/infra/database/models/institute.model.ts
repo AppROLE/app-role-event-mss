@@ -6,7 +6,7 @@ interface IPhoto {
 }
 
 interface IFeature {
-  name: string;
+  _id: string;
 }
 
 interface IEvent {
@@ -39,7 +39,7 @@ const PhotoSchema = new Schema<IPhoto>({
 });
 
 const FeatureSchema = new Schema<IFeature>({
-  name: { type: String, required: true },
+  _id: { type: String, required: true },
 });
 
 const EventSchema = new Schema<IEvent>({
