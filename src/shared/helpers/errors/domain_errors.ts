@@ -5,3 +5,9 @@ export class EntityError extends BaseError {
     super(`O campo ${message} não é válido.`);
   }
 }
+
+export class EnumError extends BaseError {
+  constructor() {
+    super("Invalid enum value");
+  }
+}
