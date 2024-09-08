@@ -1,6 +1,9 @@
-// src/domain/entities/event.ts
 import { EntityError } from "../../helpers/errors/domain_errors";
 import { STATUS } from "../../domain/enums/status_enum";
+import { MUSIC_TYPE } from "../enums/music_type_enum";
+import { PACKAGE_TYPE } from "../enums/package_type_enum";
+import { FEATURE } from "../enums/feature_enum";
+import { CATEGORY } from "../enums/category_enum";
 
 interface EventProps {
   name: string;
@@ -12,8 +15,13 @@ interface EventProps {
   districtId: string;
   instituteId: string;
   eventStatus: STATUS;
+  musicType?: MUSIC_TYPE[];
+  menuLink?: string;
+  galeryLink?: string[];
   bannerUrl?: string;
-  featuresIds?: string[];
+  features?: FEATURE[];
+  packageType?: PACKAGE_TYPE;
+  category?: CATEGORY;
 }
 
 export class Event {
@@ -28,7 +36,12 @@ export class Event {
   private district_id: string;
   private institute_id: string;
   private event_status: STATUS;
-  private features_ids: string[];
+  private music_type?: MUSIC_TYPE[];
+  private menu_link?: string;
+  private galery_link?: string[];
+  private features_list: string[];
+  private package_type?: PACKAGE_TYPE;
+  private category?: CATEGORY;
 
   constructor(props: EventProps) {
     this.validate(props);
@@ -42,8 +55,13 @@ export class Event {
     this.district_id = props.districtId;
     this.institute_id = props.instituteId;
     this.event_status = props.eventStatus;
+    this.music_type = props.musicType;
+    this.menu_link = props.menuLink;
+    this.galery_link = props.galeryLink;
     this.banner_url = props.bannerUrl;
-    this.features_ids = props.featuresIds || [];
+    this.features_list = props.features || [];
+    this.package_type = props.packageType;
+    this.category = props.category;
   }
 
   get eventId(): string | undefined {
@@ -90,8 +108,12 @@ export class Event {
     return this.institute_id;
   }
 
-  get featuresIds(): string[] {
-    return this.features_ids;
+  get features(): string[] {
+    return this.features;
+  }
+
+  get packageType(): PACKAGE_TYPE | undefined {
+    return this.package_type;
   }
 
   set eventName(name: string) {
@@ -143,8 +165,27 @@ export class Event {
     this.event_status = eventStatus;
   }
 
-  set featuresIds(featuresIds: string[]) {
-    this.features_ids = featuresIds;
+  set features(features: string[]) {
+    this.features = features;
+  }
+
+  set packageType(packageType: PACKAGE_TYPE) {
+    this.validatePackageType(packageType);
+    this.package_type = packageType;
+  }
+
+  set musicType(musicType: MUSIC_TYPE[]) {
+    this.validateMusicType(musicType);
+    this.music_type = musicType;
+  }
+
+  set menuLink(menuLink: string) {
+    this.validateMenuLink(menuLink);
+    this.menu_link = menuLink;
+  }
+
+  set galeryLink(galeryLink: string[]) {
+    this.galery_link = galeryLink;
   }
 
   private validate(props: EventProps): void {
@@ -157,6 +198,16 @@ export class Event {
     this.validateDistrictId(props.districtId);
     this.validateInstituteId(props.instituteId);
     this.validateEventStatus(props.eventStatus);
+
+    if (props.musicType) {
+      this.validateMusicType(props.musicType);
+    }
+    if (props.menuLink) {
+      this.validateMenuLink(props.menuLink);
+    }
+    if (props.packageType) {
+      this.validatePackageType(props.packageType);
+    }
   }
 
   private validateName(name: string): void {
@@ -214,6 +265,26 @@ export class Event {
   private validateEventStatus(eventStatus: STATUS): void {
     if (!Object.values(STATUS).includes(eventStatus)) {
       throw new EntityError("Invalid event status");
+    }
+  }
+
+  private validateMusicType(musicType: MUSIC_TYPE[]): void {
+    musicType.forEach((type) => {
+      if (!Object.values(MUSIC_TYPE).includes(type)) {
+        throw new EntityError("Invalid music type");
+      }
+    });
+  }
+
+  private validatePackageType(packageType: PACKAGE_TYPE): void {
+    if (!Object.values(PACKAGE_TYPE).includes(packageType)) {
+      throw new EntityError("Invalid package type");
+    }
+  }
+
+  private validateMenuLink(menuLink: string): void {
+    if (!menuLink || menuLink.trim().length === 0) {
+      throw new EntityError("Invalid menu link");
     }
   }
 }
