@@ -88,7 +88,7 @@ export class EventMongoDTO {
       age_range: event.eventAgeRange,
       event_date: event.eventDate,
       district_id: event.eventDistrictId,
-      features: event.featuresIds,
+      features: event.features,
     });
   }
 
