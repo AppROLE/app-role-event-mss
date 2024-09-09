@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { envs } from "../../src/shared/helpers/envs/envs";
+import { envs } from "../../../src/shared/helpers/envs/envs";
 import * as cdk from "aws-cdk-lib";
 import { stage } from "../get_stage_env";
 
@@ -9,7 +9,6 @@ export class S3Stack extends Construct {
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
-  
 
     const bucket = new s3.Bucket(this, `${envs.STACK_NAME}-Bucket`, {
       bucketName: `${envs.S3_BUCKET_NAME.toLowerCase()}-${stage.toLowerCase()}`,
@@ -38,6 +37,5 @@ export class S3Stack extends Construct {
     new cdk.CfnOutput(this, "BucketName", {
       value: bucket.bucketName,
     });
-
   }
 }
