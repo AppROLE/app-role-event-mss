@@ -12,7 +12,7 @@ export class LambdaStack extends Construct {
   lambdaLayer: lambda.LayerVersion
   libLayer: lambda.LayerVersion
 
-  // forgotPasswordFunction: lambda.Function
+  healthCheckFunction: lambda.Function
 
   createLambdaApiGatewayIntegration(
     moduleName: string, 
@@ -62,6 +62,7 @@ export class LambdaStack extends Construct {
     })
 
     // auth routes
+    this.healthCheckFunction = this.createLambdaApiGatewayIntegration('health_check', 'GET', apiGatewayResource, environmentVariables)
     // this.signUpFunction = this.createLambdaApiGatewayIntegration('sign_up', 'POST', apiGatewayResource, environmentVariables)
     
 
