@@ -14,7 +14,7 @@ export class IacStack extends Stack {
 
     const restApi = new RestApi(this, `${envs.STACK_NAME}-RestAPI`, {
       restApiName: `${envs.STACK_NAME}-RestAPI`,
-      description: "This is the REST API for the AppRole Auth MSS Service.",
+      description: "This is the REST API for the AppRole Event MSS Service.",
       defaultCorsPreflightOptions: {
         allowOrigins: Cors.ALL_ORIGINS,
         allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
@@ -22,7 +22,7 @@ export class IacStack extends Stack {
       },
     });
 
-    const apigatewayResource = restApi.root.addResource("mss-role-auth", {
+    const apigatewayResource = restApi.root.addResource("mss-role-event", {
       defaultCorsPreflightOptions: {
         allowOrigins: Cors.ALL_ORIGINS,
         allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
