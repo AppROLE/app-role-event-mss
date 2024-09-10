@@ -31,4 +31,8 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Error creating event on MongoDB: ${error}`);
     }
   }
+
+  getAllEvents(): Promise<Event[]> {
+    throw new Error("Method not implemented.");
+  }
 }
