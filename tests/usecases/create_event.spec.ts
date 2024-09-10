@@ -26,13 +26,14 @@ describe("CreateEventUseCase", () => {
 
     const result = await usecase.execute(params);
     console.log("CARALHO" + typeof result);
+    console.log(result instanceof Event);
     console.log("Result type:", result.constructor.name);
     console.log('FILHA DA PUTA DE ID ' + result.districtId);
     console.log(typeof(result.districtId));
     console.log('FILHA DA PUTA DE url ' + result.bannerUrl);
     console.log(result.banner_url);
 
-    // expect(result).toBeInstanceOf(Event);
+    expect(result).toBeInstanceOf(Event);
     expect(result.name).toBe("Galleria Night");
     expect(result.description).toBe(
       "Galleria club. A melhor balada de São Paulo. Venha curtir com a gente!"
