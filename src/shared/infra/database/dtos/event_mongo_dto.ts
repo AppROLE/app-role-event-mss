@@ -98,22 +98,22 @@ export class EventMongoDTO {
 
   static fromEntity(event: Event): EventMongoDTO {
     return new EventMongoDTO({
-      _id: event.eventId as string,
-      institute_id: event.instituteId,
-      name: event.eventName,
-      banner_url: event.eventBannerUrl,
-      address: event.eventAddress,
-      price: event.eventPrice,
-      description: event.eventDescription,
-      age_range: event.eventAgeRange,
-      event_date: event.eventDate,
-      district_id: event.eventDistrictId,
-      features: event.features,
-      music_type: event.musicType || [],
-      menu_link: event.menuLink || "",
-      galery_link: event.galeryLink || [],
-      package_type: event.packageType || [],
-      category: event.categoryType,
+      _id: event.getEventId as string,
+      institute_id: event.getInstituteId,
+      name: event.getEventName,
+      banner_url: event.getEventBannerUrl,
+      address: event.getEventAddress,
+      price: event.getEventPrice,
+      description: event.getEventDescription,
+      age_range: event.getEventAgeRange,
+      event_date: event.getEventDate,
+      district_id: event.getEventDistrictId,
+      features: event.getFeatures,
+      music_type: event.getMusicType || [],
+      menu_link: event.getMenuLink || "",
+      galery_link: event.getGaleryLink || [],
+      package_type: event.getPackageType || [],
+      category: event.getCategoryType,
     });
   }
 
