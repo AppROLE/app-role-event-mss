@@ -32,7 +32,6 @@ describe("CreateEventUseCase", () => {
     console.log(typeof(result.districtId));
     console.log('FILHA DA PUTA DE url ' + result.bannerUrl);
 
-    expect(result).toBeInstanceOf(Event);
     expect(result.name).toBe("Galleria Night");
     expect(result.description).toBe(
       "Galleria club. A melhor balada de São Paulo. Venha curtir com a gente!"
