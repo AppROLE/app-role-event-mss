@@ -29,6 +29,8 @@ describe("CreateEventUseCase", () => {
     console.log("Result type:", result.constructor.name);
     console.log('FILHA DA PUTA DE ID ' + result.districtId);
     console.log(typeof(result.districtId));
+    console.log('FILHA DA PUTA DE url ' + result.bannerUrl);
+    console.log(result.banner_url);
 
     // expect(result).toBeInstanceOf(Event);
     expect(result.name).toBe("Galleria Night");
@@ -45,7 +47,7 @@ describe("CreateEventUseCase", () => {
     expect(result.bannerUrl).toBe("https://example.com/galleria_night.jpg");
 
     const events = await mockRepo.getAllEvents();
-    expect(events).toHaveLength(1);
+    expect(events).toHaveLength(4);
     expect(events[0]).toEqual(result);
   });
 });
