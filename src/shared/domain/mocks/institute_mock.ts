@@ -10,19 +10,19 @@ export class InstituteMock {
       new Institute({
         name: "Galleria Club",
         description: "A melhor balada de São Paulo",
-        institute_type: INSTITUTE_TYPE.TYPE_1,
+        institute_type: INSTITUTE_TYPE.ESTABELECIMENTO_FIXO,
         logo_photo: "https://example.com/galleria_club_logo.jpg",
       }),
       new Institute({
         name: "Galleria Club",
         description: "A melhor balada de São Paulo",
-        institute_type: INSTITUTE_TYPE.TYPE_1,
+        institute_type: INSTITUTE_TYPE.AGENCIA_DE_FESTAS,
         logo_photo: "https://example.com/galleria_club_logo.jpg",
       }),
       new Institute({
         name: "Galleria Club",
         description: "A melhor balada de São Paulo",
-        institute_type: INSTITUTE_TYPE.TYPE_1,
+        institute_type: INSTITUTE_TYPE.ESTABELECIMENTO_FIXO,
         logo_photo: "https://example.com/galleria_club_logo.jpg",
       }),
     ];
