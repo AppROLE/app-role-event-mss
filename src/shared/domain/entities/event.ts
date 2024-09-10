@@ -28,7 +28,7 @@ export class Event {
   private eventId?: string;
   private name: string;
   private description: string;
-  private banner_url?: string;
+  private bannerUrl?: string;
   private address: string;
   private price: number;
   private ageRange: string;
@@ -58,7 +58,7 @@ export class Event {
     this.musicType = props.musicType;
     this.menu_link = props.menuLink;
     this.galery_link = props.galeryLink;
-    this.banner_url = props.bannerUrl;
+    this.bannerUrl = props.bannerUrl;
     this.features_list = props.features || [];
     this.packageType = props.packageType || [];
     this.category = props.category;
@@ -81,7 +81,7 @@ export class Event {
   }
 
   get getEventBannerUrl(): string | undefined {
-    return this.banner_url;
+    return this.bannerUrl;
   }
 
   get getEventAddress(): string {
@@ -143,7 +143,7 @@ export class Event {
   }
 
   set setEventBannerUrl(bannerUrl: string) {
-    this.banner_url = bannerUrl;
+    this.bannerUrl = bannerUrl;
   }
 
   set setEventAddress(address: string) {
