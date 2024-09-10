@@ -11,7 +11,7 @@ interface EventProps {
   address: string;
   price: number;
   ageRange: string;
-  eventDate: Date;
+  eventDate: Date; // e.g., new Date('2023-10-01T00:00:00Z')
   districtId: string;
   instituteId: string;
   eventStatus: STATUS;
@@ -272,7 +272,10 @@ export class Event {
     }
   }
 
-  private validateEventDate(eventDate: Date): void {
+  private validateEventDate(eventDate: Date | string): void {
+    if (typeof eventDate === 'string') {
+      eventDate = new Date(eventDate);
+    }
     if (!(eventDate instanceof Date) || isNaN(eventDate.getTime())) {
       throw new EntityError("Invalid event date");
     }
