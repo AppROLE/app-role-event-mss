@@ -10,11 +10,11 @@ export class EventRepositoryMock implements IEventRepository {
     this.events = eventMock.events;
   }
 
-  createEvent(event: Event): Promise<Event> {
+  async createEvent(event: Event): Promise<Event> {
     this.events.push(event);
-    return Promise.resolve(event);
+    return event; 
   }
-
+  
   async getAllEvents(): Promise<Event[]> {
     return [...this.events];
   }
