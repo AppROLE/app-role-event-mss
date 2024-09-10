@@ -81,7 +81,7 @@ export class EventMongoDTO {
     });
   }
 
-  static toEntity(eventMongoDTO: EventMongoDTO): unknown {
+  static toEntity(eventMongoDTO: EventMongoDTO): Event {
     return new Event({
       name: eventMongoDTO.name,
       description: eventMongoDTO.description,
