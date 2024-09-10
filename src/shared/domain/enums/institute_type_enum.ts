@@ -1,14 +1,14 @@
 export enum INSTITUTE_TYPE {
-    TYPE_1 = "type_1",
-    TYPE_2 = "type_2"
+    ESTABELECIMENTO_FIXO = "ESTABELECIMENTO_FIXO",
+    AGENCIA_DE_FESTAS = "AGENCIA_DE_FESTAS"
 }
 
 export function toEnum(value: string): INSTITUTE_TYPE {
     switch(value) {
-        case "type_1":
-            return INSTITUTE_TYPE.TYPE_1;
-        case "type_2":
-            return INSTITUTE_TYPE.TYPE_2;
+        case "ESTABELECIMENTO_FIXO":
+            return INSTITUTE_TYPE.ESTABELECIMENTO_FIXO;
+        case "AGENCIA_DE_FESTAS":
+            return INSTITUTE_TYPE.AGENCIA_DE_FESTAS;
         default:
             throw new Error("Invalid institute type");
     }
