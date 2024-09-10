@@ -23,13 +23,13 @@ export class CreateEventController {
 
   async handle(req: IRequest) {
     try {
+      let eventDate = req.data.eventDate;
       const {
         name,
         description,
         address,
         price,
         ageRange,
-        eventDate,
         districtId,
         instituteId,
         eventStatus,
@@ -79,9 +79,13 @@ export class CreateEventController {
       if (typeof ageRange !== "string") {
         throw new WrongTypeParameters("ageRange", "string", typeof ageRange);
       }
-      if (!(eventDate instanceof Date)) {
+      if (typeof eventDate === "string") {
+        eventDate = new Date(eventDate);
+      }
+      if (!(eventDate instanceof Date) || isNaN(eventDate.getTime())) {
         throw new WrongTypeParameters("eventDate", "Date", typeof eventDate);
       }
+
       if (typeof districtId !== "string") {
         throw new WrongTypeParameters(
           "districtId",
