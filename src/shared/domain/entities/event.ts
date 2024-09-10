@@ -1,9 +1,9 @@
 import { EntityError } from "../../helpers/errors/domain_errors";
 import { STATUS } from "../../domain/enums/status_enum";
-import { MUSIC_TYPE } from "../enums/music_type_enum";
-import { PACKAGE_TYPE } from "../enums/package_type_enum";
 import { FEATURE } from "../enums/feature_enum";
 import { CATEGORY } from "../enums/category_enum";
+import { MUSIC_TYPE } from "../enums/music_type_enum";
+import { PACKAGE_TYPE } from "../enums/package_type_enum";
 
 interface EventProps {
   name: string;
@@ -25,22 +25,22 @@ interface EventProps {
 }
 
 export class Event {
-  private event_id?: string;
+  private eventId?: string;
   private name: string;
   private description: string;
   private banner_url?: string;
   private address: string;
   private price: number;
-  private age_range: string;
-  private event_date: Date;
-  private district_id: string;
-  private institute_id: string;
-  private event_status: STATUS;
-  private music_type?: MUSIC_TYPE[];
+  private ageRange: string;
+  private eventDate: Date;
+  private districtId: string;
+  private instituteId: string;
+  private eventStatus: STATUS;
+  private musicType?: MUSIC_TYPE[];
   private menu_link?: string;
   private galery_link?: string[];
   private features_list: string[];
-  private package_type?: PACKAGE_TYPE[];
+  private packageType?: PACKAGE_TYPE[];
   private category?: CATEGORY;
 
   constructor(props: EventProps) {
@@ -50,163 +50,163 @@ export class Event {
     this.description = props.description;
     this.address = props.address;
     this.price = props.price;
-    this.age_range = props.ageRange;
-    this.event_date = props.eventDate;
-    this.district_id = props.districtId;
-    this.institute_id = props.instituteId;
-    this.event_status = props.eventStatus;
-    this.music_type = props.musicType;
+    this.ageRange = props.ageRange;
+    this.eventDate = props.eventDate;
+    this.districtId = props.districtId;
+    this.instituteId = props.instituteId;
+    this.eventStatus = props.eventStatus;
+    this.musicType = props.musicType;
     this.menu_link = props.menuLink;
     this.galery_link = props.galeryLink;
     this.banner_url = props.bannerUrl;
     this.features_list = props.features || [];
-    this.package_type = props.packageType || [];
+    this.packageType = props.packageType || [];
     this.category = props.category;
   }
 
-  get eventId(): string | undefined {
-    return this.event_id;
+  get getEventId(): string | undefined {
+    return this.eventId;
   }
 
-  get eventName(): string {
+  get getEventName(): string {
     return this.name;
   }
 
-  get eventStatus(): STATUS {
-    return this.event_status;
+  get getEventStatus(): STATUS {
+    return this.eventStatus;
   }
 
-  get eventDescription(): string {
+  get getEventDescription(): string {
     return this.description;
   }
 
-  get eventBannerUrl(): string | undefined {
+  get getEventBannerUrl(): string | undefined {
     return this.banner_url;
   }
 
-  get eventAddress(): string {
+  get getEventAddress(): string {
     return this.address;
   }
 
-  get eventPrice(): number {
+  get getEventPrice(): number {
     return this.price;
   }
 
-  get eventAgeRange(): string {
-    return this.age_range;
+  get getEventAgeRange(): string {
+    return this.ageRange;
   }
 
-  get eventDate(): Date {
-    return this.event_date;
+  get getEventDate(): Date {
+    return this.eventDate;
   }
 
-  get eventDistrictId(): string {
-    return this.district_id;
+  get getEventDistrictId(): string {
+    return this.districtId;
   }
 
-  get instituteId(): string {
-    return this.institute_id;
+  get getInstituteId(): string {
+    return this.instituteId;
   }
 
-  get features(): string[] {
+  get getFeatures(): string[] {
     return this.features_list;
   }
 
-  get packageType(): PACKAGE_TYPE[] | undefined {
-    return this.package_type;
+  get getPackageType(): PACKAGE_TYPE[] | undefined {
+    return this.packageType;
   }
 
-  get categoryType(): CATEGORY | undefined {
+  get getCategoryType(): CATEGORY | undefined {
     return this.category;
   }
 
-  get musicType(): MUSIC_TYPE[] | undefined {
-    return this.music_type;
+  get getMusicType(): MUSIC_TYPE[] | undefined {
+    return this.musicType;
   }
 
-  get menuLink(): string | undefined {
+  get getMenuLink(): string | undefined {
     return this.menu_link;
   }
 
-  get galeryLink(): string[] | undefined {
+  get getGaleryLink(): string[] | undefined {
     return this.galery_link;
   }
 
-  set eventName(name: string) {
+  set setEventName(name: string) {
     this.validateName(name);
     this.name = name;
   }
 
-  set eventDescription(description: string) {
+  set setEventDescription(description: string) {
     this.validateDescription(description);
     this.description = description;
   }
 
-  set eventBannerUrl(bannerUrl: string) {
+  set setEventBannerUrl(bannerUrl: string) {
     this.banner_url = bannerUrl;
   }
 
-  set eventAddress(address: string) {
+  set setEventAddress(address: string) {
     this.validateAddress(address);
     this.address = address;
   }
 
-  set eventPrice(price: number) {
+  set setEventPrice(price: number) {
     this.validatePrice(price);
     this.price = price;
   }
 
-  set eventAgeRange(ageRange: string) {
+  set setEventAgeRange(ageRange: string) {
     this.validateAgeRange(ageRange);
-    this.age_range = ageRange;
+    this.ageRange = ageRange;
   }
 
-  set eventDate(eventDate: Date) {
+  set setEventDate(eventDate: Date) {
     this.validateEventDate(eventDate);
-    this.event_date = eventDate;
+    this.eventDate = eventDate;
   }
 
-  set eventDistrictId(districtId: string) {
+  set setEventDistrictId(districtId: string) {
     this.validateDistrictId(districtId);
-    this.district_id = districtId;
+    this.districtId = districtId;
   }
 
-  set instituteId(instituteId: string) {
+  set setInstituteId(instituteId: string) {
     this.validateInstituteId(instituteId);
-    this.institute_id = instituteId;
+    this.instituteId = instituteId;
   }
 
-  set eventStatus(eventStatus: STATUS) {
+  set setEventStatus(eventStatus: STATUS) {
     this.validateEventStatus(eventStatus);
-    this.event_status = eventStatus;
+    this.eventStatus = eventStatus;
   }
 
-  set features(features: string[]) {
+  set setFeatures(features: string[]) {
     this.features_list = features;
   }
 
-  set packageType(packageType: PACKAGE_TYPE[]) {
+  set setPackageType(packageType: PACKAGE_TYPE[]) {
     packageType.forEach((type) => {
       this.validatePackageType(type);
     });
-    this.package_type = packageType;
+    this.packageType = packageType;
   }
 
-  set musicType(musicType: MUSIC_TYPE[]) {
+  set setMusicType(musicType: MUSIC_TYPE[]) {
     this.validateMusicType(musicType);
-    this.music_type = musicType;
+    this.musicType = musicType;
   }
 
-  set menuLink(menuLink: string) {
+  set setMenuLink(menuLink: string) {
     this.validateMenuLink(menuLink);
     this.menu_link = menuLink;
   }
 
-  set galeryLink(galeryLink: string[]) {
+  set setGaleryLink(galeryLink: string[]) {
     this.galery_link = galeryLink;
   }
 
-  set categoryType(category: CATEGORY) {
+  set setCategoryType(category: CATEGORY) {
     this.validateCategory(category);
     this.category = category;
   }
