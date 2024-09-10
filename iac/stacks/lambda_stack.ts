@@ -13,6 +13,7 @@ export class LambdaStack extends Construct {
   libLayer: lambda.LayerVersion
 
   healthCheckFunction: lambda.Function
+  createEventFunction: lambda.Function
 
   createLambdaApiGatewayIntegration(
     moduleName: string, 
@@ -63,7 +64,7 @@ export class LambdaStack extends Construct {
 
     // auth routes
     this.healthCheckFunction = this.createLambdaApiGatewayIntegration('health_check', 'GET', apiGatewayResource, environmentVariables)
-    // this.signUpFunction = this.createLambdaApiGatewayIntegration('sign_up', 'POST', apiGatewayResource, environmentVariables)
+    this.createEventFunction = this.createLambdaApiGatewayIntegration('create_event', 'POST', apiGatewayResource, environmentVariables)
 
     this.functionsThatNeedS3Permissions = []
 
