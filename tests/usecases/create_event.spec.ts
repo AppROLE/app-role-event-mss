@@ -31,7 +31,6 @@ describe("CreateEventUseCase", () => {
     console.log('FILHA DA PUTA DE ID ' + result.districtId);
     console.log(typeof(result.districtId));
     console.log('FILHA DA PUTA DE url ' + result.bannerUrl);
-    console.log(result.banner_url);
 
     expect(result).toBeInstanceOf(Event);
     expect(result.name).toBe("Galleria Night");
