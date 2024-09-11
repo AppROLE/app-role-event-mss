@@ -58,26 +58,24 @@ export class EventMongoDTO {
     this.category = props.category;
   }
 
-  static fromMongo(eventDoc: EventDocument): EventMongoDTO {
-    const eventObject = eventDoc.toObject();
-
+  static fromMongo(eventDoc: any): EventMongoDTO {
     return new EventMongoDTO({
-      _id: eventObject._id,
-      institute_id: eventObject.institute_id,
-      name: eventObject.name,
-      banner_url: eventObject.banner_url,
-      address: eventObject.address,
-      price: eventObject.price,
-      description: eventObject.description,
-      age_range: eventObject.age_range,
-      event_date: eventObject.event_date,
-      district_id: eventObject.district_id,
-      features: eventObject.features,
-      music_type: eventObject.music_type,
-      menu_link: eventObject.menu_link,
-      galery_link: eventObject.galery_link,
-      package_type: eventObject.package_type,
-      category: eventObject.category,
+      _id: eventDoc._id,
+      institute_id: eventDoc.institute_id,
+      name: eventDoc.name,
+      banner_url: eventDoc.banner_url,
+      address: eventDoc.address,
+      price: eventDoc.price,
+      description: eventDoc.description,
+      age_range: eventDoc.age_range,
+      event_date: eventDoc.event_date,
+      district_id: eventDoc.district_id,
+      features: eventDoc.features,
+      music_type: eventDoc.music_type,
+      menu_link: eventDoc.menu_link,
+      galery_link: eventDoc.galery_link,
+      package_type: eventDoc.package_type,
+      category: eventDoc.category,
     });
   }
 
