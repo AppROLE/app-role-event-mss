@@ -81,6 +81,7 @@ export class EventMongoDTO {
 
   static toEntity(eventMongoDTO: EventMongoDTO): Event {
     return new Event({
+      eventId: eventMongoDTO._id,
       name: eventMongoDTO.name,
       description: eventMongoDTO.description,
       address: eventMongoDTO.address,
