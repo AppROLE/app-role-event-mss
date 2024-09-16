@@ -6,6 +6,7 @@ import { MUSIC_TYPE } from "../enums/music_type_enum";
 import { PACKAGE_TYPE } from "../enums/package_type_enum";
 
 interface EventProps {
+  eventId?: string;
   name: string;
   description: string;
   address: string;
