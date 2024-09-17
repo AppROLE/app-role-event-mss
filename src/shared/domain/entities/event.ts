@@ -274,7 +274,7 @@ export class Event {
   }
 
   private validateEventDate(eventDate: Date | string): void {
-    if (typeof eventDate === 'string') {
+    if (typeof eventDate === "string") {
       eventDate = new Date(eventDate);
     }
     if (!(eventDate instanceof Date) || isNaN(eventDate.getTime())) {
