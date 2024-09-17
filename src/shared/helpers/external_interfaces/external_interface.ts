@@ -7,4 +7,4 @@ abstract class IResponse {
   abstract get data(): Record<string, unknown>;
 }
 
-export { IRequest, IResponse }
+export { IRequest, IResponse }  
