@@ -1,3 +1,4 @@
+import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 import { Event } from "../../domain/entities/event";
 import { IEventRepository } from "../../domain/irepositories/event_repository_interface";
 import { EventMock } from "../../domain/mocks/event_mock";
@@ -18,4 +19,13 @@ export class EventRepositoryMock implements IEventRepository {
   async getAllEvents(): Promise<Event[]> {
     return [...this.events];
   }
+
+  async getEventById(eventId: string): Promise<Event> {
+    const event = this.events.find((event) => event.getEventId === eventId);
+    if (!event) {
+      throw new NoItemsFound("event");
+    }
+    return event;
+  }
+  
 }
