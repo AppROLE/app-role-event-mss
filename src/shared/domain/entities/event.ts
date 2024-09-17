@@ -47,6 +47,9 @@ export class Event {
   constructor(props: EventProps) {
     this.validate(props);
 
+    if(props.eventId != undefined){
+      this.eventId = props.eventId;
+    }
     this.name = props.name;
     this.description = props.description;
     this.address = props.address;
