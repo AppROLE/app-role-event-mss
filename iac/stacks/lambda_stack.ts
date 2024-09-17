@@ -16,6 +16,7 @@ export class LambdaStack extends Construct {
   createEventFunction: lambda.Function
   getAllEventsFunction: lambda.Function
   getEventByIdFunction: lambda.Function
+  deleteEventByIdFunction: lambda.Function
 
   createLambdaApiGatewayIntegration(
     moduleName: string, 
@@ -69,6 +70,7 @@ export class LambdaStack extends Construct {
     this.createEventFunction = this.createLambdaApiGatewayIntegration('create_event', 'POST', apiGatewayResource, environmentVariables)
     this.getAllEventsFunction = this.createLambdaApiGatewayIntegration('get_all_events', 'GET', apiGatewayResource, environmentVariables)
     this.getEventByIdFunction = this.createLambdaApiGatewayIntegration('get_event_by_id', 'GET', apiGatewayResource, environmentVariables)
+    this.deleteEventByIdFunction = this.createLambdaApiGatewayIntegration('delete_event_by_id', 'DELETE', apiGatewayResource, environmentVariables)
 
     this.functionsThatNeedS3Permissions = []
 
