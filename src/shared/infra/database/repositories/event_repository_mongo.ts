@@ -78,4 +78,24 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Error retrieving event by ID from MongoDB: ${error}`);
     }
   }
+
+  async deleteEventById(eventId: string): Promise<void> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      });
+
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
+      const result = await eventMongoClient?.deleteOne({ _id: eventId });
+      if (!result?.deletedCount) {
+        throw new NoItemsFound("event");
+      }
+    } catch (error) {
+      throw new Error(`Error deleting event from MongoDB: ${error}`);
+    }
+  }
 }
