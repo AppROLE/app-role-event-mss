@@ -10,6 +10,7 @@ export class EventMock {
         ? initialEvents
         : [
             new Event({
+              eventId: "1",
               name: "Galleria Night",
               description:
                 "Galleria club. A melhor balada de São Paulo. Venha curtir com a gente!",
@@ -23,6 +24,7 @@ export class EventMock {
               bannerUrl: "https://example.com/galleria_night.jpg",
             }),
             new Event({
+              eventId: "2",
               name: "Vila Mix Festival",
               description:
                 "Vila Mix Festival. O maior festival de música sertaneja do Brasil.",
@@ -36,6 +38,7 @@ export class EventMock {
               bannerUrl: "https://example.com/vilamix_festival.jpg",
             }),
             new Event({
+              eventId: "3",
               name: "Modular",
               description:
                 "Modular. A melhor festa de música eletrônica de São Paulo.",
