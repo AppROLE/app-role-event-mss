@@ -27,5 +27,14 @@ export class EventRepositoryMock implements IEventRepository {
     }
     return event;
   }
-  
+
+  async deleteEventById(eventId: string): Promise<void> {
+    const eventIndex = this.events.findIndex(
+      (event) => event.getEventId === eventId
+    );
+    if (eventIndex === -1) {
+      throw new NoItemsFound("event");
+    }
+    this.events.splice(eventIndex, 1);
+  }
 }
