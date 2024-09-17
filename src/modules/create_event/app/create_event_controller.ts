@@ -54,11 +54,11 @@ export class CreateEventController {
         "eventStatus",
       ];
 
-      // for (const param of requiredParams) {
-      //   if (req.data[param] === undefined) {
-      //     throw new MissingParameters(param);
-      //   }
-      // }
+      for (const param of requiredParams) {
+        if (req.data[param] === undefined) {
+          throw new MissingParameters(param);
+        }
+      }
 
       if (typeof name !== "string") {
         throw new WrongTypeParameters("name", "string", typeof name);
