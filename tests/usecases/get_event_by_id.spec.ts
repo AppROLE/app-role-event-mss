@@ -11,6 +11,7 @@ describe("GetEventByIdUseCase", () => {
     const usecase = new GetEventByIdUseCase(mockRepo);
     const mock = new EventMock();
     const event = mock.events[0];
+    console.log("EVENTO ID: ", event.getEventId);
     console.log("EVENTO: ", event);
 
     const eventId = "1";
