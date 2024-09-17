@@ -40,7 +40,23 @@ export class CreateEventController {
         features,
         packageType,
         category,
-      } = req.data;
+      } = req.data as {
+        name: string;
+        description: string;
+        address: string;
+        price: number;
+        ageRange: string;
+        districtId: string;
+        instituteId: string;
+        eventStatus: string;
+        musicType?: string;
+        menuLink?: string;
+        galeryLink?: string;
+        bannerUrl?: string;
+        features?: string[];
+        packageType?: string[];
+        category?: string;
+      };
 
       const requiredParams = [
         "name",
