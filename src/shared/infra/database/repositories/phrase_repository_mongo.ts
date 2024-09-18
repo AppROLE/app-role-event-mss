@@ -12,7 +12,7 @@ export class PhraseRepositoryMongo implements IPhraseRepository {
         throw new Error("Error connecting to MongoDB");
       });
 
-      const phraseMongoClient = db.connections[0].db?.collection<IPhrase>("Phrase");
+      const phraseMongoClient = db.connections[0].db?.collection<IPhrase>("phrases");
 
       const randomPhrase = await phraseMongoClient
         ?.aggregate([{ $sample: { size: 1 } }])
