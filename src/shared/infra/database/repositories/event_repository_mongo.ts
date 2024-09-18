@@ -4,7 +4,7 @@ import { EventMongoDTO } from "../dtos/event_mongo_dto";
 
 import { connectDB } from "../models";
 import { IEventRepository } from "../../../domain/irepositories/event_repository_interface";
-import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { NoItemsFound } from "../../../../../src/shared/helpers/errors/usecase_errors";
 import { v4 as uuidv4 } from "uuid";
 
 export class EventRepositoryMongo implements IEventRepository {
