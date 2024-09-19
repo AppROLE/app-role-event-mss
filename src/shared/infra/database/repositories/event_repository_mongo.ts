@@ -4,7 +4,7 @@ import { EventMongoDTO } from "../dtos/event_mongo_dto";
 
 import { connectDB } from "../models";
 import { IEventRepository } from "../../../domain/irepositories/event_repository_interface";
-import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { NoItemsFound } from "../../../../../src/shared/helpers/errors/usecase_errors";
 import { v4 as uuidv4 } from "uuid";
 
 export class EventRepositoryMongo implements IEventRepository {
@@ -76,6 +76,26 @@ export class EventRepositoryMongo implements IEventRepository {
       return EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc));
     } catch (error) {
       throw new Error(`Error retrieving event by ID from MongoDB: ${error}`);
+    }
+  }
+
+  async deleteEventById(eventId: string): Promise<void> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      });
+
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
+      const result = await eventMongoClient?.deleteOne({ _id: eventId });
+      if (!result?.deletedCount) {
+        throw new NoItemsFound("event");
+      }
+    } catch (error) {
+      throw new Error(`Error deleting event from MongoDB: ${error}`);
     }
   }
 }

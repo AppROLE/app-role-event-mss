@@ -1,7 +1,9 @@
 import { STAGE } from "./domain/enums/stage_enum";
 import { IEventRepository } from "./domain/irepositories/event_repository_interface";
+import { IPhraseRepository } from "./domain/irepositories/phrase_repository_interface";
 import { envs } from "./helpers/envs/envs";
 import { EventRepositoryMongo } from "./infra/database/repositories/event_repository_mongo";
+import { PhraseRepositoryMongo } from "./infra/database/repositories/phrase_repository_mongo";
 import { InstituteRepositoryMongo } from "./infra/database/repositories/institute_repository_mongo";
 
 export class Environments {
@@ -52,6 +54,24 @@ export class Environments {
       Environments.getEnvs().stage === STAGE.PROD
     ) {
       return new EventRepositoryMongo();
+    } else {
+      throw new Error("Invalid STAGE");
+    }
+  }
+
+  static getPhraseRepo(): IPhraseRepository {
+    console.log(
+      "Environments.getEnvs().stage - [ENVIRONMENTS - { GET Event REPO }] - ",
+      Environments.getEnvs().stage
+    );
+
+    if (Environments.getEnvs().stage === STAGE.TEST) {
+      throw new Error("Invalid STAGE");
+    } else if (
+      Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.PROD
+    ) {
+      return new PhraseRepositoryMongo();
     } else {
       throw new Error("Invalid STAGE");
     }

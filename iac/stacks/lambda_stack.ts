@@ -12,10 +12,12 @@ export class LambdaStack extends Construct {
   lambdaLayer: lambda.LayerVersion
   libLayer: lambda.LayerVersion
 
-  healthCheckFunction: lambda.Function
   createEventFunction: lambda.Function
   getAllEventsFunction: lambda.Function
   getEventByIdFunction: lambda.Function
+  deleteEventByIdFunction: lambda.Function 
+
+  getPhrase: lambda.Function
 
   createLambdaApiGatewayIntegration(
     moduleName: string, 
@@ -65,10 +67,12 @@ export class LambdaStack extends Construct {
     })
 
     // auth routes
-    this.healthCheckFunction = this.createLambdaApiGatewayIntegration('health_check', 'GET', apiGatewayResource, environmentVariables)
     this.createEventFunction = this.createLambdaApiGatewayIntegration('create_event', 'POST', apiGatewayResource, environmentVariables)
     this.getAllEventsFunction = this.createLambdaApiGatewayIntegration('get_all_events', 'GET', apiGatewayResource, environmentVariables)
     this.getEventByIdFunction = this.createLambdaApiGatewayIntegration('get_event_by_id', 'GET', apiGatewayResource, environmentVariables)
+    this.deleteEventByIdFunction = this.createLambdaApiGatewayIntegration('delete_event_by_id', 'DELETE', apiGatewayResource, environmentVariables)
+
+    this.getPhrase = this.createLambdaApiGatewayIntegration('get_phrase', 'GET', apiGatewayResource, environmentVariables)
 
     this.functionsThatNeedS3Permissions = []
 
