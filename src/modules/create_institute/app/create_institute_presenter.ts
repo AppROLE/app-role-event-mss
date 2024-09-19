@@ -10,20 +10,19 @@ const repo = Environments.getInstituteRepo();
 const usecase = new CreateInstituteUseCase(repo);
 const controller = new CreateInstituteController(usecase);
 
-export async function createEventPresenter(event: Record<string, any>) {
-    const httpRequest = new LambdaHttpRequest(event);
+export async function createInstitutePresenter(event: Record<string, any>) {
+  const httpRequest = new LambdaHttpRequest(event);
+  const response = await controller.handle(httpRequest);
+  const httpResponse = new LambdaHttpResponse(
+    response?.body,
+    response?.statusCode,
+    response?.headers
+  );
 
-    const response = await controller.handle(httpRequest)
-    const httpResponse = new LambdaHttpResponse(
-        response?.body,
-        response?.statusCode,
-        response?.headers
-    )
-
-    return httpResponse.toJSON()
+  return httpResponse.toJSON();
 }
 
 export async function lambda_handler(event: any, context: any) {
-    const response = await createEventPresenter(event);
-    return response;
+  const response = await createInstitutePresenter(event);
+  return response;
 }
