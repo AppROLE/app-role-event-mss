@@ -17,6 +17,8 @@ export class LambdaStack extends Construct {
   getEventByIdFunction: lambda.Function
   deleteEventByIdFunction: lambda.Function 
 
+  createInstituteFunction: lambda.Function
+
   getPhrase: lambda.Function
 
   createLambdaApiGatewayIntegration(
@@ -71,6 +73,8 @@ export class LambdaStack extends Construct {
     this.getAllEventsFunction = this.createLambdaApiGatewayIntegration('get_all_events', 'GET', apiGatewayResource, environmentVariables)
     this.getEventByIdFunction = this.createLambdaApiGatewayIntegration('get_event_by_id', 'GET', apiGatewayResource, environmentVariables)
     this.deleteEventByIdFunction = this.createLambdaApiGatewayIntegration('delete_event_by_id', 'DELETE', apiGatewayResource, environmentVariables)
+    
+    this.createInstituteFunction = this.createLambdaApiGatewayIntegration('create_institute', 'POST', apiGatewayResource, environmentVariables)
 
     this.getPhrase = this.createLambdaApiGatewayIntegration('get_phrase', 'GET', apiGatewayResource, environmentVariables)
 

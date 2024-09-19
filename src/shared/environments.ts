@@ -4,6 +4,7 @@ import { IPhraseRepository } from "./domain/irepositories/phrase_repository_inte
 import { envs } from "./helpers/envs/envs";
 import { EventRepositoryMongo } from "./infra/database/repositories/event_repository_mongo";
 import { PhraseRepositoryMongo } from "./infra/database/repositories/phrase_repository_mongo";
+import { InstituteRepositoryMongo } from "./infra/database/repositories/institute_repository_mongo";
 
 export class Environments {
   stage: STAGE = STAGE.TEST;
@@ -71,6 +72,19 @@ export class Environments {
       Environments.getEnvs().stage === STAGE.PROD
     ) {
       return new PhraseRepositoryMongo();
+    } else {
+      throw new Error("Invalid STAGE");
+    }
+  }
+
+  static getInstituteRepo() {
+    if(Environments.getEnvs().stage === STAGE.TEST){
+      throw new Error("Invalid STAGE");
+    } else if (
+      Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.PROD
+    ) {
+      return new InstituteRepositoryMongo();
     } else {
       throw new Error("Invalid STAGE");
     }
