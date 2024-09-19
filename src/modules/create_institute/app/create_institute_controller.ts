@@ -24,7 +24,6 @@ export class CreateInstituteController {
       const {
         description,
         institute_type,
-        logo_photo,
         name,
         address,
         district_id,
@@ -34,7 +33,6 @@ export class CreateInstituteController {
       const requiredParams = [
         "description",
         "institute_type",
-        "logo_photo",
         "name",
         "address",
         "district_id",
@@ -61,13 +59,6 @@ export class CreateInstituteController {
           typeof institute_type
         );
       }
-      if (typeof logo_photo !== "string") {
-        throw new WrongTypeParameters(
-          "logo_photo",
-          "string",
-          typeof logo_photo
-        );
-      }
       if (typeof name !== "string") {
         throw new WrongTypeParameters("name", "string", typeof name);
       }
@@ -89,7 +80,6 @@ export class CreateInstituteController {
         description: description,
         institute_type:
           INSTITUTE_TYPE[institute_type as keyof typeof INSTITUTE_TYPE],
-        logo_photo: logo_photo,
         name: name,
         address: address,
         district_id: district_id,

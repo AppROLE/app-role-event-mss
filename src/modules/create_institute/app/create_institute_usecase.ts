@@ -3,7 +3,7 @@ import { IInstituteRepository } from "src/shared/domain/irepositories/institute_
 
 export interface CreateInstituteParams {
     name: string;
-    logo_photo: string;
+    logo_photo?: string;
     description: string;
     institute_type: string;
     address?: string;
@@ -21,10 +21,10 @@ export class CreateInstituteUseCase {
             description: params.description,
             institute_type: params.institute_type,
             address: params.address,
-            logo_photo: params.logo_photo,
-            district_id: params.district_id,
-            photos_url: params.photos_url,
-            price: params.price,
+            logo_photo: params.logo_photo || "",
+            district_id: params.district_id || "",
+            photos_url: params.photos_url || [],
+            price: params.price || 0,
         });
     
         const savedInstitute = await this.repo.createInstitute(institute);
