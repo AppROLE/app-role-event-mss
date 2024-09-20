@@ -5,6 +5,7 @@ import { envs } from "./helpers/envs/envs";
 import { EventRepositoryMongo } from "./infra/database/repositories/event_repository_mongo";
 import { PhraseRepositoryMongo } from "./infra/database/repositories/phrase_repository_mongo";
 import { InstituteRepositoryMongo } from "./infra/database/repositories/institute_repository_mongo";
+import { IInstituteRepository } from "./domain/irepositories/institute_repository_interface";
 
 export class Environments {
   stage: STAGE = STAGE.TEST;
@@ -77,7 +78,7 @@ export class Environments {
     }
   }
 
-  static getInstituteRepo() {
+  static getInstituteRepo(): IInstituteRepository {
     if(Environments.getEnvs().stage === STAGE.TEST){
       throw new Error("Invalid STAGE");
     } else if (
