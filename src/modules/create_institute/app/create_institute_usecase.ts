@@ -25,10 +25,10 @@ export class CreateInstituteUseCase {
             institute_type: toEnum(params.institute_type),
             partner_type: toEnumPartnerType(params.partner_type),
             address: params.address,
-            logo_photo: params.logo_photo,
-            district_id: params.district_id,
-            photos_url: params.photos_url,
-            price: params.price,
+            logo_photo: params.logo_photo || "",
+            district_id: params.district_id || "",
+            photos_url: params.photos_url || [],
+            price: params.price || 0,
         });
     
         const savedInstitute = await this.repo.createInstitute(institute);
