@@ -1,11 +1,14 @@
 import { Institute } from "src/shared/domain/entities/institute";
+import { toEnum } from "src/shared/domain/enums/institute_type_enum";
+import { toEnumPartnerType } from "src/shared/domain/enums/partner_type_enum";
 import { IInstituteRepository } from "src/shared/domain/irepositories/institute_repository_interface";
 
 export interface CreateInstituteParams {
     name: string;
-    logo_photo: string;
+    logo_photo?: string;
     description: string;
     institute_type: string;
+    partner_type: string;
     address?: string;
     price?: number;
     district_id?: string;
@@ -19,7 +22,8 @@ export class CreateInstituteUseCase {
         const institute = new Institute({
             name: params.name,
             description: params.description,
-            institute_type: params.institute_type,
+            institute_type: toEnum(params.institute_type),
+            partner_type: toEnumPartnerType(params.partner_type),
             address: params.address,
             logo_photo: params.logo_photo,
             district_id: params.district_id,
