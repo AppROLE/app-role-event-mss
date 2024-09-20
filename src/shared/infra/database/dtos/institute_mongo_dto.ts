@@ -1,3 +1,4 @@
+import { toEnumPartnerType } from "src/shared/domain/enums/partner_type_enum";
 import { Institute } from "../../../domain/entities/institute";
 import { INSTITUTE_TYPE } from "../../../domain/enums/institute_type_enum";
 import instituteModel, { IInstitute as InstituteDocument } from "../models/institute.model";
@@ -8,6 +9,7 @@ export interface InstituteMongoDTOProps {
   logo_photo: string;
   description: string;
   institute_type: string;
+  partner_type: string;
   address: string;
   price: number;
   district_id: string;
@@ -31,6 +33,7 @@ export class InstituteMongoDTO {
   private logo_photo: string;
   private description: string;
   private institute_type: string;
+  private partner_type: string;
   private address: string;
   private price: number;
   private district_id: string;
@@ -53,6 +56,7 @@ export class InstituteMongoDTO {
     this.logo_photo = props.logo_photo;
     this.description = props.description;
     this.institute_type = props.institute_type;
+    this.partner_type = props.partner_type;
     this.address = props.address;
     this.price = props.price;
     this.district_id = props.district_id;
@@ -63,6 +67,7 @@ export class InstituteMongoDTO {
   static toEntity(instituteMongoDTO: InstituteMongoDTO): Institute {
     return new Institute({
       institute_id: instituteMongoDTO._id,
+      partner_type: toEnumPartnerType(instituteMongoDTO.partner_type),
       name: instituteMongoDTO.name,
       logo_photo: instituteMongoDTO.logo_photo,
       description: instituteMongoDTO.description,
@@ -79,9 +84,10 @@ export class InstituteMongoDTO {
     return new InstituteMongoDTO({
       _id: institute.instituteId || '',
       name: institute.instituteName,
-      logo_photo: institute.instituteLogoPhoto,
+      logo_photo: institute.instituteLogoPhoto || '',
       description: institute.instituteDescription,
       institute_type: institute.instituteInstituteType,
+      partner_type: institute.institutePartnerType,
       address: institute.instituteAddress || '',
       price: institute.institutePrice || 0,
       district_id: institute.instituteDistrictId || '',
