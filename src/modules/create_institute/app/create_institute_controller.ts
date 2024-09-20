@@ -73,19 +73,24 @@ export class CreateInstituteController {
         throw new WrongTypeParameters("name", "string", typeof name);
       }
       
-      if (typeof address !== "string" || address != undefined) {
-        throw new WrongTypeParameters("address", "string", typeof address);
+      if(address !== undefined){
+        if (typeof address !== "string") {
+          throw new WrongTypeParameters("address", "string", typeof address);
+        }
       }
-
-      if (typeof district_id !== "string" || address != undefined) {
-        throw new WrongTypeParameters(
-          "district_id",
-          "string",
-          typeof district_id
-        );
+      if(district_id !== undefined){
+        if (typeof district_id !== "string") {
+          throw new WrongTypeParameters(
+            "district_id",
+            "string",
+            typeof district_id
+          );
+        }
       }
-      if (typeof price !== "number" || address != undefined) {
-        throw new WrongTypeParameters("price", "number", typeof price);
+      if(price !== undefined){
+        if (typeof price !== "number") {
+          throw new WrongTypeParameters("price", "number", typeof price);
+        }
       }
 
       await this.usecase.execute({
