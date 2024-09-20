@@ -1,12 +1,14 @@
 import { INSTITUTE_TYPE, toEnum } from "../enums/institute_type_enum";
 import { EntityError } from "../../helpers/errors/domain_errors";
+import { PARTNER_TYPE, toEnumPartnerType } from "../enums/partner_type_enum";
 
 interface InstituteProps {
   institute_id?: string | undefined;
   name: string;
-  logo_photo: string;
   description: string;
-  institute_type: string;
+  institute_type: INSTITUTE_TYPE;
+  partner_type: PARTNER_TYPE;
+  logo_photo?: string;
   address?: string | undefined;
   price?: number | undefined;
   district_id?: string | undefined;
@@ -17,9 +19,10 @@ interface InstituteProps {
 export class Institute {
   private institute_id?: string;
   private name: string;
-  private logo_photo: string;
+  private logo_photo?: string;
   private description: string;
   private institute_type: INSTITUTE_TYPE;
+  private partner_type: PARTNER_TYPE;
   private address?: string;
   private price?: number;
   private district_id?: string;
@@ -28,16 +31,17 @@ export class Institute {
 
   constructor(props: InstituteProps) {
     this.validate(props);
-    this.institute_id = props.institute_id || "";
+    this.institute_id = props.institute_id || undefined;
     this.name = props.name;
-    this.logo_photo = props.logo_photo;
+    this.logo_photo = props.logo_photo || undefined;
     this.description = props.description;
     this.institute_type = toEnum(props.institute_type);
-    this.address = props.address || "";
+    this.partner_type = toEnumPartnerType(props.partner_type);
+    this.address = props.address || undefined;
     this.price = props.price || 0;
-    this.district_id = props.district_id || "";
-    this.photos_url = props.photos_url || [];
-    this.events_id = props.events_id || [];
+    this.district_id = props.district_id || undefined;
+    this.photos_url = props.photos_url || undefined;
+    this.events_id = props.events_id || undefined;
   }
 
   // getters
@@ -47,7 +51,7 @@ export class Institute {
   get instituteName(): string {
     return this.name;
   }
-  get instituteLogoPhoto(): string {
+  get instituteLogoPhoto(): string | undefined {
     return this.logo_photo;
   }
   get instituteDescription(): string {
@@ -70,6 +74,9 @@ export class Institute {
   }
   get instituteEventsId(): string[] | undefined {
     return this.events_id;
+  }
+  get institutePartnerType(): PARTNER_TYPE {
+    return this.partner_type;
   }
   // setters
   set instituteId(id: string) {
@@ -103,7 +110,9 @@ export class Institute {
   set instituteEventsId(events_id: string[]) {
     this.events_id = events_id;
   }
-
+  set institutePartnerType(partner_type: string) {
+    this.partner_type = toEnumPartnerType(partner_type)
+  }
   // methods
   private validate(props: InstituteProps): void {
     this.validateName(props.name);
@@ -121,6 +130,14 @@ export class Institute {
       toEnum(institute_type);
     } catch (error) {
       throw new EntityError("Tipo de instituto inválido");
+    }
+  }
+
+  private validatePartnerType(partner_type: string): void {
+    try{
+      toEnumPartnerType(partner_type)
+    } catch (error) {
+      throw new EntityError("partner type inválido")
     }
   }
 }
