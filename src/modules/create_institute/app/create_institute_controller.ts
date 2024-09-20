@@ -3,7 +3,7 @@ import {
   IResponse,
 } from "src/shared/helpers/external_interfaces/external_interface";
 import { CreateInstituteUseCase } from "./create_institute_usecase";
-import { INSTITUTE_TYPE } from "src/shared/domain/enums/institute_type_enum";
+import { INSTITUTE_TYPE, toEnum } from "src/shared/domain/enums/institute_type_enum";
 import {
   MissingParameters,
   WrongTypeParameters,
@@ -15,6 +15,7 @@ import {
   InternalServerError,
 } from "src/shared/helpers/external_interfaces/http_codes";
 import { EntityError } from "src/shared/helpers/errors/domain_errors";
+import { PARTNER_TYPE } from "src/shared/domain/enums/partner_type_enum";
 
 export class CreateInstituteController {
   constructor(private readonly usecase: CreateInstituteUseCase) {}
@@ -24,7 +25,7 @@ export class CreateInstituteController {
       const {
         description,
         institute_type,
-        logo_photo,
+        partner_type,
         name,
         address,
         district_id,
@@ -34,7 +35,7 @@ export class CreateInstituteController {
       const requiredParams = [
         "description",
         "institute_type",
-        "logo_photo",
+        "partner_type",
         "name",
         "address",
         "district_id",
@@ -61,27 +62,29 @@ export class CreateInstituteController {
           typeof institute_type
         );
       }
-      if (typeof logo_photo !== "string") {
+      if (typeof partner_type !== "string") {
         throw new WrongTypeParameters(
-          "logo_photo",
+          "partner_type",
           "string",
-          typeof logo_photo
-        );
+          typeof partner_type
+        )
       }
       if (typeof name !== "string") {
         throw new WrongTypeParameters("name", "string", typeof name);
       }
-      if (typeof address !== "string") {
+      
+      if (typeof address !== "string" || address != undefined) {
         throw new WrongTypeParameters("address", "string", typeof address);
       }
-      if (typeof district_id !== "string") {
+
+      if (typeof district_id !== "string" || address != undefined) {
         throw new WrongTypeParameters(
           "district_id",
           "string",
           typeof district_id
         );
       }
-      if (typeof price !== "number") {
+      if (typeof price !== "number" || address != undefined) {
         throw new WrongTypeParameters("price", "number", typeof price);
       }
 
@@ -89,8 +92,8 @@ export class CreateInstituteController {
         description: description,
         institute_type:
           INSTITUTE_TYPE[institute_type as keyof typeof INSTITUTE_TYPE],
-        logo_photo: logo_photo,
         name: name,
+        partner_type: PARTNER_TYPE[partner_type as keyof typeof PARTNER_TYPE],
         address: address,
         district_id: district_id,
         price: price,
