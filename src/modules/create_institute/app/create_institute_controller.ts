@@ -36,10 +36,7 @@ export class CreateInstituteController {
         "description",
         "institute_type",
         "partner_type",
-        "name",
-        "address",
-        "district_id",
-        "price",
+        "name"
       ];
 
       for (const param of requiredParams) {
