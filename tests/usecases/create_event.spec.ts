@@ -22,6 +22,7 @@ describe("CreateEventUseCase", () => {
       instituteId: "1",
       eventStatus: STATUS.ACTIVE,
       bannerUrl: "https://example.com/galleria_night.jpg",
+      ticketUrl: "https://example.com/vilamix_festival_tickets",
     };
 
     const result = await usecase.execute(params);
@@ -45,6 +46,7 @@ describe("CreateEventUseCase", () => {
     expect(result.instituteId).toBe("1");
     expect(result.eventStatus).toBe(STATUS.ACTIVE);
     expect(result.bannerUrl).toBe("https://example.com/galleria_night.jpg");
+    expect(result.ticketUrl).toBe("https://example.com/vilamix_festival_tickets");
 
     const events = await mockRepo.getAllEvents();
     expect(events).toHaveLength(4);
