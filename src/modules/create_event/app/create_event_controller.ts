@@ -40,6 +40,7 @@ export class CreateEventController {
         features,
         packageType,
         category,
+        ticketUrl,
       } = req.data;
 
       const requiredParams = [
@@ -52,6 +53,7 @@ export class CreateEventController {
         "districtId",
         "instituteId",
         "eventStatus",
+        "ticketUrl",
       ];
 
       for (const param of requiredParams) {
@@ -133,6 +135,7 @@ export class CreateEventController {
         category: category
           ? CATEGORY[category as keyof typeof CATEGORY]
           : undefined,
+        ticketUrl: typeof ticketUrl === "string" ? ticketUrl : undefined,
       });
 
       const viewmodel = new CreateEventViewModel("Evento criado com sucesso");
