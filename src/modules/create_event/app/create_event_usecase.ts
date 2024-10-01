@@ -23,6 +23,7 @@ interface CreateEventParams {
   features?: FEATURE[];
   packageType?: PACKAGE_TYPE[];
   category?: CATEGORY;
+  ticketUrl?: string;
 }
 
 export class CreateEventUseCase {
@@ -46,6 +47,7 @@ export class CreateEventUseCase {
       features: params.features,
       packageType: params.packageType,
       category: params.category,
+      ticketUrl: params.ticketUrl,
     });
 
     const savedEvent = await this.repo.createEvent(event);
