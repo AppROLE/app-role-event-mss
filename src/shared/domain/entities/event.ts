@@ -23,6 +23,7 @@ interface EventProps {
   features?: FEATURE[];
   packageType?: PACKAGE_TYPE[];
   category?: CATEGORY;
+  ticketUrl?: string;
 }
 
 export class Event {
@@ -43,11 +44,12 @@ export class Event {
   private features_list: string[];
   private packageType?: PACKAGE_TYPE[];
   private category?: CATEGORY;
+  private ticketUrl?: string;
 
   constructor(props: EventProps) {
     this.validate(props);
 
-    if(props.eventId != undefined){
+    if (props.eventId != undefined) {
       this.eventId = props.eventId;
     }
     this.name = props.name;
@@ -66,6 +68,7 @@ export class Event {
     this.features_list = props.features || [];
     this.packageType = props.packageType || [];
     this.category = props.category;
+    this.ticketUrl = props.ticketUrl;
   }
 
   get getEventId(): string | undefined {
@@ -134,6 +137,10 @@ export class Event {
 
   get getGaleryLink(): string[] | undefined {
     return this.galery_link;
+  }
+
+  get getTicketUrl(): string | undefined {
+    return this.ticketUrl;
   }
 
   set setEventName(name: string) {
@@ -215,6 +222,10 @@ export class Event {
     this.category = category;
   }
 
+  set setTicketUrl(ticketUrl: string) {
+    this.ticketUrl = ticketUrl;
+  }
+
   private validate(props: EventProps): void {
     this.validateName(props.name);
     this.validateDescription(props.description);
@@ -239,6 +250,9 @@ export class Event {
     }
     if (props.category) {
       this.validateCategory(props.category);
+    }
+    if (props.ticketUrl) {
+      this.validateTicketUrl(props.ticketUrl);
     }
   }
 
@@ -320,6 +334,12 @@ export class Event {
   private validateMenuLink(menuLink: string): void {
     if (!menuLink || menuLink.trim().length === 0) {
       throw new EntityError("Invalid menu link");
+    }
+  }
+
+  private validateTicketUrl(ticketUrl: string): void {
+    if (!ticketUrl || ticketUrl.trim().length === 0) {
+      throw new EntityError("Invalid ticket URL");
     }
   }
 
