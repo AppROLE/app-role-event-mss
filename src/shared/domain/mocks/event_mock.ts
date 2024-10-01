@@ -22,6 +22,7 @@ export class EventMock {
               instituteId: "1",
               eventStatus: STATUS.ACTIVE,
               bannerUrl: "https://example.com/galleria_night.jpg",
+              ticketUrl: "https://example.com/galleria_night_tickets",
             }),
             new Event({
               eventId: "2",
@@ -36,6 +37,7 @@ export class EventMock {
               instituteId: "2",
               eventStatus: STATUS.ACTIVE,
               bannerUrl: "https://example.com/vilamix_festival.jpg",
+              ticketUrl: "https://example.com/vilamix_festival_tickets",
             }),
             new Event({
               eventId: "3",
