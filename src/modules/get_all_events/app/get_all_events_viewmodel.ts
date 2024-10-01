@@ -17,6 +17,7 @@ export class EventViewModel {
   private galeryLink?: string[];
   private packageType?: string[];
   private category?: string;
+  private ticketUrl?: string;
 
   constructor(event: Event) {
     this.eventId = event.getEventId;
@@ -35,6 +36,7 @@ export class EventViewModel {
     this.galeryLink = event.getGaleryLink;
     this.packageType = event.getPackageType;
     this.category = event.getCategoryType;
+    this.ticketUrl = event.getTicketUrl;
   }
 
   toJSON() {
@@ -55,6 +57,7 @@ export class EventViewModel {
       galeryLink: this.galeryLink,
       packageType: this.packageType,
       category: this.category,
+      ticketUrl: this.ticketUrl,
     };
   }
 }
