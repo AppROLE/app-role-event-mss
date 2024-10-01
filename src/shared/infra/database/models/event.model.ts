@@ -18,6 +18,7 @@ export interface IEvent extends Document {
   package_type: string[];
   category: string;
   features: string[];
+  ticket_url: string;
 }
 
 const EventSchema: Schema = new Schema<IEvent>({
@@ -37,6 +38,7 @@ const EventSchema: Schema = new Schema<IEvent>({
   galery_link: [{ type: String }],
   package_type: [{ type: String }],
   category: { type: String },
+  ticket_url: { type: String },
 });
 
 export default mongoose.model<IEvent>("Event", EventSchema);
