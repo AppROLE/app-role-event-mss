@@ -19,6 +19,7 @@ export interface EventMongoDTOProps {
   galery_link: string[];
   package_type?: string[];
   category?: string;
+  ticket_url?: string;
 }
 
 export class EventMongoDTO {
@@ -38,6 +39,7 @@ export class EventMongoDTO {
   private galery_link: string[];
   private package_type: string[];
   private category?: string;
+  private ticket_url?: string;
 
   constructor(props: EventMongoDTOProps) {
     this._id = props._id;
@@ -56,6 +58,7 @@ export class EventMongoDTO {
     this.galery_link = props.galery_link;
     this.package_type = props.package_type || [];
     this.category = props.category;
+    this.ticket_url = props.ticket_url || "";
   }
 
   static fromMongo(eventDoc: any): EventMongoDTO {
@@ -76,6 +79,7 @@ export class EventMongoDTO {
       galery_link: eventDoc.galery_link,
       package_type: eventDoc.package_type,
       category: eventDoc.category,
+      ticket_url: eventDoc.ticket_url
     });
   }
 
@@ -92,6 +96,7 @@ export class EventMongoDTO {
       instituteId: eventMongoDTO.institute_id,
       eventStatus: STATUS.ACTIVE,
       bannerUrl: eventMongoDTO.banner_url,
+      ticketUrl: eventMongoDTO.ticket_url,
     });
   }
 
@@ -113,6 +118,7 @@ export class EventMongoDTO {
       galery_link: event.getGaleryLink || [],
       package_type: event.getPackageType || [],
       category: event.getCategoryType,
+      ticket_url: event.getTicketUrl || "",
     });
   }
 
@@ -135,6 +141,7 @@ export class EventMongoDTO {
       package_type: eventMongoDTO.package_type,
       category: eventMongoDTO.category,
       created_at: new Date(),
+      ticket_url: eventMongoDTO.ticket_url,
     });
 
     return eventDocument as EventDocument;
