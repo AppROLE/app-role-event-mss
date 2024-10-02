@@ -77,22 +77,25 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
         console.error.bind(console, "connection error:");
         throw new Error("Error connecting to MongoDB");
       });
-
+  
       const instituteMongoClient =
         db.connections[0].db?.collection<IInstitute>("Institute");
-
+  
       const institutes = (await instituteMongoClient?.find().toArray()) as IInstitute[];
-      if (!institutes || institutes.length === 0) {
+      console.log(institutes);
+  
+      if (!Array.isArray(institutes) || institutes.length === 0) {
         throw new NoItemsFound("institutes");
       }
-
+  
       return institutes.map((instituteDoc) =>
         InstituteMongoDTO.toEntity(InstituteMongoDTO.fromMongo(instituteDoc))
       );
-    } catch (error) {
+    } catch (error: any) {
+      console.error(`Error retrieving institutes from MongoDB: ${error.message}`);
       throw new Error(`Error retrieving institutes from MongoDB: ${error}`);
     }
-  }
+  }  
 
   async deleteInstituteById(instituteId: string): Promise<void> {
     try {
