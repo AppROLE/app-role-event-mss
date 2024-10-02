@@ -126,17 +126,17 @@ export class InstituteMongoDTO {
 
   static fromMongo(institute: any): InstituteMongoDTO {
     return new InstituteMongoDTO({
-      _id: institute.instituteId || '',
-      name: institute.instituteName,
-      logo_photo: institute.instituteLogoPhoto || '',
-      description: institute.instituteDescription,
-      institute_type: institute.instituteInstituteType,
-      partner_type: institute.institutePartnerType,
-      address: institute.instituteAddress || '',
-      price: institute.institutePrice || 0,
-      district_id: institute.instituteDistrictId || '',
-      photos: institute.institutePhotosUrl || [],
-      events: institute.instituteEventsId || []
+      _id: institute._id || '',
+      name: institute.name,
+      logo_photo: institute.logo_photo || '',
+      description: institute.description,
+      institute_type: institute.institute_type,
+      partner_type: institute.partner_type,
+      address: institute.address || '',
+      price: institute.price || 0,
+      district_id: institute.district_id || '',
+      photos: institute.photos || [],
+      events: institute.events || []
     })
   }
 }
