@@ -10,11 +10,12 @@ export class GetInstituteByIdController {
 
     async handle(req: IRequest): Promise<any> {
         try {
-            const { idInstitute } = req.data;
-            if(idInstitute == undefined) {
+            const { instituteId } = req.data;
+
+            if(instituteId == undefined) {
                 throw new MissingParameters("idInstitute");
             }
-            const institute = await this.usecase.execute(idInstitute as string);
+            const institute = await this.usecase.execute(instituteId as string);
             console.log(institute)
             const viewModel = new GetInstituteByIdViewModel(institute);
             return new OK(viewModel.toJSON());
