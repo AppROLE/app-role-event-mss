@@ -3,7 +3,8 @@ import { stage } from "../get_stage_env";
 import { LambdaStack } from "./lambda_stack";
 import { Stack, StackProps } from "aws-cdk-lib";
 import { envs } from "../../src/shared/helpers/envs/envs";
-import { Cors, RestApi } from "aws-cdk-lib/aws-apigateway";
+import { Cors, RestApi, CognitoUserPoolsAuthorizer } from "aws-cdk-lib/aws-apigateway";
+import * as cognito from "aws-cdk-lib/aws-cognito";
 
 export class IacStack extends Stack {
   constructor(scope: Construct, constructId: string, props?: StackProps) {
@@ -27,6 +28,23 @@ export class IacStack extends Stack {
       },
     });
 
+    let userPoolId = ""
+
+    if (stage === "DEV") userPoolId = envs.AWS_COGNITO_USER_POOL_ID_DEV;
+    if (stage === "PROD") userPoolId = envs.AWS_COGNITO_USER_POOL_ID_PROD;
+    if (stage === "HOMOLOG") userPoolId = envs.AWS_COGNITO_USER_POOL_ID_HOMOLOG
+
+    const userpool = cognito.UserPool.fromUserPoolId(
+      this,
+      `${envs.STACK_NAME}-UserPool`,
+      userPoolId
+    )
+
+    const authorizer = new CognitoUserPoolsAuthorizer(this, `${envs.STACK_NAME}-Authorizer`, {
+      cognitoUserPools: [userpool],
+      identitySource: "method.request.header.Authorization",
+    });
+
     const environmentVariables = {
       STAGE: stage,
       NODE_PATH: "/var/task:/opt/nodejs",
@@ -39,7 +57,8 @@ export class IacStack extends Stack {
     const lambdaStack = new LambdaStack(
       this,
       apigatewayResource,
-      environmentVariables
+      environmentVariables,
+      authorizer
     );
   }
 }
