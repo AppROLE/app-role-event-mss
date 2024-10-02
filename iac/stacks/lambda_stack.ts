@@ -19,6 +19,7 @@ export class LambdaStack extends Construct {
 
   createInstituteFunction: lambda.Function
   getInstituteByIdFunction: lambda.Function
+  deleteInstituteByIdFunction: lambda.Function
 
   getPhrase: lambda.Function
 
@@ -78,6 +79,7 @@ export class LambdaStack extends Construct {
     // institute routes
     this.createInstituteFunction = this.createLambdaApiGatewayIntegration('create_institute', 'POST', apiGatewayResource, environmentVariables)
     this.getInstituteByIdFunction = this.createLambdaApiGatewayIntegration('get_institute_by_id', 'GET', apiGatewayResource, environmentVariables)
+    this.deleteInstituteByIdFunction = this.createLambdaApiGatewayIntegration('delete_institute_by_id', 'DELETE', apiGatewayResource, environmentVariables)
 
     this.getPhrase = this.createLambdaApiGatewayIntegration('get_phrase', 'GET', apiGatewayResource, environmentVariables)
 
