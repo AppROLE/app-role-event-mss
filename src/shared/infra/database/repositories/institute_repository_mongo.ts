@@ -54,7 +54,7 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
             from: "Event",        // Coleção de eventos
             localField: "events",  // Campo que contém os IDs dos eventos no documento de instituto
             foreignField: "_id",   // Campo na coleção de eventos que corresponde ao ID dos eventos
-            as: "eventsDetails"    // Nome do campo que conterá os detalhes dos eventos
+            as: "events"           // Nome do campo que conterá os detalhes dos eventos
           }
         }
       ]).toArray();
