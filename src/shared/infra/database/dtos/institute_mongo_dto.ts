@@ -118,7 +118,17 @@ export class InstituteMongoDTO {
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
       photos: instituteMongoDTO.photos,
-      events: instituteMongoDTO.events
+      events: instituteMongoDTO?.events.map(eventId => ({
+        _id: eventId,
+        name: '',
+        banner_url: '',
+        address: '',
+        price: 0,
+        description: '',
+        age_range: '',
+        event_date: new Date(),
+        features: []
+      }))
     });
 
     return instituteDocument as InstituteDocument;
@@ -136,7 +146,17 @@ export class InstituteMongoDTO {
       price: institute.price || 0,
       district_id: institute.district_id || '',
       photos: institute.photos || [],
-      events: institute.events || []
-    })
+      events: institute.eventsDetails.map((event: any) => ({
+        _id: event._id,
+        name: event.name || '',
+        banner_url: event.banner_url || '',
+        address: event.address || '',
+        price: event.price || 0,
+        description: event.description || '',
+        age_range: event.age_range || '',
+        event_date: event.event_date || new Date(),
+        features: event.features || []
+      })) || []
+    });
   }
 }
