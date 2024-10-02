@@ -122,4 +122,20 @@ export class InstituteMongoDTO {
 
     return instituteDocument as InstituteDocument;
   }
+
+  static fromMongo(institute: any): InstituteMongoDTO {
+    return new InstituteMongoDTO({
+      _id: institute.instituteId || '',
+      name: institute.instituteName,
+      logo_photo: institute.instituteLogoPhoto || '',
+      description: institute.instituteDescription,
+      institute_type: institute.instituteInstituteType,
+      partner_type: institute.institutePartnerType,
+      address: institute.instituteAddress || '',
+      price: institute.institutePrice || 0,
+      district_id: institute.instituteDistrictId || '',
+      photos: institute.institutePhotosUrl || [],
+      events: institute.instituteEventsId || []
+    })
+  }
 }
