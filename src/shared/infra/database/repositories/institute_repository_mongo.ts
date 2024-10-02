@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { connectDB } from "../models";
 import { IInstituteRepository } from "../../../domain/irepositories/institute_repository_interface";
 import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { IEvent } from "../models/event.model";
 
 export class InstituteRepositoryMongo implements IInstituteRepository {
   async createInstitute(institute: Institute): Promise<Institute> {
@@ -43,7 +44,22 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
       const instituteMongoClient =
         db.connections[0].db?.collection<IInstitute>("Institute");
 
-      const instituteDoc = await instituteMongoClient?.findOne({ _id: instituteId });
+      // const instituteDoc = await instituteMongoClient?.findOne({ _id: instituteId });
+      const instituteDocs = await instituteMongoClient?.aggregate([
+        {
+          $match: { _id: instituteId }  // Filtra o instituto pelo ID
+        },
+        {
+          $lookup: {
+            from: "Events",        // Coleção de eventos
+            localField: "events",  // Campo que contém os IDs dos eventos no documento de instituto
+            foreignField: "_id",   // Campo na coleção de eventos que corresponde ao ID dos eventos
+            as: "eventsDetails"    // Nome do campo que conterá os detalhes dos eventos
+          }
+        }
+      ]).toArray();
+      
+      const instituteDoc = instituteDocs ? instituteDocs[0] : null;
       if (!instituteDoc) {
         throw new NoItemsFound("institute");
       }
