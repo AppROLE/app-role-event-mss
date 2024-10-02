@@ -1,5 +1,4 @@
 import { INSTITUTE_TYPE } from "src/shared/domain/enums/institute_type_enum";
-import { Event } from "../../../shared/domain/entities/event";
 import { PARTNER_TYPE } from "src/shared/domain/enums/partner_type_enum";
 import { Institute } from "src/shared/domain/entities/institute";
 
@@ -52,13 +51,17 @@ export class GetAllInstitutesViewModel {
   private institutes: InstituteViewModel[];
 
   constructor(institutes: Institute[]) {
+    if (!institutes) {
+      throw new Error("Institutes array must not be undefined");
+    }
+    
     this.institutes = institutes.map((institute) => new InstituteViewModel(institute));
   }
 
   toJSON() {
     return {
-      events: this.institutes.map((institute) => institute.toJSON()),
+      institutes: this.institutes.map((institute) => institute.toJSON()),
       message: "All institutes have been retrieved successfully",
     };
-  }
+  }  
 }
