@@ -69,4 +69,24 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
       throw new Error(`Error creating institute on MongoDB: ${error}`);
     }
   }
+
+  async deleteInstituteById(instituteId: string): Promise<void> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      });
+
+      const instituteMongoClient =
+        db.connections[0].db?.collection<IEvent>("Institute");
+
+      const result = await instituteMongoClient?.deleteOne({ _id: instituteId });
+      if (!result?.deletedCount) {
+        throw new NoItemsFound("institute");
+      }
+    } catch (error: any) {
+      throw new Error(`Error creating institute on MongoDB: ${error}`);
+    }
+  }
 }
