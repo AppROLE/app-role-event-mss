@@ -10,7 +10,7 @@ const repo = Environments.getInstituteRepo();
 const usecase = new GetInstituteByIdUseCase(repo);
 const controller = new GetInstituteByIdController(usecase);
 
-export async function getEventByIdPresenter(event: Record<string, any>) {
+export async function getInstituteByIdPresenter(event: Record<string, any>) {
     const httpRequest = new LambdaHttpRequest(event);
     const response = await controller.handle(httpRequest);
     const httpResponse = new LambdaHttpResponse(
@@ -23,6 +23,6 @@ export async function getEventByIdPresenter(event: Record<string, any>) {
   }
   
   export async function lambda_handler(event: any, context: any) {
-    const response = await getEventByIdPresenter(event);
+    const response = await getInstituteByIdPresenter(event);
     return response;
   }
