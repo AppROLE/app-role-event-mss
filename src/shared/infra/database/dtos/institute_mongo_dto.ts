@@ -113,6 +113,7 @@ export class InstituteMongoDTO {
       logo_photo: instituteMongoDTO.logo_photo,
       description: instituteMongoDTO.description,
       institute_type: instituteMongoDTO.institute_type,
+      partner_type: instituteMongoDTO.partner_type,
       address: instituteMongoDTO.address,
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
