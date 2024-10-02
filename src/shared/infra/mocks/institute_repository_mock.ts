@@ -24,6 +24,10 @@ export class InstituteRepositoryMock implements IInstituteRepository {
     return Promise.resolve(institute);
   }
 
+  async getAllInstitutes(): Promise<Institute[]> {
+    return [...this.institutes];
+  }
+
   async deleteInstituteById(instituteId: string): Promise<void> {
     const eventIndex = this.institutes.findIndex(
       (institute) => institute.instituteId === instituteId
