@@ -4,13 +4,13 @@ export class GetInstituteByIdViewModel {
     private institute_id: string;
     private name: string;
     private logo_photo: string;
-    private events: any[];
+    private events_id: string[];
 
-    constructor(institute: any) {
+    constructor(institute: Institute) {
         this.institute_id = institute.instituteId ?? ''
         this.name = institute.instituteName
         this.logo_photo = institute.instituteLogoPhoto ?? ''
-        this.events = institute.events ?? []
+        this.events_id = institute.instituteEventsId ?? []
     }
 
     toJSON() {
@@ -18,7 +18,7 @@ export class GetInstituteByIdViewModel {
             institute_id: this.institute_id,
             name: this.name,
             logo_photo: this.logo_photo,
-            events_id: this.events
+            events_id: this.events_id
         }
     }
 }
