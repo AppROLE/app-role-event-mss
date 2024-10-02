@@ -4,6 +4,7 @@ import { InstituteMongoDTO } from "../dtos/institute_mongo_dto";
 import { v4 as uuidv4 } from "uuid";
 import { connectDB } from "../models";
 import { IInstituteRepository } from "../../../domain/irepositories/institute_repository_interface";
+import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 
 export class InstituteRepositoryMongo implements IInstituteRepository {
   async createInstitute(institute: Institute): Promise<Institute> {
@@ -27,6 +28,28 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
 
       return institute;
     } catch (error) {
+      throw new Error(`Error creating institute on MongoDB: ${error}`);
+    }
+  }
+
+  async getInstituteById(instituteId: string): Promise<Institute> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      });
+
+      const instituteMongoClient =
+        db.connections[0].db?.collection<IInstitute>("Institute");
+
+      const instituteDoc = await instituteMongoClient?.findOne({ _id: instituteId });
+      if (!instituteDoc) {
+        throw new NoItemsFound("institute");
+      }
+
+      return InstituteMongoDTO.toEntity(InstituteMongoDTO.fromMongo(instituteDoc));
+    } catch (error: any) {
       throw new Error(`Error creating institute on MongoDB: ${error}`);
     }
   }
