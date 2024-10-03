@@ -6,7 +6,6 @@ import { connectDB } from "../models";
 import { IEventRepository } from "../../../domain/irepositories/event_repository_interface";
 import { NoItemsFound } from "../../../../../src/shared/helpers/errors/usecase_errors";
 import { v4 as uuidv4 } from "uuid";
-import { NotFound } from "src/shared/helpers/external_interfaces/http_codes";
 
 export class EventRepositoryMongo implements IEventRepository {
   async createEvent(event: Event): Promise<Event> {
@@ -141,6 +140,32 @@ export class EventRepositoryMongo implements IEventRepository {
       }
     } catch (error) {
       throw new Error(`Error deleting event from MongoDB: ${error}`);
+    }
+  }
+
+  async updateEventPhoto(eventId: string, eventPhoto: string): Promise<string> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      });
+
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
+      const result = await eventMongoClient?.updateOne(
+        { _id: eventId },
+        { $set: { event_photo_link: eventPhoto } }
+      );
+
+      if (!result?.modifiedCount) {
+        throw new NoItemsFound("event");
+      }
+
+      return eventPhoto;
+    } catch (error) {
+      throw new Error(`Error updating event photo on MongoDB: ${error}`);
     }
   }
 }
