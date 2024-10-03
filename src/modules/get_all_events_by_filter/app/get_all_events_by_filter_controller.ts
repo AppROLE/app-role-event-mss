@@ -20,6 +20,8 @@ export class GetEventsByFilterController {
       const viewModel = new GetAllEventsByFilterViewModel(events);
       return new OK(viewModel.toJSON());
     } catch (error: any) {
+      console.log("ERROOOOO AQUI")
+      console.log(error);
       if (error instanceof NoItemsFound) {
         return new NotFound(error.message);
       }
