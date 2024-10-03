@@ -86,7 +86,7 @@ export class EventRepositoryMongo implements IEventRepository {
       const eventDocs = (await eventMongoClient?.find(query).toArray()) as IEvent[];
   
       if (!eventDocs || eventDocs.length === 0) {
-        throw new NoItemsFound("events");
+        throw new NoItemsFound("evento");
       }
   
       return eventDocs.map((eventDoc) =>
@@ -114,11 +114,14 @@ export class EventRepositoryMongo implements IEventRepository {
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
       if (!eventDoc) {
-        throw new NoItemsFound("event");
+        throw new NoItemsFound("evento");
       }
 
       return EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc));
     } catch (error) {
+      if (error instanceof NoItemsFound) {
+        throw new NotFound(error.message);
+      }
       throw new Error(`Error retrieving event by ID from MongoDB: ${error}`);
     }
   }
