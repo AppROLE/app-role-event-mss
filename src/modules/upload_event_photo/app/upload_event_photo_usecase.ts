@@ -1,0 +1,34 @@
+import { IEventRepository } from "src/shared/domain/irepositories/event_repository_interface";
+import { IFileRepository } from "src/shared/domain/irepositories/file_repository_interface";
+import { Environments } from "src/shared/environments";
+import { EntityError } from "src/shared/helpers/errors/domain_errors";
+import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+
+export class UploadEventPhotoUseCase {
+  constructor(
+    private readonly mongoRepo: IEventRepository,
+    private readonly fileRepo: IFileRepository
+  ) {}
+
+  async execute(
+    eventId: string,
+    profilePhoto: Buffer,
+    extensionName: string,
+    mimetype: string
+  ) {
+    const event = await this.mongoRepo.getEventById(eventId);
+
+    if (!event) {
+      throw new NoItemsFound("Evento");
+    }
+
+    const imageKey = `${eventId}-${event.getEventName}${extensionName}`;
+
+    await this.fileRepo.uploadEventPhoto(imageKey, profilePhoto, mimetype);
+
+    await this.mongoRepo.updateEventPhoto(
+      eventId,
+      `${Environments.getEnvs().cloudFrontUrl}/${imageKey}`
+    );
+  }
+}
