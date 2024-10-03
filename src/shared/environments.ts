@@ -6,6 +6,8 @@ import { EventRepositoryMongo } from "./infra/database/repositories/event_reposi
 import { PhraseRepositoryMongo } from "./infra/database/repositories/phrase_repository_mongo";
 import { InstituteRepositoryMongo } from "./infra/database/repositories/institute_repository_mongo";
 import { IInstituteRepository } from "./domain/irepositories/institute_repository_interface";
+import { FileRepositoryS3 } from "./infra/external-services/file_repository_s3";
+import { IFileRepository } from "./domain/irepositories/file_repository_interface";
 
 export class Environments {
   stage: STAGE = STAGE.TEST;
@@ -88,6 +90,18 @@ export class Environments {
       return new InstituteRepositoryMongo();
     } else {
       throw new Error("Invalid STAGE");
+    }  
+  }
+
+  static getFileRepo(): IFileRepository {
+    console.log('Environments.getEnvs().stage - [ENVIRONMENTS - { GET FILE REPO }] - ', Environments.getEnvs().stage)
+
+    if (Environments.getEnvs().stage === STAGE.TEST) {
+      throw new Error('Invalid STAGE')
+    } else if (Environments.getEnvs().stage === STAGE.DEV || Environments.getEnvs().stage === STAGE.PROD) {
+      return new FileRepositoryS3(Environments.getEnvs().s3BucketName.toLowerCase())
+    } else {
+      throw new Error('Invalid STAGE')
     }
   }
 
