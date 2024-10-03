@@ -18,6 +18,7 @@ interface EventProps {
   eventStatus: STATUS;
   musicType?: MUSIC_TYPE[];
   menuLink?: string;
+  eventPhotoLink?: string;
   galeryLink?: string[];
   bannerUrl?: string;
   features?: FEATURE[];
@@ -40,6 +41,7 @@ export class Event {
   private eventStatus: STATUS;
   private musicType?: MUSIC_TYPE[];
   private menu_link?: string;
+  private event_photo_link?: string;
   private galery_link?: string[];
   private features_list: string[];
   private packageType?: PACKAGE_TYPE[];
@@ -63,6 +65,7 @@ export class Event {
     this.eventStatus = props.eventStatus;
     this.musicType = props.musicType;
     this.menu_link = props.menuLink;
+    this.event_photo_link = props.eventPhotoLink;
     this.galery_link = props.galeryLink;
     this.bannerUrl = props.bannerUrl;
     this.features_list = props.features || [];
@@ -133,6 +136,10 @@ export class Event {
 
   get getMenuLink(): string | undefined {
     return this.menu_link;
+  }
+
+  get getEventPhotoLink(): string | undefined {
+    return this.event_photo_link;
   }
 
   get getGaleryLink(): string[] | undefined {
@@ -213,6 +220,11 @@ export class Event {
     this.menu_link = menuLink;
   }
 
+  set setEventPhotoLink(eventPhotoLink: string) {
+    this.validateMenuLink(eventPhotoLink);
+    this.event_photo_link = eventPhotoLink;
+  }
+
   set setGaleryLink(galeryLink: string[]) {
     this.galery_link = galeryLink;
   }
@@ -242,6 +254,9 @@ export class Event {
     }
     if (props.menuLink) {
       this.validateMenuLink(props.menuLink);
+    }
+    if (props.eventPhotoLink) {
+      this.validateMenuLink(props.eventPhotoLink);
     }
     if (props.packageType) {
       props.packageType.forEach((type) => {
