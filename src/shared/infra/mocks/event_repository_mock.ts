@@ -20,6 +20,71 @@ export class EventRepositoryMock implements IEventRepository {
     return [...this.events];
   }
 
+  async getEventsByFilter(filter: any): Promise<Event[]> {
+    if (!filter || Object.keys(filter).length === 0) {
+      return [...this.events];
+    }
+
+    const filteredEvents = this.events.filter((event) => {
+      let matches = true;
+
+      if (filter.name && event.getEventName !== filter.name) {
+        matches = false;
+      }
+      if (filter.institute_id && event.getInstituteId !== filter.institute_id) {
+        matches = false;
+      }
+      if (filter.price && event.getEventPrice !== filter.price) {
+        matches = false;
+      }
+      if (filter.address && event.getEventAddress !== filter.address) {
+        matches = false;
+      }
+      if (filter.age_range && event.getEventAgeRange !== filter.age_range) {
+        matches = false;
+      }
+      if (
+        filter.event_date &&
+        new Date(event.getEventDate).toISOString() !==
+          new Date(filter.event_date).toISOString()
+      ) {
+        matches = false;
+      }
+      if (
+        filter.district_id &&
+        event.getEventDistrictId !== filter.district_id
+      ) {
+        matches = false;
+      }
+      if (
+        filter.music_type &&
+        !event.getMusicType?.some((type) => filter.music_type.includes(type))
+      ) {
+        matches = false;
+      }
+      if (
+        filter.features &&
+        !event.getFeatures?.some((feature) => filter.features.includes(feature))
+      ) {
+        matches = false;
+      }
+      if (filter.category && event.getCategoryType !== filter.category) {
+        matches = false;
+      }
+      if (filter.ticket_url && event.getTicketUrl !== filter.ticket_url) {
+        matches = false;
+      }
+
+      return matches;
+    });
+
+    if (filteredEvents.length === 0) {
+      throw new NoItemsFound("evento");
+    }
+
+    return filteredEvents;
+  }
+
   async getEventById(eventId: string): Promise<Event> {
     const event = this.events.find((event) => event.getEventId === eventId);
     if (!event) {
