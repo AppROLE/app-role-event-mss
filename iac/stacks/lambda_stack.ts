@@ -14,6 +14,7 @@ export class LambdaStack extends Construct {
 
   createEventFunction: lambda.Function
   getAllEventsFunction: lambda.Function
+  getAllEventsByFilterFunction: lambda.Function
   getEventByIdFunction: lambda.Function
   deleteEventByIdFunction: lambda.Function 
 
@@ -74,6 +75,7 @@ export class LambdaStack extends Construct {
     // auth routes
     this.createEventFunction = this.createLambdaApiGatewayIntegration('create_event', 'POST', apiGatewayResource, environmentVariables)
     this.getAllEventsFunction = this.createLambdaApiGatewayIntegration('get_all_events', 'GET', apiGatewayResource, environmentVariables)
+    this.getAllEventsByFilterFunction = this.createLambdaApiGatewayIntegration('get_all_events_by_filter', 'GET', apiGatewayResource, environmentVariables)
     this.getEventByIdFunction = this.createLambdaApiGatewayIntegration('get_event_by_id', 'GET', apiGatewayResource, environmentVariables)
     this.deleteEventByIdFunction = this.createLambdaApiGatewayIntegration('delete_event_by_id', 'DELETE', apiGatewayResource, environmentVariables)
     
