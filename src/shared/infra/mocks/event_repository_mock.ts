@@ -102,4 +102,16 @@ export class EventRepositoryMock implements IEventRepository {
     }
     this.events.splice(eventIndex, 1);
   }
+
+  async updateEventPhoto(
+    eventId: string,
+    profilePhoto: string
+  ): Promise<string> {
+    const event = this.events.find((event) => event.getEventId === eventId);
+    if (!event) {
+      throw new NoItemsFound("event");
+    }
+    event.setEventPhotoLink = profilePhoto;
+    return profilePhoto;
+  }
 }
