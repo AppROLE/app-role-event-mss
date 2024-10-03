@@ -13,7 +13,7 @@ export class GetEventsByFilterController {
 
   async handle(req: IRequest): Promise<any> {
     try {
-      const filters = req.data.body;
+      const filters = req.data;
 
       const events = await this.usecase.execute(filters);
 
