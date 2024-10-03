@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { IEventRepository } from "../../src/shared/domain/irepositories/event_repository_interface";
-import { GetEventsByFilterUseCase } from "../../src/modules/get_event_by_filter/app/get_all_events_by_filter_usecase";
+import { GetEventsByFilterUseCase } from "../../src/modules/get_all_events_by_filter/app/get_all_events_by_filter_usecase";
 import { EventRepositoryMock } from "../../src/shared/infra/mocks/event_repository_mock";
 import { NoItemsFound } from "../../src/shared/helpers/errors/usecase_errors";
 
