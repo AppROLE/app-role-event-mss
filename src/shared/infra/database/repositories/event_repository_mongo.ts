@@ -6,6 +6,7 @@ import { connectDB } from "../models";
 import { IEventRepository } from "../../../domain/irepositories/event_repository_interface";
 import { NoItemsFound } from "../../../../../src/shared/helpers/errors/usecase_errors";
 import { v4 as uuidv4 } from "uuid";
+import { NotFound } from "src/shared/helpers/external_interfaces/http_codes";
 
 export class EventRepositoryMongo implements IEventRepository {
   async createEvent(event: Event): Promise<Event> {
@@ -92,6 +93,9 @@ export class EventRepositoryMongo implements IEventRepository {
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
     } catch (error) {
+      if (error instanceof NoItemsFound) {
+        throw new NotFound(error.message);
+      }
       throw new Error(`Erro ao buscar eventos com filtro no MongoDB: ${error}`);
     }
   }
