@@ -16,6 +16,7 @@ export interface EventMongoDTOProps {
   features: string[];
   music_type: string[];
   menu_link: string;
+  event_photo_link?: string;
   galery_link: string[];
   package_type?: string[];
   category?: string;
@@ -36,6 +37,7 @@ export class EventMongoDTO {
   private features: string[];
   private music_type: string[];
   private menu_link: string;
+  private event_photo_link?: string;
   private galery_link: string[];
   private package_type: string[];
   private category?: string;
@@ -55,6 +57,7 @@ export class EventMongoDTO {
     this.features = props.features;
     this.music_type = props.music_type;
     this.menu_link = props.menu_link;
+    this.event_photo_link = props.event_photo_link || "";
     this.galery_link = props.galery_link;
     this.package_type = props.package_type || [];
     this.category = props.category;
@@ -76,6 +79,7 @@ export class EventMongoDTO {
       features: eventDoc.features,
       music_type: eventDoc.music_type,
       menu_link: eventDoc.menu_link,
+      event_photo_link: eventDoc.event_photo_link,
       galery_link: eventDoc.galery_link,
       package_type: eventDoc.package_type,
       category: eventDoc.category,
@@ -93,6 +97,7 @@ export class EventMongoDTO {
       ageRange: eventMongoDTO.age_range,
       eventDate: eventMongoDTO.event_date,
       districtId: eventMongoDTO.district_id,
+      eventPhotoLink: eventMongoDTO.event_photo_link,
       instituteId: eventMongoDTO.institute_id,
       eventStatus: STATUS.ACTIVE,
       bannerUrl: eventMongoDTO.banner_url,
@@ -115,6 +120,7 @@ export class EventMongoDTO {
       features: event.getFeatures,
       music_type: event.getMusicType || [],
       menu_link: event.getMenuLink || "",
+      event_photo_link: event.getEventPhotoLink || "",
       galery_link: event.getGaleryLink || [],
       package_type: event.getPackageType || [],
       category: event.getCategoryType,
@@ -137,6 +143,7 @@ export class EventMongoDTO {
       features: eventMongoDTO.features,
       music_type: eventMongoDTO.music_type,
       menu_link: eventMongoDTO.menu_link,
+      event_photo_link: eventMongoDTO.event_photo_link,
       galery_link: eventMongoDTO.galery_link,
       package_type: eventMongoDTO.package_type,
       category: eventMongoDTO.category,
