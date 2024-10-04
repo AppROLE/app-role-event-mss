@@ -5,6 +5,7 @@ import { Stack, StackProps } from "aws-cdk-lib";
 import { envs } from "../../src/shared/helpers/envs/envs";
 import { Cors, RestApi, CognitoUserPoolsAuthorizer } from "aws-cdk-lib/aws-apigateway";
 import * as cognito from "aws-cdk-lib/aws-cognito";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 export class IacStack extends Stack {
   constructor(scope: Construct, constructId: string, props?: StackProps) {
@@ -60,5 +61,15 @@ export class IacStack extends Stack {
       environmentVariables,
       authorizer
     );
+
+    const s3Policy = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ["s3:*"],
+      resources: [`arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}/*`],
+    });
+
+    for (const fn of lambdaStack.functionsThatNeedS3Permissions) {
+      fn.addToRolePolicy(s3Policy);
+    }
   }
 }
