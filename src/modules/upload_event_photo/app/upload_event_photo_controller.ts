@@ -11,7 +11,7 @@ import { MissingParameters } from "src/shared/helpers/errors/controller_errors";
 import { UploadEventPhotoViewmodel } from "./upload_event_photo_viewmodel";
 import { UploadEventPhotoUseCase } from "./upload_event_photo_usecase";
 
-export class UploadProfilePhotoController {
+export class UploadEventPhotoController {
   constructor(private readonly usecase: UploadEventPhotoUseCase) {}
 
   async handle(request: IRequest, formData: any) {
