@@ -46,6 +46,11 @@ export class IacStack extends Stack {
       identitySource: "method.request.header.Authorization",
     });
 
+    let cloudFrontUrl = ""
+    if (stage === "DEV") cloudFrontUrl = envs.CLOUD_FRONT_URL_DEV;
+    if (stage === "PROD") cloudFrontUrl = envs.CLOUD_FRONT_URL_PROD;
+    if (stage === "HOMOLOG") cloudFrontUrl = envs.CLOUD_FRONT_URL_HOMOLOG;
+
     const environmentVariables = {
       STAGE: stage,
       NODE_PATH: "/var/task:/opt/nodejs",
@@ -53,6 +58,7 @@ export class IacStack extends Stack {
       EMAIL_PASSWORD: envs.EMAIL_PASSWORD,
       MONGO_URI: envs.MONGO_URI,
       S3_BUCKET_NAME: envs.S3_BUCKET_NAME + stage.toLowerCase(),
+      CLOUD_FRONT_URL: cloudFrontUrl,
     };
 
     const lambdaStack = new LambdaStack(
