@@ -3,6 +3,7 @@ import { IPresence } from "../models/presence.model";
 import { Model } from "mongoose";
 import { IPresenceRepository } from "src/shared/domain/irepositories/presence_repository_interface";
 import { connectDB } from "../models";
+import { PresenceMongoDTO } from "../dtos/presence_mongo_dto";
 
 export class PresenceRepositoryMongo implements IPresenceRepository {
 
@@ -24,14 +25,48 @@ export class PresenceRepositoryMongo implements IPresenceRepository {
     return presences.map((presenceDoc) => {
       return new Presence({
         id: presenceDoc._id,
-        userId: presenceDoc.user_id,
         eventId: presenceDoc.event_id,
         username: presenceDoc.username,
         nickname: presenceDoc.nickname,
         profilePhoto: presenceDoc.profile_photo,
         promoterCode: presenceDoc.promoter_code,
-        checkedInAt: presenceDoc.checked_in_at
+        checkedInAt: presenceDoc.checked_in_at || new Date()
       });
     });
+  }
+
+  async confirmPresence(
+    eventId: string,
+    username: string,
+    nickname: string,
+    profilePhoto?: string,
+    promoterCode?: string
+  ): Promise<void> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      })
+
+      const presenceMongoClient = db.connections[0].db?.collection<IPresence>("Presence");
+
+      const dto = PresenceMongoDTO.fromEntity(new Presence({
+        eventId,
+        username,
+        nickname,
+        profilePhoto,
+        promoterCode,
+        checkedInAt: new Date()
+      }));
+
+      const presenceDocFromDto = PresenceMongoDTO.toMongo(dto)
+
+      await presenceMongoClient?.insertOne(presenceDocFromDto);
+
+    } catch (error) {
+      console.error(error);
+      throw new Error("Error confirming presence");
+    }
   }
 }
