@@ -94,7 +94,9 @@ export class LambdaStack extends Construct {
     // presence routes
     this.getAllPresencesByEventIdFunction = this.createLambdaApiGatewayIntegration('get_all_presences_by_event_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
 
-    this.functionsThatNeedS3Permissions = []
+    this.functionsThatNeedS3Permissions = [
+      this.uploadEventPhotoFunction
+    ]
 
     this.functionsThatNeedCognitoPermissions = [
       // this.signUpFunction,
