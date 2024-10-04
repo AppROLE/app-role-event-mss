@@ -1,8 +1,8 @@
 import { IRequest } from "src/shared/helpers/external_interfaces/external_interface";
 import { GetAllPresencesByEventIdUseCase } from "./get_all_presences_by_event_id_usecase";
 import { MissingParameters, WrongTypeParameters } from "src/shared/helpers/errors/controller_errors";
-import { BadRequest, NotFound, OK, Unauthorized } from "src/shared/helpers/external_interfaces/http_codes";
-import { getAllPresencesByEventIdViewmodel } from "./get_all_presences_by_event_id_viewmodel";
+import { BadRequest, InternalServerError, NotFound, OK, Unauthorized } from "src/shared/helpers/external_interfaces/http_codes";
+import { GetAllPresencesByEventIdViewmodel } from "./get_all_presences_by_event_id_viewmodel";
 import { EntityError } from "src/shared/helpers/errors/domain_errors";
 import { ForbiddenAction, NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 import { UserAPIGatewayDTO } from "src/shared/infra/dto/user_api_gateway_dto";
@@ -27,7 +27,7 @@ export class GetAllPresencesByEventIdController {
         return new OK({ message: "Nenhuma presença encontrada" });
       }
 
-      const viewmodel = new getAllPresencesByEventIdViewmodel(presences);
+      const viewmodel = new GetAllPresencesByEventIdViewmodel(presences);
 
       return new OK(viewmodel.toJSON());
     } catch (error) {
@@ -42,6 +42,9 @@ export class GetAllPresencesByEventIdController {
       }
       if (error instanceof ForbiddenAction) {
         return new Unauthorized(error.message)
+      }
+      if (error instanceof Error) {
+        return new InternalServerError(error.message)
       }
     }
 
