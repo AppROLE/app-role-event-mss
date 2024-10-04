@@ -39,8 +39,8 @@ export class Environments {
       this.s3BucketName = "bucket-test";
       this.region = "sa-east-1";
     } else {
-      this.s3BucketName = (envs.S3_BUCKET_NAME.toLowerCase() +
-        envs.STAGE.toLowerCase()) as string;
+      this.s3BucketName = envs.S3_BUCKET_NAME.toLowerCase() +
+        envs.STAGE.toLowerCase() as string;
       this.region = envs.AWS_REGION as string;
       this.mongoUri = envs.MONGO_URI as string;
     }
