@@ -42,6 +42,7 @@ export class Environments {
       this.s3BucketName = envs.S3_BUCKET_NAME.toLowerCase()
       this.region = envs.AWS_REGION as string;
       this.mongoUri = envs.MONGO_URI as string;
+      this.cloudFrontUrl = envs.CLOUD_FRONT_URL as string;
     }
   }
 
