@@ -13,6 +13,9 @@ declare namespace NodeJS {
       AWS_COGNITO_USER_POOL_ID_DEV: string;
       AWS_COGNITO_USER_POOL_ID_PROD: string;
       AWS_COGNITO_USER_POOL_ID_HOMOLOG: string;
+      CLOUD_FRONT_URL_DEV: string;
+      CLOUD_FRONT_URL_PROD: string;
+      CLOUD_FRONT_URL_HOMOLOG: string;
 
     }
   }
