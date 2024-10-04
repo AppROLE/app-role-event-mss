@@ -15,6 +15,7 @@ export class FileRepositoryS3 implements IFileRepository {
   ): Promise<void> {
     try {
       const s3 = new S3();
+      console.log("s3BucketName: ", this.s3BucketName);
       const params: S3.PutObjectRequest = {
         Bucket: this.s3BucketName,
         Key: imageNameKey,
