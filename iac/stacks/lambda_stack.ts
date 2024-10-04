@@ -25,6 +25,8 @@ export class LambdaStack extends Construct {
 
   getPhrase: lambda.Function
 
+  getAllPresencesByEventIdFunction: lambda.Function
+
   createLambdaApiGatewayIntegration(
     moduleName: string, 
     method: string, 
@@ -86,6 +88,9 @@ export class LambdaStack extends Construct {
     this.deleteInstituteByIdFunction = this.createLambdaApiGatewayIntegration('delete_institute_by_id', 'DELETE', apiGatewayResource, environmentVariables)
 
     this.getPhrase = this.createLambdaApiGatewayIntegration('get_phrase', 'GET', apiGatewayResource, environmentVariables)
+
+    // presence routes
+    this.getAllPresencesByEventIdFunction = this.createLambdaApiGatewayIntegration('get_all_presences_by_event_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
 
     this.functionsThatNeedS3Permissions = []
 
