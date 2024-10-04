@@ -8,6 +8,8 @@ import { InstituteRepositoryMongo } from "./infra/database/repositories/institut
 import { IInstituteRepository } from "./domain/irepositories/institute_repository_interface";
 import { FileRepositoryS3 } from "./infra/external-services/file_repository_s3";
 import { IFileRepository } from "./domain/irepositories/file_repository_interface";
+import { IPresenceRepository } from "./domain/irepositories/presence_repository_interface";
+import { PresenceRepositoryMongo } from "./infra/database/repositories/presence_repository_mongo";
 
 export class Environments {
   stage: STAGE = STAGE.TEST;
@@ -54,6 +56,7 @@ export class Environments {
       throw new Error("Invalid STAGE");
     } else if (
       Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.HOMOLOG ||
       Environments.getEnvs().stage === STAGE.PROD
     ) {
       return new EventRepositoryMongo();
@@ -72,6 +75,7 @@ export class Environments {
       throw new Error("Invalid STAGE");
     } else if (
       Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.HOMOLOG ||
       Environments.getEnvs().stage === STAGE.PROD
     ) {
       return new PhraseRepositoryMongo();
@@ -85,6 +89,7 @@ export class Environments {
       throw new Error("Invalid STAGE");
     } else if (
       Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.HOMOLOG ||
       Environments.getEnvs().stage === STAGE.PROD
     ) {
       return new InstituteRepositoryMongo();
@@ -102,6 +107,21 @@ export class Environments {
       return new FileRepositoryS3(Environments.getEnvs().s3BucketName.toLowerCase())
     } else {
       throw new Error('Invalid STAGE')
+    }
+  }
+
+  static getPresenceRepo(): IPresenceRepository {
+    if (Environments.getEnvs().stage === STAGE.TEST) {
+      throw new Error("Invalid STAGE");
+    }
+    else if (
+      Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.PROD
+    ) {
+      return new PresenceRepositoryMongo();
+    } else {
+      throw new Error("Invalid STAGE");
     }
   }
 
