@@ -55,6 +55,9 @@ jobs:
           echo AWS_COGNITO_USER_POOL_ID_DEV=${{ secrets.AWS_COGNITO_USER_POOL_ID_DEV }} >> $GITHUB_ENV
           echo AWS_COGNITO_USER_POOL_ID_PROD=${{ secrets.AWS_COGNITO_USER_POOL_ID_PROD }} >> $GITHUB_ENV
           echo AWS_COGNITO_USER_POOL_ID_HOMOLOG=${{ secrets.AWS_COGNITO_USER_POOL_ID_HOMOLOG }} >> $GITHUB_ENV
+          echo CLOUD_FRONT_URL_DEV=${{ secrets.CLOUD_FRONT_URL_DEV }} >> $GITHUB_ENV
+          echo CLOUD_FRONT_URL_PROD=${{ secrets.CLOUD_FRONT_URL_PROD }} >> $GITHUB_ENV
+          echo CLOUD_FRONT_URL_HOMOLOG=${{ secrets.CLOUD_FRONT_URL_HOMOLOG }} >> $GITHUB_ENV
 
       - name: CDK Bootstrap
         run: |
@@ -83,3 +86,6 @@ jobs:
           AWS_COGNITO_USER_POOL_ID_DEV: ${{ secrets.AWS_COGNITO_USER_POOL_ID_DEV }}
           AWS_COGNITO_USER_POOL_ID_PROD: ${{ secrets.AWS_COGNITO_USER_POOL_ID_PROD }}
           AWS_COGNITO_USER_POOL_ID_HOMOLOG: ${{ secrets.AWS_COGNITO_USER_POOL_ID_HOMOLOG }}
+          CLOUD_FRONT_URL_DEV: ${{ secrets.CLOUD_FRONT_URL_DEV }}
+          CLOUD_FRONT_URL_PROD: ${{ secrets.CLOUD_FRONT_URL_PROD }}
+          CLOUD_FRONT_URL_HOMOLOG: ${{ secrets.CLOUD_FRONT_URL_HOMOLOG }}
