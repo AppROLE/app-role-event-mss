@@ -1,37 +1,32 @@
 import { EntityError } from "src/shared/helpers/errors/domain_errors";
 
 interface PresenceProps {
-  id: string,
-  userId: string,
+  id?: string,
   eventId: string,
   username: string,
   nickname: string,
-  profilePhoto: string,
+  profilePhoto?: string,
   promoterCode?: string,
-  checkedInAt?: Date
+  checkedInAt: Date
 }
 
-
-
 export class Presence {
-  private _id: string;
-  private _userId: string;
+  private _id?: string;
   private _eventId: string;
   private _username: string;
   private _nickname: string;
-  private _profilePhoto: string;
+  private _profilePhoto?: string;
   private _promoterCode?: string;
-  private _checkedInAt?: Date;
+  private _checkedInAt: Date;
 
   constructor(props: PresenceProps) {
     this._id = props.id
-    this._userId = props.userId;
     this._eventId = props.eventId;
     if (!Presence.validateUsername(props.username)) {
       throw new EntityError('username');
     }
     this._username = props.username;
-    if (!Presence.validateProfilePhoto(props.profilePhoto)) {
+    if (props.profilePhoto && !Presence.validateProfilePhoto(props.profilePhoto)) {
       throw new EntityError('profilePhoto');
     }
     this._profilePhoto = props.profilePhoto;
@@ -46,20 +41,12 @@ export class Presence {
     this._checkedInAt = props.checkedInAt;
   }
 
-  get id() {
+  get id(): string | undefined {
     return this._id;
   }
 
   set id(id: string) {
     this._id = id;
-  }
-
-  get userId() {
-    return this._userId;
-  }
-
-  set userId(userId: string) {
-    this._userId = userId;
   }
 
   get eventId() {
@@ -78,7 +65,7 @@ export class Presence {
     this._username = username;
   }
 
-  get profilePhoto() {
+  get profilePhoto(): string | undefined {
     return this._profilePhoto;
   }
 
@@ -102,7 +89,7 @@ export class Presence {
     this._promoterCode = promoterCode;
   }
 
-  get checkedInAt(): Date | undefined {
+  get checkedInAt(): Date {
     return this._checkedInAt
   }
 
