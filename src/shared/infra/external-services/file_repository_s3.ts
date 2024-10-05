@@ -22,7 +22,11 @@ export class FileRepositoryS3 implements IFileRepository {
         Body: eventPhoto,
         ContentType: mimetype,
       };
-
+      console.log("Mimetype da imagem:", mimetype);
+      console.log("Nome da imagem:", imageNameKey);
+      console.log("Bucket da imagem:", this.s3BucketName);
+      console.log("Tamanho do buffer do arquivo:", eventPhoto.length);
+      
       await s3.putObject(params).promise();
 
     } catch (error: any) {
