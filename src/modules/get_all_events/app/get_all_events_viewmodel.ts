@@ -14,6 +14,7 @@ export class EventViewModel {
   private features: string[];
   private musicType?: string[];
   private menuLink?: string;
+  private eventPhotoLink?: string;
   private galeryLink?: string[];
   private packageType?: string[];
   private category?: string;
@@ -33,6 +34,7 @@ export class EventViewModel {
     this.features = event.getFeatures;
     this.musicType = event.getMusicType;
     this.menuLink = event.getMenuLink;
+    this.eventPhotoLink = event.getEventPhotoLink;
     this.galeryLink = event.getGaleryLink;
     this.packageType = event.getPackageType;
     this.category = event.getCategoryType;
@@ -54,6 +56,7 @@ export class EventViewModel {
       features: this.features,
       musicType: this.musicType,
       menuLink: this.menuLink,
+      eventPhotoLink: this.eventPhotoLink,
       galeryLink: this.galeryLink,
       packageType: this.packageType,
       category: this.category,
