@@ -21,14 +21,14 @@ export class FileRepositoryS3 implements IFileRepository {
         Key: imageNameKey,
         Body: eventPhoto,
         ContentType: mimetype,
+        ACL: "public-read",
       };
       console.log("Mimetype da imagem:", mimetype);
       console.log("Nome da imagem:", imageNameKey);
       console.log("Bucket da imagem:", this.s3BucketName);
       console.log("Tamanho do buffer do arquivo:", eventPhoto.length);
-      
-      await s3.putObject(params).promise();
 
+      await s3.putObject(params).promise();
     } catch (error: any) {
       throw new Error(
         `FileRepositoryS3, Error on uploadEventPhoto: ${error.message}`
