@@ -1,5 +1,5 @@
 import Busboy from "busboy";
-import fs from "fs"; 
+import fs from "fs";
 
 export async function parseMultipartFormData(
   request: Record<string, any>
@@ -42,7 +42,7 @@ export async function parseMultipartFormData(
 
       file.on("data", (chunk: Buffer) => {
         console.log(`Recebendo dados do arquivo: ${filename}`);
-        chunks.push(Buffer.from(chunk));
+        chunks.push(chunk);
       });
 
       file.on("end", () => {
