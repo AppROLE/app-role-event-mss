@@ -1,11 +1,12 @@
 import Busboy from "busboy";
+import fs from "fs"; 
 
 export async function parseMultipartFormData(
   request: Record<string, any>
 ): Promise<Record<string, any>> {
   const contentType =
     request.headers["content-type"] || request.headers["Content-Type"];
-  
+
   if (!contentType || !contentType.includes("multipart/form-data")) {
     throw new Error("Content-Type da requisição não é multipart/form-data");
   }
@@ -31,18 +32,31 @@ export async function parseMultipartFormData(
     busboy.on("file", (fieldname: any, file: any, infos: any) => {
       console.log("Form-data info: ", infos);
       const { filename, encoding, mimeType } = infos;
-      console.log(`Recebendo arquivo: ${fieldname} (${filename}) com mimetype: ${mimeType}`);
+      console.log(
+        `Recebendo arquivo: ${fieldname} (${filename}) com mimetype: ${mimeType}`
+      );
+
+      file.setEncoding("binary");
 
       const chunks: Buffer[] = [];
 
       file.on("data", (chunk: Buffer) => {
         console.log(`Recebendo dados do arquivo: ${filename}`);
-        chunks.push(chunk);
+        chunks.push(Buffer.from(chunk));
       });
 
       file.on("end", () => {
         const completeFile = Buffer.concat(chunks);
-        console.log(`Arquivo recebido: ${filename}, tamanho: ${completeFile.length} bytes`);
+        console.log(
+          `Arquivo recebido: ${filename}, tamanho: ${completeFile.length} bytes`
+        );
+
+        const tmpFilePath = `/tmp/${filename}`;
+        fs.writeFileSync(tmpFilePath, completeFile);
+        console.log(
+          `Arquivo salvo temporariamente para depuração em: ${tmpFilePath}`
+        );
+
         result.files.push({
           fieldname,
           filename,
