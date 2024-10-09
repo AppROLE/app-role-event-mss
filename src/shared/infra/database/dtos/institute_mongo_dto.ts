@@ -146,17 +146,7 @@ export class InstituteMongoDTO {
       price: institute.price || 0,
       district_id: institute.district_id || '',
       photos: institute.photos || [],
-      events: institute.eventsDetails.map((event: any) => ({
-        _id: event._id,
-        name: event.name || '',
-        banner_url: event.banner_url || '',
-        address: event.address || '',
-        price: event.price || 0,
-        description: event.description || '',
-        age_range: event.age_range || '',
-        event_date: event.event_date || new Date(),
-        features: event.features || []
-      })) || []
+      events: institute.events || []
     });
   }
 }
