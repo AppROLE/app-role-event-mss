@@ -11,6 +11,9 @@ export class InstituteRepositoryMock implements IInstituteRepository {
     const instituteMock = new InstituteMock();
     this.institutes = instituteMock.institutes;
   }
+  updateInstitutePhoto(name: string, institutePhoto: string): Promise<string> {
+    throw new Error("Method not implemented.");
+  }
 
   createInstitute(institute: Institute): Promise<Institute> {
     this.institutes.push(institute);
