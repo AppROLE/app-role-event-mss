@@ -30,4 +30,22 @@ export class FileRepositoryS3 implements IFileRepository {
       );
     }
   }
+
+  async uploadInstitutePhoto(
+    imageNameKey: string,
+    institutePhoto: Buffer,
+    mimetype: string
+  ): Promise<string> {
+    const s3 = new S3();
+      const params: S3.PutObjectRequest = {
+        Bucket: this.s3BucketName,
+        Key: imageNameKey,
+        Body: institutePhoto,
+        ContentType: mimetype,
+      };
+
+      await s3.putObject(params).promise();
+
+      return `https://${this.s3BucketName}.s3.amazonaws.com/${imageNameKey}`;
+  }
 }
