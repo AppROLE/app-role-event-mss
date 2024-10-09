@@ -156,4 +156,32 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
       throw new Error(`Error getting institute on Mongo: ${error}`)
     }
   }
+
+  async updateInstitutePhoto(name: string, institutePhoto: string): Promise<string> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on('error', () => {
+        console.error.bind(console, 'connection error:')
+        throw new Error('Error connecting to MongoDB');
+      });
+
+      const instituteMongoClient = db.connections[0].db?.collection<IInstitute>('Institute');
+
+      const instituteDoc = await instituteMongoClient?.findOne({ name });
+
+      if (!instituteDoc) {
+        throw new NoItemsFound('name');
+      }
+
+      instituteDoc.logo_photo = institutePhoto;
+
+      const respMongo = await instituteMongoClient?.updateOne({ name }, { $set: instituteDoc });
+      console.log('MONGO REPO USER RESPMONGO: ', respMongo);
+
+      return institutePhoto;
+
+    } catch (error) {
+      throw new Error(`Error updating profile photo on MongoDB: ${error}`);
+    }
+  }
 }
