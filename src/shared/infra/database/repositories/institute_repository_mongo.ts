@@ -142,6 +142,9 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
         InstituteMongoDTO.toEntity(InstituteMongoDTO.fromMongo(institute))
       );
     } catch (error: any) {
+      if (error instanceof NoItemsFound) {
+        throw new NoItemsFound(error.message);
+      }
       throw new Error(`Error getting institute on Mongo: ${error}`)
     }
   }

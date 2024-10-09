@@ -34,7 +34,7 @@ export class GetAllInstitutesByPartnerTypeController {
             }
             if (error instanceof Error) {
                 return new InternalServerError(
-                `GetEventsByFilterController, Error on handle: ${error.message}`
+                `GetAllInstitutesByPartnerTypeController, Error on handle: ${error.message}`
                 );
             }
         }
