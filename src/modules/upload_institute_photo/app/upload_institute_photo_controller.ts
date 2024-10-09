@@ -45,6 +45,9 @@ export class UploadInstitutePhotoController {
             if (error instanceof NoItemsFound) {
                 return new NotFound(error.message)
             }
+            if (error instanceof MissingParameters) {
+                return new BadRequest(error.message)
+            }
             if (error instanceof Error) {
                 return new InternalServerError("Internal Server Error, error: " + error.message)
             }
