@@ -26,6 +26,9 @@ export class GetAllInstitutesByPartnerTypeController {
             const viewmodel = new GetAllInstitutesByPartnerTypeViewModel(institutes);
             return new OK(viewmodel.toJSON());    
         } catch (error: any) {
+            if (error instanceof WrongTypeParameters) {
+                return new NotFound(error.message);
+            }
             if (error instanceof NoItemsFound) {
                 return new NotFound(error.message);
             }
