@@ -137,9 +137,9 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
       if (!Array.isArray(institutes) || institutes.length === 0) {
         throw new NoItemsFound("institutes");
       }
-  
-      return institutes.map((instituteDoc) =>
-        InstituteMongoDTO.toEntity(InstituteMongoDTO.fromMongo(instituteDoc))
+      
+      return institutes.map((institute) =>
+        InstituteMongoDTO.toEntity(InstituteMongoDTO.fromMongo(institute))
       );
     } catch (error: any) {
       throw new Error(`Error creating institute on Mongo: ${error}`)
