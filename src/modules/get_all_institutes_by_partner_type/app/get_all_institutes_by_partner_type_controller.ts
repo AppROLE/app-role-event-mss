@@ -11,7 +11,7 @@ export class GetAllInstitutesByPartnerTypeController {
 
     async handle(req: IRequest): Promise<any> {
         try {
-            const partnerType = req.data;
+            const { partnerType } = req.data;
 
             if (typeof partnerType !== "string") {
                 throw new WrongTypeParameters(
