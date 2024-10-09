@@ -22,7 +22,7 @@ export class LambdaStack extends Construct {
   createInstituteFunction: lambda.Function
   getAllInstitutesFunction: lambda.Function
   getInstituteByIdFunction: lambda.Function
-  getInstituteByPartnerTypeFuntion: lambda.Function
+  getAllInstitutesByPartnerTypeFuntion: lambda.Function
   deleteInstituteByIdFunction: lambda.Function
 
   getPhrase: lambda.Function
@@ -90,7 +90,7 @@ export class LambdaStack extends Construct {
     this.getAllInstitutesFunction = this.createLambdaApiGatewayIntegration('get_all_institutes', 'GET', apiGatewayResource, environmentVariables)
     this.getInstituteByIdFunction = this.createLambdaApiGatewayIntegration('get_institute_by_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
     this.deleteInstituteByIdFunction = this.createLambdaApiGatewayIntegration('delete_institute_by_id', 'DELETE', apiGatewayResource, environmentVariables)
-    this.getInstituteByPartnerTypeFuntion = this.createLambdaApiGatewayIntegration('get_institutes_by_partner_type', 'GET', apiGatewayResource, environmentVariables)
+    this.getAllInstitutesByPartnerTypeFuntion = this.createLambdaApiGatewayIntegration('get_all_institutes_by_partner_type', 'GET', apiGatewayResource, environmentVariables)
 
     this.getPhrase = this.createLambdaApiGatewayIntegration('get_phrase', 'GET', apiGatewayResource, environmentVariables)
 
