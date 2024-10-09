@@ -24,6 +24,7 @@ export class LambdaStack extends Construct {
   getInstituteByIdFunction: lambda.Function
   getAllInstitutesByPartnerTypeFuntion: lambda.Function
   deleteInstituteByIdFunction: lambda.Function
+  uploadInstitutePhotoFunction: lambda.Function
 
   getPhrase: lambda.Function
 
@@ -91,6 +92,7 @@ export class LambdaStack extends Construct {
     this.getInstituteByIdFunction = this.createLambdaApiGatewayIntegration('get_institute_by_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
     this.deleteInstituteByIdFunction = this.createLambdaApiGatewayIntegration('delete_institute_by_id', 'DELETE', apiGatewayResource, environmentVariables)
     this.getAllInstitutesByPartnerTypeFuntion = this.createLambdaApiGatewayIntegration('get_all_institutes_by_partner_type', 'GET', apiGatewayResource, environmentVariables)
+    this.uploadInstitutePhotoFunction = this.createLambdaApiGatewayIntegration('upload_institute_photo', 'POST', apiGatewayResource, environmentVariables)
 
     this.getPhrase = this.createLambdaApiGatewayIntegration('get_phrase', 'GET', apiGatewayResource, environmentVariables)
 
