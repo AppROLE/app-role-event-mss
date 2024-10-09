@@ -68,6 +68,9 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
 
       return InstituteMongoDTO.toEntity(InstituteMongoDTO.fromMongo(instituteDoc));
     } catch (error: any) {
+      if (error instanceof NoItemsFound) {
+        throw new NoItemsFound(error.message);
+      }
       throw new Error(`Error creating institute on MongoDB: ${error}`);
     }
   }
@@ -94,7 +97,9 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
         InstituteMongoDTO.toEntity(InstituteMongoDTO.fromMongo(instituteDoc))
       );
     } catch (error: any) {
-      console.error(`Error retrieving institutes from MongoDB: ${error.message}`);
+      if (error instanceof NoItemsFound) {
+        throw new NoItemsFound(error.message);
+      }
       throw new Error(`Error retrieving institutes from MongoDB: ${error}`);
     }
   }  
@@ -115,6 +120,9 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
         throw new NoItemsFound("institute");
       }
     } catch (error: any) {
+      if (error instanceof NoItemsFound) {
+        throw new NoItemsFound(error.message);
+      }
       throw new Error(`Error creating institute on MongoDB: ${error}`);
     }
   }
