@@ -12,13 +12,9 @@ export class UploadInstitutePhotoController {
     async handle(request: IRequest, formData: any) {
         try {
             const name = formData.fields.name
-            const typePhoto = formData.fields.typePhoto
 
             if (!name) {
                 throw new MissingParameters("name")
-            }
-            if (!typePhoto) {
-                throw new MissingParameters("typePhoto")
             }
 
             const imagesBuffers = formData.files.map((file: any) => {
