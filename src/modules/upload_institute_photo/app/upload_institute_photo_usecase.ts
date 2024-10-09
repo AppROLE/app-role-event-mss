@@ -9,7 +9,8 @@ export class UploadInstitutePhotoUseCase {
     ) {}
 
     async execute(name: string, institutePhoto: Buffer, mimetype: string) {
-        const imageKey = `${name}-logo`;
+        const nameFormat = name.replace(/\s+/g, '-');
+        const imageKey = `${nameFormat}-logo`;
 
         await this.fileRepo.uploadInstitutePhoto(imageKey, institutePhoto, mimetype);
 
