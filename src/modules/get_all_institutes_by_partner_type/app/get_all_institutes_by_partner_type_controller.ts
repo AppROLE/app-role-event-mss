@@ -28,12 +28,12 @@ export class GetAllInstitutesByPartnerTypeController {
         } catch (error: any) {
             if (error instanceof NoItemsFound) {
                 return new NotFound(error.message);
-              }
-              if (error instanceof Error) {
+            }
+            if (error instanceof Error) {
                 return new InternalServerError(
-                  `GetEventsByFilterController, Error on handle: ${error.message}`
+                `GetEventsByFilterController, Error on handle: ${error.message}`
                 );
-              }
+            }
         }
     }
 }
