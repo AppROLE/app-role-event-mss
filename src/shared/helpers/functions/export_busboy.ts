@@ -1,60 +1,42 @@
-import Busboy from "busboy";
-import fs from "fs";
+import Busboy from 'busboy'
 
-export async function parseMultipartFormData(
-  request: Record<string, any>
-): Promise<Record<string, any>> {
-  const contentType =
-    request.headers["content-type"] || request.headers["Content-Type"];
-
-  if (!contentType || !contentType.includes("multipart/form-data")) {
-    throw new Error("Content-Type da requisição não é multipart/form-data");
+export async function parseMultipartFormData(request: Record<string, any>): Promise<Record<string, any>>{
+  const contentType = request.headers['content-type'] || request.headers['Content-Type'] as any
+  if (!contentType || !contentType.includes('multipart/form-data')) {
+    throw new Error('Content-Type da requisição não é multipart/form-data')
   }
 
-  const contentLength =
-    request.headers["content-length"] || request.headers["Content-Length"];
+  const contentLength = request.headers['content-length'] || request.headers['Content-Length']
 
-  console.log("Content-Length:", contentLength);
+  console.log('contentLength', contentLength)
 
-  const busboy = Busboy({
-    headers: {
-      "content-type": contentType,
-      "content-length": contentLength,
-    },
-  });
 
+  const busboy = Busboy({ headers: { 
+    'content-type': contentType, 
+    "content-length": contentLength,
+  }})
   const result: Record<string, any> = {
     files: [],
     fields: {},
-  };
+  }
 
   return new Promise((resolve, reject) => {
-    busboy.on("file", (fieldname: any, file: any, infos: any) => {
-      console.log("Form-data info: ", infos);
-      const { filename, encoding, mimeType } = infos;
-      console.log(
-        `Recebendo arquivo: ${fieldname} (${filename}) com mimetype: ${mimeType}`
-      );
+    busboy.on('file', (fieldname: any, file: any, infos: any) => {
+      console.log('form-data infos: ', infos)
+      const { filename, encoding, mimeType } = infos
+      console.log(`Recebendo arquivo: ${fieldname}`)
+      
+      const chunks: Buffer[] = []
 
-      const chunks: Buffer[] = [];
-
-      file.on("data", (chunk: Buffer) => {
-        console.log(`Recebendo dados do arquivo: ${filename}`);
-        chunks.push(chunk);
-      });
-
-      file.on("end", () => {
-        const completeFile = Buffer.concat(chunks);
-        console.log(
-          `Arquivo recebido: ${filename}, tamanho: ${completeFile.length} bytes`
-        );
-
-        const tmpFilePath = `/tmp/${filename}`;
-        fs.writeFileSync(tmpFilePath, completeFile);
-        console.log(
-          `Arquivo salvo temporariamente para depuração em: ${tmpFilePath}`
-        );
-
+      file.on('data', (chunk: Buffer) => {
+        console.log(`Recebendo dados do arquivo: ${fieldname}`)
+        chunks.push(chunk)
+      })
+      
+      
+      .on('end', () => {
+        const completeFile = Buffer.concat(chunks)
+        console.log(`Arquivo recebido: ${filename}`)
         result.files.push({
           fieldname,
           filename,
@@ -63,29 +45,29 @@ export async function parseMultipartFormData(
           data: completeFile,
         });
       });
-    });
+    })
 
-    busboy.on("field", (fieldname: any, val: any) => {
-      console.log(`Recebendo campo: ${fieldname} com valor: ${val}`);
-      result.fields[fieldname] = val;
-    });
+    busboy.on('field', (fieldname: any, val: any) => {
+      console.log(`Recebendo campo: ${fieldname}`)
+      result.fields[fieldname] = val
+    })
 
-    busboy.on("finish", () => {
-      console.log("Parse do form-data finalizado.");
-      resolve(result);
-    });
+    busboy.on('finish', () => {
+      console.log('Parse do form-data finalizado')
+      resolve(result)
+    })
 
-    busboy.on("error", (error: any) => {
-      console.error("Erro no parse do form-data:", error);
-      reject(error);
-    });
+    busboy.on('error', (error: any) => {
+      console.log('Erro no parse do form-data:', error)
+      reject(error)
+    })
 
-    console.log("IS BASE 64 ENCODED?", request.isBase64Encoded);
+    console.log('IS BASE 64 ENCODED', request.isBase64Encoded)
 
-    const body = request.isBase64Encoded
-      ? Buffer.from(request.body, "base64")
+    const body = request.isBase64Encoded 
+      ? Buffer.from(request.body, 'base64') 
       : request.body;
-
-    busboy.end(body);
-  });
+    busboy.write(body);
+    busboy.end()
+  })
 }
