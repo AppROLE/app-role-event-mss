@@ -36,6 +36,7 @@ export async function parseMultipartFormData(request: Record<string, any>): Prom
       
       .on('end', () => {
         const completeFile = Buffer.concat(chunks)
+        // Garante que o arquivo foi completamente recebido
         console.log(`Arquivo recebido: ${filename}`)
         result.files.push({
           fieldname,
@@ -61,7 +62,7 @@ export async function parseMultipartFormData(request: Record<string, any>): Prom
       console.log('Erro no parse do form-data:', error)
       reject(error)
     })
-
+    console.log("PRECISA SER TRUE!!")
     console.log('IS BASE 64 ENCODED', request.isBase64Encoded)
 
     const body = request.isBase64Encoded 
