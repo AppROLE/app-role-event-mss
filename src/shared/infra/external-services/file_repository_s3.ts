@@ -21,7 +21,6 @@ export class FileRepositoryS3 implements IFileRepository {
         Key: imageNameKey,
         Body: eventPhoto,
         ContentType: mimetype,
-        ACL: "public-read",
       };
       console.log("Mimetype da imagem:", mimetype);
       console.log("Nome da imagem:", imageNameKey);
