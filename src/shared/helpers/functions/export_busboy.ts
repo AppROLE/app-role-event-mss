@@ -36,8 +36,6 @@ export async function parseMultipartFormData(
         `Recebendo arquivo: ${fieldname} (${filename}) com mimetype: ${mimeType}`
       );
 
-      file.setEncoding("binary");
-
       const chunks: Buffer[] = [];
 
       file.on("data", (chunk: Buffer) => {
