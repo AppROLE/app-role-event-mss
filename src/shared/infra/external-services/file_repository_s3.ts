@@ -45,8 +45,9 @@ export class FileRepositoryS3 implements IFileRepository {
         Body: institutePhoto,
         ContentType: mimetype,
       };
-
+      console.log("params: ", params);
       await s3.putObject(params).promise();
+      console.log(`https://${this.s3BucketName}.s3.amazonaws.com/${imageNameKey}`)
       return `https://${this.s3BucketName}.s3.amazonaws.com/${imageNameKey}`;
     } catch (error: any) {
       throw new Error(
