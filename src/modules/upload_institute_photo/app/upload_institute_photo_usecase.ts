@@ -8,9 +8,9 @@ export class UploadInstitutePhotoUseCase {
         private readonly fileRepo: IFileRepository
     ) {}
 
-    async execute(name: string, institutePhoto: Buffer, mimetype: string) {
+    async execute(name: string, institutePhoto: Buffer, typePhoto: string, mimetype: string) {
         const nameFormat = name.replace(/\s+/g, '-');
-        const imageKey = `${nameFormat}-logo`;
+        const imageKey = `${nameFormat}-logo${typePhoto}`;
 
         await this.fileRepo.uploadEventPhoto(imageKey, institutePhoto, mimetype);
 
