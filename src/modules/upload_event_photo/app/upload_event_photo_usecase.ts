@@ -12,7 +12,7 @@ export class UploadEventPhotoUseCase {
 
   async execute(
     eventId: string,
-    profilePhoto: Buffer,
+    eventPhoto: Buffer,
     extensionName: string,
     mimetype: string
   ) {
@@ -24,7 +24,7 @@ export class UploadEventPhotoUseCase {
 
     const imageKey = `${eventId}-${event.getEventName}${extensionName}`;
 
-    await this.fileRepo.uploadEventPhoto(imageKey, profilePhoto, mimetype);
+    await this.fileRepo.uploadEventPhoto(imageKey, eventPhoto, mimetype);
 
     await this.mongoRepo.updateEventPhoto(
       eventId,
