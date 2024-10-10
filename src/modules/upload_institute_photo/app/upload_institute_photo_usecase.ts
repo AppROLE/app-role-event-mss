@@ -12,7 +12,7 @@ export class UploadInstitutePhotoUseCase {
         const nameFormat = name.replace(/\s+/g, '-');
         const imageKey = `${nameFormat}-logo`;
 
-        await this.fileRepo.uploadInstitutePhoto(imageKey, institutePhoto, mimetype);
+        await this.fileRepo.uploadEventPhoto(imageKey, institutePhoto, mimetype);
 
         await this.instituteRepo.updateInstitutePhoto(name, `${Environments.getEnvs().cloudFrontUrl}/${imageKey}`);
     }

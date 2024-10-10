@@ -51,7 +51,7 @@ export class FileRepositoryS3 implements IFileRepository {
       return `https://${this.s3BucketName}.s3.amazonaws.com/${imageNameKey}`;
     } catch (error: any) {
       throw new Error(
-        `FileRepositoryS3, Error on uploadEventPhoto: ${error.message}`
+        `FileRepositoryS3, Error on uploadInstitutePhoto: ${error.message}`
       );
     }
   }
