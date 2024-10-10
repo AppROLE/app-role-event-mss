@@ -34,7 +34,6 @@ export class UploadInstitutePhotoController {
             }) as string[]
 
             console.log("imagesBuffers: ", imagesBuffers)
-            console.log("base64: ", imagesBuffers[0].toString('base64'))
             console.log("fieldNames: ", fieldNames)
             console.log("mimetypes: ", mimetypes)
 
