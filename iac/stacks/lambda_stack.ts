@@ -101,7 +101,8 @@ export class LambdaStack extends Construct {
     this.confirmEventFunction = this.createLambdaApiGatewayIntegration('confirm_event', 'POST', apiGatewayResource, environmentVariables, authorizer)
 
     this.functionsThatNeedS3Permissions = [
-      this.uploadEventPhotoFunction
+      this.uploadEventPhotoFunction,
+      this.uploadInstitutePhotoFunction
     ]
 
     this.functionsThatNeedCognitoPermissions = [
