@@ -6,14 +6,20 @@ import {
   OK,
 } from "src/shared/helpers/external_interfaces/http_codes";
 import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { UserAPIGatewayDTO } from "src/shared/infra/dto/user_api_gateway_dto";
+import { GetPhraseViewModel } from "./get_phrase_viewmodel";
 
 export class GetPhraseController {
   constructor(private readonly usecase: GetPhraseUseCase) {}
 
-  async handle(req: IRequest): Promise<any> {
+  async handle(req: IRequest, requesterUser: Record<string, any>): Promise<any> {
     try {
+      const parsedUserApiGateway = UserAPIGatewayDTO.fromAPIGateway(requesterUser).getParsedData();
+      
       const phrase = await this.usecase.execute();
-      return new OK(phrase);
+      const viewmodel = new GetPhraseViewModel(phrase.phrase, parsedUserApiGateway.username);
+      
+      return new OK(viewmodel.toJSON());
     } catch (error: any) {
       if (error instanceof NoItemsFound) {
         return new NotFound(error.message);
