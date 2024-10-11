@@ -77,7 +77,7 @@ export class EventRepositoryMongo implements IEventRepository {
       if (filter.event_date)
         query.event_date = { $gte: new Date(filter.event_date) };
       if (filter.district_id) query.district_id = filter.district_id;
-      if (filter.institute_id) query.institute_id = filter.institute_id;
+      if (filter.instituteId) query.institute_id = filter.institute_id;
       if (filter.music_type) query.music_type = { $in: filter.music_type };
       if (filter.features) query.features = { $in: filter.features };
       if (filter.category) query.category = filter.category;
