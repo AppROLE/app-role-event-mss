@@ -71,7 +71,6 @@ export class EventRepositoryMongo implements IEventRepository {
       const query: any = {};
 
       if (filter.name) query.name = filter.name;
-      if (filter.institute_id) query.institute_id = filter.institute_id;
       if (filter.price) query.price = filter.price;
       if (filter.address) query.address = filter.address;
       if (filter.age_range) query.age_range = filter.age_range;
