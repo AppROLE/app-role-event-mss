@@ -15,13 +15,17 @@ export class GetEventsByFilterController {
     try {
       const filters = req.data;
 
+      ["name", "address"].forEach((key) => {
+        if (filters[key] && typeof filters[key] === "string") {
+          filters[key] = filters[key].replace(/\+/g, " ");
+        }
+      });
+
       const events = await this.usecase.execute(filters);
 
       const viewModel = new GetAllEventsByFilterViewModel(events);
       return new OK(viewModel.toJSON());
     } catch (error: any) {
-      console.log("ERROOOOO AQUI")
-      console.log(error);
       if (error instanceof NoItemsFound) {
         return new NotFound(error.message);
       }
