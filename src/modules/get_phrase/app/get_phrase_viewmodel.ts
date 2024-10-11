@@ -6,7 +6,7 @@ export class GetPhraseViewModel {
     
     toJSON() {
         return {
-            phrase: this.phrase,
+            phrase: this.phrase + this.username,
         };
     }
 }
