@@ -18,6 +18,7 @@ export class LambdaStack extends Construct {
   getEventByIdFunction: lambda.Function
   deleteEventByIdFunction: lambda.Function
   uploadEventPhotoFunction: lambda.Function 
+  uploadGalleryEventFunction: lambda.Function
 
   createInstituteFunction: lambda.Function
   getAllInstitutesFunction: lambda.Function
@@ -78,13 +79,14 @@ export class LambdaStack extends Construct {
       compatibleRuntimes: [lambda.Runtime.NODEJS_20_X],
     })
 
-    // auth routes
+    // event routes
     this.createEventFunction = this.createLambdaApiGatewayIntegration('create_event', 'POST', apiGatewayResource, environmentVariables)
     this.getAllEventsFunction = this.createLambdaApiGatewayIntegration('get_all_events', 'GET', apiGatewayResource, environmentVariables)
     this.getAllEventsByFilterFunction = this.createLambdaApiGatewayIntegration('get_all_events_by_filter', 'GET', apiGatewayResource, environmentVariables)
     this.getEventByIdFunction = this.createLambdaApiGatewayIntegration('get_event_by_id', 'GET', apiGatewayResource, environmentVariables)
     this.deleteEventByIdFunction = this.createLambdaApiGatewayIntegration('delete_event_by_id', 'DELETE', apiGatewayResource, environmentVariables)
     this.uploadEventPhotoFunction = this.createLambdaApiGatewayIntegration('upload_event_photo', 'POST', apiGatewayResource, environmentVariables)
+    this.uploadGalleryEventFunction = this.createLambdaApiGatewayIntegration('upload_galery_event', 'POST', apiGatewayResource, environmentVariables)
 
     // institute routes
     this.createInstituteFunction = this.createLambdaApiGatewayIntegration('create_institute', 'POST', apiGatewayResource, environmentVariables)
