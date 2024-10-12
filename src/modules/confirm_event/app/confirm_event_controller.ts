@@ -19,6 +19,10 @@ export class ConfirmEventController {
 
       const { eventId, profilePhoto, promoterCode } = request.data;
 
+      console.log("ConfirmEventController -> handle -> RAW eventId", eventId)
+      console.log("ConfirmEventController -> handle -> RAW profilePhoto", profilePhoto)
+      console.log("ConfirmEventController -> handle -> RAW promoterCode", promoterCode)
+
       if (!eventId) throw new MissingParameters("eventId");
       if (typeof eventId !== "string") throw new WrongTypeParameters("eventId", "string", typeof eventId);
 

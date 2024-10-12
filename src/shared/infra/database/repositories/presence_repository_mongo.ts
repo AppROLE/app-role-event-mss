@@ -51,14 +51,22 @@ export class PresenceRepositoryMongo implements IPresenceRepository {
 
       const presenceMongoClient = db.connections[0].db?.collection<IPresence>("Presence");
 
-      const dto = PresenceMongoDTO.fromEntity(new Presence({
+      console.log("PresenceRepositoryMongo -> confirmPresence -> eventId", eventId)
+      console.log("PresenceRepositoryMongo -> confirmPresence -> username", username)
+      console.log("PresenceRepositoryMongo -> confirmPresence -> nickname", nickname)
+      console.log("PresenceRepositoryMongo -> confirmPresence -> profilePhoto", profilePhoto)
+      console.log("PresenceRepositoryMongo -> confirmPresence -> promoterCode", promoterCode)
+
+      const entityPresence = new Presence({
         eventId,
         username,
         nickname,
         profilePhoto,
         promoterCode,
         checkedInAt: new Date()
-      }));
+      });
+
+      const dto = PresenceMongoDTO.fromEntity(entityPresence);
 
       const presenceDocFromDto = PresenceMongoDTO.toMongo(dto)
 
