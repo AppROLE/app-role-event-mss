@@ -28,6 +28,7 @@ export interface IInstitute extends Document {
   logo_photo: string;
   description: string;
   institute_type: string;
+  partner_type: string;
   address: string;
   price: number;
   phone: string;
@@ -63,6 +64,7 @@ const InstituteSchema: Schema = new Schema<IInstitute>({
   logo_photo: { type: String },
   description: { type: String },
   institute_type: { type: String },
+  partner_type: { type: String },
   address: { type: String, required: true },
   price: { type: Number },
   phone: { type: String },
