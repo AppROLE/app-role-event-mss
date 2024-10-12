@@ -114,4 +114,23 @@ export class EventRepositoryMock implements IEventRepository {
     event.setEventPhotoLink = profilePhoto;
     return profilePhoto;
   }
+
+  async updateGalleryArray(eventId: string, imageKey: string): Promise<void> {
+    const event = this.events.find((event) => event.getEventId === eventId);
+    if (!event) {
+      throw new NoItemsFound("event");
+    }
+    if ((event.getGaleryLink?.length ?? 0) > 10) {
+      throw new Error("Event gallery is full");
+    }
+    event.setGaleryLink.push(imageKey);
+  }
+
+  async countGalleryEvent (eventId: string): Promise<Number> {
+    const event = this.events.find((event) => event.getEventId === eventId);
+    if (!event) {
+      throw new NoItemsFound("event");
+    }
+    return event.getGaleryLink ? event.getGaleryLink.length : 0;
+  }
 }
