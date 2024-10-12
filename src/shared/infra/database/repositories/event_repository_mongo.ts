@@ -168,4 +168,50 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Error updating event photo on MongoDB: ${error}`);
     }
   }
+
+  async updateGalleryArray(eventId: string, imageKey: string): Promise<void> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      });
+
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
+      const result = await eventMongoClient?.updateOne(
+        { _id: eventId },
+        { $push: { gallery_link: imageKey } }
+      );
+
+      if (!result?.modifiedCount) {
+        throw new NoItemsFound("event");
+      }
+    } catch (error) {
+      throw new Error(`Error updating event gallery on MongoDB: ${error}`);
+    }
+  }
+
+  async countGalleryEvent(eventId: string): Promise<Number> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      });
+
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
+      const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
+      if (!eventDoc) {
+        throw new NoItemsFound("event");
+      }
+
+      return eventDoc.galery_link ? eventDoc.galery_link.length : 0;
+    } catch (error) {
+      throw new Error(`Error counting event gallery on MongoDB: ${error}`);
+    }
+  }
 }
