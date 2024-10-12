@@ -98,6 +98,7 @@ export class EventMongoDTO {
       eventDate: eventMongoDTO.event_date,
       districtId: eventMongoDTO.district_id,
       eventPhotoLink: eventMongoDTO.event_photo_link,
+      galeryLink: eventMongoDTO.galery_link,
       instituteId: eventMongoDTO.institute_id,
       eventStatus: STATUS.ACTIVE,
       bannerUrl: eventMongoDTO.banner_url,

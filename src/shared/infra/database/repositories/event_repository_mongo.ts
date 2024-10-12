@@ -180,6 +180,9 @@ export class EventRepositoryMongo implements IEventRepository {
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
 
+      const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
+      console.log("eventDoc: ", eventDoc);
+
       const result = await eventMongoClient?.updateOne(
         { _id: eventId },
         { $push: { galery_link: imageKey } }
