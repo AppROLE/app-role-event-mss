@@ -15,6 +15,7 @@ interface IEvent {
   banner_url: string;
   address: string;
   price: number;
+  phone: string;
   description: string;
   age_range: string;
   event_date: Date;
@@ -29,6 +30,7 @@ export interface IInstitute extends Document {
   institute_type: string;
   address: string;
   price: number;
+  phone: string;
   district_id: string;
   photos: IPhoto[];
   events: IEvent[];
@@ -48,6 +50,7 @@ const EventSchema = new Schema<IEvent>({
   banner_url: { type: String },
   address: { type: String, required: true },
   price: { type: Number },
+  phone: { type: String },
   description: { type: String },
   age_range: { type: String },
   event_date: { type: Date, required: true },
@@ -62,6 +65,7 @@ const InstituteSchema: Schema = new Schema<IInstitute>({
   institute_type: { type: String },
   address: { type: String, required: true },
   price: { type: Number },
+  phone: { type: String },
   district_id: { type: String, required: true },
   photos: [PhotoSchema],
   events: [EventSchema],
