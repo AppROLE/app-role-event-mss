@@ -9,6 +9,12 @@ export class ConfirmEventUseCase {
   ) {}
 
   async execute(eventId: string, username: string, nickname: string, profilePhoto?: string, promoterCode?: string) {
+    console.log("ConfirmEventUseCase -> execute -> eventId", eventId)
+    console.log("ConfirmEventUseCase -> execute -> username", username)
+    console.log("ConfirmEventUseCase -> execute -> nickname", nickname)
+    console.log("ConfirmEventUseCase -> execute -> profilePhoto", profilePhoto)
+    console.log("ConfirmEventUseCase -> execute -> promoterCode", promoterCode)
+    
     const event = await this.eventRepo.getEventById(eventId);
 
     if (!event) throw new NoItemsFound("eventId");
