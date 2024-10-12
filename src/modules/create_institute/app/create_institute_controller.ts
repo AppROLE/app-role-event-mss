@@ -3,7 +3,10 @@ import {
   IResponse,
 } from "src/shared/helpers/external_interfaces/external_interface";
 import { CreateInstituteUseCase } from "./create_institute_usecase";
-import { INSTITUTE_TYPE, toEnum } from "src/shared/domain/enums/institute_type_enum";
+import {
+  INSTITUTE_TYPE,
+  toEnum,
+} from "src/shared/domain/enums/institute_type_enum";
 import {
   MissingParameters,
   WrongTypeParameters,
@@ -30,13 +33,14 @@ export class CreateInstituteController {
         address,
         district_id,
         price,
+        phone,
       } = req.data;
 
       const requiredParams = [
         "description",
         "institute_type",
         "partner_type",
-        "name"
+        "name",
       ];
 
       for (const param of requiredParams) {
@@ -64,18 +68,18 @@ export class CreateInstituteController {
           "partner_type",
           "string",
           typeof partner_type
-        )
+        );
       }
       if (typeof name !== "string") {
         throw new WrongTypeParameters("name", "string", typeof name);
       }
-      
-      if(address !== undefined){
+
+      if (address !== undefined) {
         if (typeof address !== "string") {
           throw new WrongTypeParameters("address", "string", typeof address);
         }
       }
-      if(district_id !== undefined){
+      if (district_id !== undefined) {
         if (typeof district_id !== "string") {
           throw new WrongTypeParameters(
             "district_id",
@@ -84,9 +88,14 @@ export class CreateInstituteController {
           );
         }
       }
-      if(price !== undefined){
+      if (price !== undefined) {
         if (typeof price !== "number") {
           throw new WrongTypeParameters("price", "number", typeof price);
+        }
+      }
+      if (phone !== undefined) {
+        if (typeof phone !== "string") {
+          throw new WrongTypeParameters("phone", "string", typeof phone);
         }
       }
 
@@ -96,6 +105,7 @@ export class CreateInstituteController {
           INSTITUTE_TYPE[institute_type as keyof typeof INSTITUTE_TYPE],
         name: name,
         partner_type: PARTNER_TYPE[partner_type as keyof typeof PARTNER_TYPE],
+        phone: phone,
         address: address,
         district_id: district_id,
         price: price,
