@@ -9,6 +9,7 @@ export class InstituteViewModel {
     private description: string;
     private institute_type: INSTITUTE_TYPE;
     private partner_type: PARTNER_TYPE;
+    private phone?: string;
     private address?: string;
     private price?: number;
     private district_id?: string;
@@ -22,6 +23,7 @@ export class InstituteViewModel {
       this.description = institute.instituteDescription;
       this.institute_type = institute.instituteInstituteType;
       this.partner_type = institute.institutePartnerType;
+      this.phone = institute.institutePhone;
       this.address = institute.instituteAddress;
       this.price = institute.institutePrice;
       this.district_id = institute.instituteDistrictId;
@@ -37,6 +39,7 @@ export class InstituteViewModel {
             description: this.description,
             instituteType: this.institute_type,
             partnerType: this.partner_type,
+            phone: this.phone,
             address: this.address,
             price: this.price,
             districtId: this.district_id,
