@@ -122,7 +122,7 @@ export class Presence {
   }
 
   static validateProfilePhoto(profilePhoto: string): boolean {
-    if (profilePhoto.length < 3 || profilePhoto.length > 50) {
+    if (profilePhoto.length < 3 || profilePhoto.length > 255) {
       return false;
     }
 
