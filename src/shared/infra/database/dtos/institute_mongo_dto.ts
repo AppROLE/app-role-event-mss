@@ -1,7 +1,9 @@
 import { toEnumPartnerType } from "src/shared/domain/enums/partner_type_enum";
 import { Institute } from "../../../domain/entities/institute";
 import { INSTITUTE_TYPE } from "../../../domain/enums/institute_type_enum";
-import instituteModel, { IInstitute as InstituteDocument } from "../models/institute.model";
+import instituteModel, {
+  IInstitute as InstituteDocument,
+} from "../models/institute.model";
 
 export interface InstituteMongoDTOProps {
   _id: string;
@@ -10,6 +12,7 @@ export interface InstituteMongoDTOProps {
   description: string;
   institute_type: string;
   partner_type: string;
+  phone: string;
   address: string;
   price: number;
   district_id: string;
@@ -34,6 +37,7 @@ export class InstituteMongoDTO {
   private description: string;
   private institute_type: string;
   private partner_type: string;
+  private phone: string;
   private address: string;
   private price: number;
   private district_id: string;
@@ -57,6 +61,7 @@ export class InstituteMongoDTO {
     this.description = props.description;
     this.institute_type = props.institute_type;
     this.partner_type = props.partner_type;
+    this.phone = props.phone;
     this.address = props.address;
     this.price = props.price;
     this.district_id = props.district_id;
@@ -72,37 +77,40 @@ export class InstituteMongoDTO {
       logo_photo: instituteMongoDTO.logo_photo,
       description: instituteMongoDTO.description,
       institute_type: instituteMongoDTO.institute_type as INSTITUTE_TYPE,
+      phone: instituteMongoDTO.phone,
       address: instituteMongoDTO.address,
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
-      photos_url: instituteMongoDTO.photos.map(photo => photo.url),
-      events_id: instituteMongoDTO.events.map(event => event._id)
+      photos_url: instituteMongoDTO.photos.map((photo) => photo.url),
+      events_id: instituteMongoDTO.events.map((event) => event._id),
     });
   }
 
   static fromEntity(institute: Institute): InstituteMongoDTO {
     return new InstituteMongoDTO({
-      _id: institute.instituteId || '',
+      _id: institute.instituteId || "",
       name: institute.instituteName,
-      logo_photo: institute.instituteLogoPhoto || '',
+      logo_photo: institute.instituteLogoPhoto || "",
       description: institute.instituteDescription,
       institute_type: institute.instituteInstituteType,
       partner_type: institute.institutePartnerType,
-      address: institute.instituteAddress || '',
+      phone: institute.institutePhone || "",
+      address: institute.instituteAddress || "",
       price: institute.institutePrice || 0,
-      district_id: institute.instituteDistrictId || '',
-      photos: institute.institutePhotosUrl?.map(url => ({ url })) || [],
-      events: institute.instituteEventsId?.map(eventId => ({
-        _id: eventId,
-        name: '',
-        banner_url: '',
-        address: '',
-        price: 0,
-        description: '',
-        age_range: '',
-        event_date: new Date(),
-        features: []
-      })) || []
+      district_id: institute.instituteDistrictId || "",
+      photos: institute.institutePhotosUrl?.map((url) => ({ url })) || [],
+      events:
+        institute.instituteEventsId?.map((eventId) => ({
+          _id: eventId,
+          name: "",
+          banner_url: "",
+          address: "",
+          price: 0,
+          description: "",
+          age_range: "",
+          event_date: new Date(),
+          features: [],
+        })) || [],
     });
   }
 
@@ -114,21 +122,22 @@ export class InstituteMongoDTO {
       description: instituteMongoDTO.description,
       institute_type: instituteMongoDTO.institute_type,
       partner_type: instituteMongoDTO.partner_type,
+      phone: instituteMongoDTO.phone,
       address: instituteMongoDTO.address,
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
       photos: instituteMongoDTO.photos,
-      events: instituteMongoDTO?.events.map(eventId => ({
+      events: instituteMongoDTO?.events.map((eventId) => ({
         _id: eventId,
-        name: '',
-        banner_url: '',
-        address: '',
+        name: "",
+        banner_url: "",
+        address: "",
         price: 0,
-        description: '',
-        age_range: '',
+        description: "",
+        age_range: "",
         event_date: new Date(),
-        features: []
-      }))
+        features: [],
+      })),
     });
 
     return instituteDocument as InstituteDocument;
@@ -136,17 +145,18 @@ export class InstituteMongoDTO {
 
   static fromMongo(institute: any): InstituteMongoDTO {
     return new InstituteMongoDTO({
-      _id: institute._id || '',
+      _id: institute._id || "",
       name: institute.name,
-      logo_photo: institute.logo_photo || '',
+      logo_photo: institute.logo_photo || "",
       description: institute.description,
       institute_type: institute.institute_type,
       partner_type: institute.partner_type,
-      address: institute.address || '',
+      phone: institute.phone || "",
+      address: institute.address || "",
       price: institute.price || 0,
-      district_id: institute.district_id || '',
+      district_id: institute.district_id || "",
       photos: institute.photos || [],
-      events: institute.events || []
+      events: institute.events || [],
     });
   }
 }
