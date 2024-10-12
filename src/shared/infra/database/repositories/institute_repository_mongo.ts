@@ -5,9 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { connectDB } from "../models";
 import { IInstituteRepository } from "../../../domain/irepositories/institute_repository_interface";
 import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
-import { IEvent } from "../models/event.model";
 import { PARTNER_TYPE } from "src/shared/domain/enums/partner_type_enum";
-import { BackupGateway } from "aws-sdk";
 
 export class InstituteRepositoryMongo implements IInstituteRepository {
   async createInstitute(institute: Institute): Promise<Institute> {
