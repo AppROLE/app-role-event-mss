@@ -8,6 +8,7 @@ interface InstituteProps {
   description: string;
   institute_type: INSTITUTE_TYPE;
   partner_type: PARTNER_TYPE;
+  phone?: string | undefined;
   logo_photo?: string;
   address?: string | undefined;
   price?: number | undefined;
@@ -23,6 +24,7 @@ export class Institute {
   private description: string;
   private institute_type: INSTITUTE_TYPE;
   private partner_type: PARTNER_TYPE;
+  private phone?: string;
   private address?: string;
   private price?: number;
   private district_id?: string;
@@ -37,6 +39,7 @@ export class Institute {
     this.description = props.description;
     this.institute_type = toEnum(props.institute_type);
     this.partner_type = toEnumPartnerType(props.partner_type);
+    this.phone = props.phone || undefined;
     this.address = props.address || undefined;
     this.price = props.price || 0;
     this.district_id = props.district_id || undefined;
@@ -78,6 +81,9 @@ export class Institute {
   get institutePartnerType(): PARTNER_TYPE {
     return this.partner_type;
   }
+  get institutePhone(): string | undefined {
+    return this.phone;
+  }
   // setters
   set instituteId(id: string) {
     this.institute_id = id;
@@ -111,12 +117,19 @@ export class Institute {
     this.events_id = events_id;
   }
   set institutePartnerType(partner_type: string) {
-    this.partner_type = toEnumPartnerType(partner_type)
+    this.partner_type = toEnumPartnerType(partner_type);
+  }
+  set institutePhone(phone: string) {
+    this.phone = phone;
   }
   // methods
   private validate(props: InstituteProps): void {
     this.validateName(props.name);
     this.validateInstituteType(props.institute_type);
+    this.validatePartnerType(props.partner_type);
+    if (props.phone) {
+      this.validatePhone(props.phone);
+    }
   }
 
   private validateName(name: string): void {
@@ -129,15 +142,21 @@ export class Institute {
     try {
       toEnum(institute_type);
     } catch (error) {
-      throw new EntityError("Tipo de instituto inválido");
+      throw new EntityError("Tipo de instituto");
     }
   }
 
   private validatePartnerType(partner_type: string): void {
-    try{
-      toEnumPartnerType(partner_type)
+    try {
+      toEnumPartnerType(partner_type);
     } catch (error) {
-      throw new EntityError("partner type inválido")
+      throw new EntityError("partner type");
+    }
+  }
+
+  private validatePhone(phone: string): void {
+    if (!phone || phone.trim().length < 8) {
+      throw new EntityError("Telefone");
     }
   }
 }
