@@ -185,6 +185,8 @@ export class EventRepositoryMongo implements IEventRepository {
         db.connections[0].db?.collection<IEvent>("Event");
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
+      console.log("eventDocAQUIII: ", eventDoc);
+      console.log("EVENT ID AQUI TMB PORRA", eventId);
 
       if (!eventDoc) {
         throw new NoItemsFound("event");
