@@ -31,7 +31,7 @@ export class FailToSendEmail extends BaseError {
 }
 
 export class FailedToAddToGallery extends BaseError {
-  constructor(message: string) {
-    super(`Falha ao adicionar à galeria ${message}`);
+  constructor() {
+    super("Falha ao adicionar à galeria");
   }
 }
