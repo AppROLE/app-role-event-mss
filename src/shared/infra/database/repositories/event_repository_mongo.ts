@@ -4,7 +4,7 @@ import { EventMongoDTO } from "../dtos/event_mongo_dto";
 
 import { connectDB } from "../models";
 import { IEventRepository } from "../../../domain/irepositories/event_repository_interface";
-import { NoItemsFound } from "../../../../../src/shared/helpers/errors/usecase_errors";
+import { FailedToAddToGallery, NoItemsFound } from "../../../../../src/shared/helpers/errors/usecase_errors";
 import { v4 as uuidv4 } from "uuid";
 
 export class EventRepositoryMongo implements IEventRepository {
@@ -184,6 +184,8 @@ export class EventRepositoryMongo implements IEventRepository {
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
       console.log("EVENT ID AQUI TMB PORRA", eventId);
       console.log("eventDocaQUIII: ", eventDoc);
+      console.log("eventDoc.galery_link: ", eventDoc?.galery_link);
+      console.log("eventDoc.galery_link A GNT CHEGA ATÉ AQUI POREM N ADCIONA ");
 
       const result = await eventMongoClient?.updateOne(
         { _id: eventId },
@@ -191,7 +193,7 @@ export class EventRepositoryMongo implements IEventRepository {
       );
 
       if (!result?.modifiedCount) {
-        throw new NoItemsFound("event");
+        throw new FailedToAddToGallery("event");
       }
     } catch (error) {
       throw new Error(`Error updating event gallery on MongoDB: ${error}`);
@@ -209,9 +211,9 @@ export class EventRepositoryMongo implements IEventRepository {
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
 
-      const eventDocC = await eventMongoClient?.findOne({ _id: eventId });
-      console.log("EVENT ID AQUI TMB PORRA", eventId);
-      console.log("eventDocaQUIII: ", eventDocC);
+        const eventDocC = await eventMongoClient?.findOne({ _id: eventId });
+        console.log("EVENT ID AQUI TMB PORRA", eventId);
+        console.log("eventDocaQUIII: ", eventDocC);
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
       if (!eventDoc) {
