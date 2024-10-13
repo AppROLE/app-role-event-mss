@@ -208,7 +208,7 @@ export class EventRepositoryMongo implements IEventRepository {
       );
 
       if (!result?.modifiedCount) {
-        throw new FailedToAddToGallery("event");
+        throw new FailedToAddToGallery();
       }
     } catch (error) {
       throw new Error(`Error updating event gallery on MongoDB: ${error}`);
@@ -232,7 +232,6 @@ export class EventRepositoryMongo implements IEventRepository {
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
       if (!eventDoc) {
-        console.log('deu merda aqui lucao')
         throw new NoItemsFound("event");
       }
 
