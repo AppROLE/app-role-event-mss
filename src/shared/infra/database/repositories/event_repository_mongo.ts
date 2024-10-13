@@ -192,6 +192,7 @@ export class EventRepositoryMongo implements IEventRepository {
         throw new NoItemsFound("event");
       }
 
+
       if (!eventDoc.galery_link) {
         await eventMongoClient?.updateOne(
           { _id: eventId },
@@ -231,6 +232,7 @@ export class EventRepositoryMongo implements IEventRepository {
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
       if (!eventDoc) {
+        console.log('deu merda aqui lucao')
         throw new NoItemsFound("event");
       }
 
