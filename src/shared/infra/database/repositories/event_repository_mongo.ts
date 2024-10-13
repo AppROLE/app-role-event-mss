@@ -199,6 +199,8 @@ export class EventRepositoryMongo implements IEventRepository {
         );
       }
 
+      console.log("TIPO DO GALERY", typeof eventDoc.galery_link, typeof(eventDoc.galery_link));
+
       const result = await eventMongoClient?.updateOne(
         { _id: eventId },
         { $push: { galery_link: imageKey } }
