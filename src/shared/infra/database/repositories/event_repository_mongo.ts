@@ -116,6 +116,7 @@ export class EventRepositoryMongo implements IEventRepository {
       if (!eventDoc) {
         throw new NoItemsFound("evento");
       }
+      console.log("eventDocAQUI: ", eventDoc);
 
       return EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc));
     } catch (error) {
