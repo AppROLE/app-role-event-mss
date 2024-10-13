@@ -185,7 +185,7 @@ export class EventRepositoryMongo implements IEventRepository {
         db.connections[0].db?.collection<IEvent>("Event");
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
-      console.log("eventDocAQUIII: ", eventDoc);
+      console.log("eventDocAQUI - UPDATE GALLERY: ", eventDoc);
       console.log("EVENT ID AQUI TMB PORRA", eventId);
 
       if (!eventDoc) {
@@ -228,7 +228,7 @@ export class EventRepositoryMongo implements IEventRepository {
 
       const eventDocC = await eventMongoClient?.findOne({ _id: eventId });
       console.log("EVENT ID AQUI TMB PORRA", eventId);
-      console.log("eventDocaQUIII: ", eventDocC);
+      console.log("eventDocAQUI - UPDATE GALLERY: ", eventDocC);
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
       if (!eventDoc) {
