@@ -28,7 +28,7 @@ export class DistrictRepositoryMongo implements IDistrictRepository {
     }
   }
 
-  async getDistrictById(districtId: string): Promise<District> {
+  async getDistrictById(districtId: string): Promise<District | null> {
     try {
       const db = await connectDB();
       db.connections[0].on("error", () => {
@@ -42,17 +42,15 @@ export class DistrictRepositoryMongo implements IDistrictRepository {
 
       const districtDoc = await districtMongoClient?.findOne({ _id: districtId });
       
-      if (!districtDoc) throw new NoItemsFound('zona');
+      if (!districtDoc) return null;
 
-      const dto = DistrictMongoDTO.fromMongo(districtDoc);
-      const district = DistrictMongoDTO.toEntity(dto);
+      const districtDto = DistrictMongoDTO.fromMongo(districtDoc);
+      const district = DistrictMongoDTO.toEntity(districtDto);
 
-      console.log('District Repo Mongo, district:', district);
-
-      return district
+      return district;
 
     } catch (error) {
-      throw new Error(`Error retrieving district from MongoDB: ${error}`);
+      throw new Error(`Error getting district by id on MongoDB: ${error}`);
     }
   }
 }
