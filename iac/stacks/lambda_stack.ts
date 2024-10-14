@@ -27,6 +27,9 @@ export class LambdaStack extends Construct {
   deleteInstituteByIdFunction: lambda.Function
   uploadInstitutePhotoFunction: lambda.Function
 
+  createDistrictFunction: lambda.Function
+  getDistrictByIdFunction: lambda.Function
+
   getPhrase: lambda.Function
 
   getAllPresencesByEventIdFunction: lambda.Function
@@ -102,13 +105,15 @@ export class LambdaStack extends Construct {
     this.getAllPresencesByEventIdFunction = this.createLambdaApiGatewayIntegration('get_all_presences_by_event_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
     this.confirmEventFunction = this.createLambdaApiGatewayIntegration('confirm_event', 'POST', apiGatewayResource, environmentVariables, authorizer)
 
+    // district routes
+    this.createDistrictFunction = this.createLambdaApiGatewayIntegration('create_district', 'POST', apiGatewayResource, environmentVariables, authorizer)
+    this.getDistrictByIdFunction = this.createLambdaApiGatewayIntegration('get_district_by_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
+
     this.functionsThatNeedS3Permissions = [
       this.uploadEventPhotoFunction,
       this.uploadInstitutePhotoFunction
     ]
 
-    this.functionsThatNeedCognitoPermissions = [
-      // this.signUpFunction,
-    ]
+    this.functionsThatNeedCognitoPermissions = []
   }
 }
