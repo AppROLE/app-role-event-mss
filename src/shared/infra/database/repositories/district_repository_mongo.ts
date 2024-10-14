@@ -37,6 +37,8 @@ export class DistrictRepositoryMongo implements IDistrictRepository {
 
       const districtMongoClient = db.connections[0].db?.collection<IDistrict>("District");
 
+      console.log('District Repo Mongo, districtId:', districtId);
+
       const districtDoc = await districtMongoClient?.findOne({ _id: districtId });
 
       return DistrictMongoDTO.toEntity(DistrictMongoDTO.fromMongo(districtDoc));
