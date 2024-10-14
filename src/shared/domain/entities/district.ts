@@ -34,7 +34,7 @@ export class District {
     }
 
     props.neighborhoods.forEach(neighborhood => {
-      if (neighborhood.length < 3 || neighborhood.length > 50) {
+      if (neighborhood.length < 2 || neighborhood.length > 50) {
         throw new EntityError('bairros');
       }
     })
