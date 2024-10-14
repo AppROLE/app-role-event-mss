@@ -14,7 +14,6 @@ export interface CreateInstituteParams {
   price?: number;
   district_id?: string;
   photos_url?: string[];
-  events_id?: string[];
 }
 
 export class CreateInstituteUseCase {
@@ -31,7 +30,7 @@ export class CreateInstituteUseCase {
       logo_photo: params.logo_photo || "",
       district_id: params.district_id || "",
       photos_url: params.photos_url || [],
-      events_id: params.events_id || [],
+      events_id: [],
       price: params.price || 0,
 
     });
