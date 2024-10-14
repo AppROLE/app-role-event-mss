@@ -10,6 +10,8 @@ import { FileRepositoryS3 } from "./infra/external-services/file_repository_s3";
 import { IFileRepository } from "./domain/irepositories/file_repository_interface";
 import { IPresenceRepository } from "./domain/irepositories/presence_repository_interface";
 import { PresenceRepositoryMongo } from "./infra/database/repositories/presence_repository_mongo";
+import { IDistrictRepository } from "./domain/irepositories/district_repository_interface";
+import { DistrictRepositoryMongo } from "./infra/database/repositories/district_repository_mongo";
 
 export class Environments {
   stage: STAGE = STAGE.TEST;
@@ -120,6 +122,21 @@ export class Environments {
       Environments.getEnvs().stage === STAGE.PROD
     ) {
       return new PresenceRepositoryMongo();
+    } else {
+      throw new Error("Invalid STAGE");
+    }
+  }
+
+  static getDistrictRepo(): IDistrictRepository {
+    if (Environments.getEnvs().stage === STAGE.TEST) {
+      throw new Error("Invalid STAGE");
+    }
+    else if (
+      Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.DEV ||
+      Environments.getEnvs().stage === STAGE.PROD
+    ) {
+      return new DistrictRepositoryMongo();
     } else {
       throw new Error("Invalid STAGE");
     }
