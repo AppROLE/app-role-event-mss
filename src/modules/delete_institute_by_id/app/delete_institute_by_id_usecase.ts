@@ -16,6 +16,9 @@ export class DeleteInstituteByIdUseCase {
       throw new NoItemsFound("institute");
     }
 
+    console.log('INSTITUTO: ', institute);
+    console.log('ARRAY: ', institute.instituteEventsId);
+
     if (institute.instituteEventsId) {
       for (const eventId of institute.instituteEventsId) {
         console.log("AQUI CACETEEEEEEEEEEE", eventId);
