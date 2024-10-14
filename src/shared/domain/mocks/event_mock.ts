@@ -15,7 +15,7 @@ export class EventMock {
               description:
                 "Galleria club. A melhor balada de São Paulo. Venha curtir com a gente!",
               address: "987 Club St, Downtown",
-              price: 80.0,
+              price: 1,
               ageRange: "21+",
               eventDate: new Date("2025-09-15"),
               districtId: "1",
@@ -30,7 +30,7 @@ export class EventMock {
               description:
                 "Vila Mix Festival. O maior festival de música sertaneja do Brasil.",
               address: "321 Mix Ave, City Center",
-              price: 120.0,
+              price: 1,
               ageRange: "18+",
               eventDate: new Date("2025-10-05"),
               districtId: "2",
@@ -45,7 +45,7 @@ export class EventMock {
               description:
                 "Modular. A melhor festa de música eletrônica de São Paulo.",
               address: "258 Dance Ln, Old Town",
-              price: 100.0,
+              price: 1,
               ageRange: "18+",
               eventDate: new Date("2025-11-20"),
               districtId: "3",
