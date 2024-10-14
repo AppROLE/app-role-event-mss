@@ -10,8 +10,8 @@ describe("GetEventByIdUseCase", () => {
     const mockRepo: IEventRepository = new EventRepositoryMock();
     const usecase = new GetEventByIdUseCase(mockRepo);
     const mock = new EventMock();
-    const event = mock.events[0]; // Obtendo o primeiro evento do mock
-    const eventId = event.getEventId; // Obtendo o ID real do evento no mock
+    const event = mock.events[0]; 
+    const eventId = event.getEventId; 
 
     console.log("EVENTO ID: ", event.getEventId);
     console.log("EVENTO: ", event);
