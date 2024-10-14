@@ -3,6 +3,7 @@ import { IDistrictRepository } from "src/shared/domain/irepositories/district_re
 import { connectDB } from "../models";
 import { IDistrict } from "../models/district_model";
 import { DistrictMongoDTO } from "../dtos/district_mongo_dto";
+import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 
 export class DistrictRepositoryMongo implements IDistrictRepository {
   async createDistrict(district: District): Promise<District> {
@@ -40,8 +41,15 @@ export class DistrictRepositoryMongo implements IDistrictRepository {
       console.log('District Repo Mongo, districtId:', districtId);
 
       const districtDoc = await districtMongoClient?.findOne({ _id: districtId });
+      
+      if (!districtDoc) throw new NoItemsFound('zona');
 
-      return DistrictMongoDTO.toEntity(DistrictMongoDTO.fromMongo(districtDoc));
+      const dto = DistrictMongoDTO.fromMongo(districtDoc);
+      const district = DistrictMongoDTO.toEntity(dto);
+
+      console.log('District Repo Mongo, district:', district);
+
+      return district
 
     } catch (error) {
       throw new Error(`Error retrieving district from MongoDB: ${error}`);
