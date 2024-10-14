@@ -10,8 +10,8 @@ export interface InstituteMongoDTOProps {
   name: string;
   logo_photo: string;
   description: string;
-  institute_type: string;
-  partner_type: string;
+  institute_type: string; 
+  partner_type: string; 
   phone: string;
   address: string;
   price: number;
@@ -35,8 +35,8 @@ export class InstituteMongoDTO {
   private name: string;
   private logo_photo: string;
   private description: string;
-  private institute_type: string;
-  private partner_type: string;
+  private institute_type: INSTITUTE_TYPE; 
+  private partner_type: string; 
   private phone: string;
   private address: string;
   private price: number;
@@ -59,7 +59,7 @@ export class InstituteMongoDTO {
     this.name = props.name;
     this.logo_photo = props.logo_photo;
     this.description = props.description;
-    this.institute_type = props.institute_type;
+    this.institute_type = props.institute_type as INSTITUTE_TYPE; 
     this.partner_type = props.partner_type;
     this.phone = props.phone;
     this.address = props.address;
@@ -76,13 +76,13 @@ export class InstituteMongoDTO {
       name: instituteMongoDTO.name,
       logo_photo: instituteMongoDTO.logo_photo,
       description: instituteMongoDTO.description,
-      institute_type: instituteMongoDTO.institute_type as INSTITUTE_TYPE,
+      institute_type: instituteMongoDTO.institute_type,
       phone: instituteMongoDTO.phone,
       address: instituteMongoDTO.address,
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
       photos_url: instituteMongoDTO.photos.map((photo) => photo.url),
-      events_id: instituteMongoDTO.events.map((event) => event._id),
+      events_id: instituteMongoDTO.events.map((event) => event._id).filter(id => id !== undefined), 
     });
   }
 
@@ -108,7 +108,7 @@ export class InstituteMongoDTO {
           price: 0,
           description: "",
           age_range: "",
-          event_date: new Date(),
+          event_date: new Date(), 
           features: [],
         })) || [],
     });
@@ -127,16 +127,16 @@ export class InstituteMongoDTO {
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
       photos: instituteMongoDTO.photos,
-      events: instituteMongoDTO?.events.map((eventId) => ({
-        _id: eventId,
-        name: "",
-        banner_url: "",
-        address: "",
-        price: 0,
-        description: "",
-        age_range: "",
-        event_date: new Date(),
-        features: [],
+      events: instituteMongoDTO.events.map((event) => ({
+        _id: event._id,
+        name: event.name || "", 
+        banner_url: event.banner_url || "",
+        address: event.address || "",
+        price: event.price || 0,
+        description: event.description || "",
+        age_range: event.age_range || "",
+        event_date: event.event_date || new Date(), 
+        features: event.features || [],
       })),
     });
 
