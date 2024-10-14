@@ -34,6 +34,7 @@ export class CreateInstituteController {
         district_id,
         price,
         phone,
+        event_id,
       } = req.data;
 
       const requiredParams = [
@@ -98,6 +99,11 @@ export class CreateInstituteController {
           throw new WrongTypeParameters("phone", "string", typeof phone);
         }
       }
+      if (event_id !== undefined) {
+        if (typeof event_id !== "string") {
+          throw new WrongTypeParameters("event_id", "string", typeof event_id);
+        }
+      }
 
       await this.usecase.execute({
         description: description,
@@ -109,6 +115,7 @@ export class CreateInstituteController {
         address: address,
         district_id: district_id,
         price: price,
+        events_id: event_id ? [event_id] : [],
       });
 
       const viewmodel = new CreateInstituteViewModel(
