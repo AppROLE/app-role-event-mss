@@ -170,32 +170,34 @@ export class Event {
   }
 
   set setEventPrice(price: number) {
-    this.validatePrice(price);
+    Event.validatePrice(price);
     this.price = price;
   }
 
   set setEventAgeRange(ageRange: string) {
-    this.validateAgeRange(ageRange);
+    Event.validateAgeRange(ageRange);
     this.ageRange = ageRange;
   }
 
   set setEventDate(eventDate: Date) {
-    this.validateEventDate(eventDate);
+    if (!Event.validateEventDate(eventDate)) {
+      throw new EntityError("Invalid event date");
+    }
     this.eventDate = eventDate;
   }
 
   set setEventDistrictId(districtId: string) {
-    this.validateDistrictId(districtId);
+    Event.validateDistrictId(districtId);
     this.districtId = districtId;
   }
 
   set setInstituteId(instituteId: string) {
-    this.validateInstituteId(instituteId);
+    Event.validateInstituteId(instituteId);
     this.instituteId = instituteId;
   }
 
   set setEventStatus(eventStatus: STATUS) {
-    this.validateEventStatus(eventStatus);
+    Event.validateEventStatus(eventStatus);
     this.eventStatus = eventStatus;
   }
 
@@ -205,23 +207,23 @@ export class Event {
 
   set setPackageType(packageType: PACKAGE_TYPE[]) {
     packageType.forEach((type) => {
-      this.validatePackageType(type);
+      Event.validatePackageType(type);
     });
     this.packageType = packageType;
   }
 
   set setMusicType(musicType: MUSIC_TYPE[]) {
-    this.validateMusicType(musicType);
+    Event.validateMusicType(musicType);
     this.musicType = musicType;
   }
 
   set setMenuLink(menuLink: string) {
-    this.validateMenuLink(menuLink);
+    Event.validateMenuLink(menuLink);
     this.menu_link = menuLink;
   }
 
   set setEventPhotoLink(eventPhotoLink: string) {
-    this.validateMenuLink(eventPhotoLink);
+    Event.validateMenuLink(eventPhotoLink);
     this.event_photo_link = eventPhotoLink;
   }
 
@@ -230,11 +232,12 @@ export class Event {
   }
 
   set setCategoryType(category: CATEGORY) {
-    this.validateCategory(category);
+    Event.validateCategory(category);
     this.category = category;
   }
 
   set setTicketUrl(ticketUrl: string) {
+    Event.validateTicketUrl(ticketUrl);
     this.ticketUrl = ticketUrl;
   }
 
@@ -242,32 +245,32 @@ export class Event {
     this.validateName(props.name);
     this.validateDescription(props.description);
     this.validateAddress(props.address);
-    this.validatePrice(props.price);
-    this.validateAgeRange(props.ageRange);
-    this.validateEventDate(props.eventDate);
-    this.validateDistrictId(props.districtId);
-    this.validateInstituteId(props.instituteId);
-    this.validateEventStatus(props.eventStatus);
+    Event.validatePrice(props.price);
+    Event.validateAgeRange(props.ageRange);
+    Event.validateEventDate(props.eventDate);
+    Event.validateDistrictId(props.districtId);
+    Event.validateInstituteId(props.instituteId);
+    Event.validateEventStatus(props.eventStatus);
 
     if (props.musicType) {
-      this.validateMusicType(props.musicType);
+      Event.validateMusicType(props.musicType);
     }
     if (props.menuLink) {
-      this.validateMenuLink(props.menuLink);
+      Event.validateMenuLink(props.menuLink);
     }
     if (props.eventPhotoLink) {
-      this.validateMenuLink(props.eventPhotoLink);
+      Event.validateMenuLink(props.eventPhotoLink);
     }
     if (props.packageType) {
       props.packageType.forEach((type) => {
-        this.validatePackageType(type);
+        Event.validatePackageType(type);
       });
     }
     if (props.category) {
-      this.validateCategory(props.category);
+      Event.validateCategory(props.category);
     }
     if (props.ticketUrl) {
-      this.validateTicketUrl(props.ticketUrl);
+      Event.validateTicketUrl(props.ticketUrl);
     }
   }
 
@@ -293,46 +296,47 @@ export class Event {
     }
   }
 
-  private validatePrice(price: number): void {
+  static validatePrice(price: number): void {
     if (price < 0 || price > 6) {
       throw new EntityError("preço");
     }
   }
 
-  private validateAgeRange(ageRange: string): void {
+  static validateAgeRange(ageRange: string): void {
     if (!ageRange || ageRange.trim().length === 0) {
       throw new EntityError("faixa etária");
     }
   }
-
-  private validateEventDate(eventDate: Date | string): void {
+  
+  static validateEventDate(eventDate: Date | string) {
     if (typeof eventDate === "string") {
       eventDate = new Date(eventDate);
-    }
-    if (!(eventDate instanceof Date) || isNaN(eventDate.getTime())) {
-      throw new EntityError("Invalid event date");
+      if (!(eventDate instanceof Date) || isNaN(eventDate.getTime())) {
+        return false;
+      }
+      return true;
     }
   }
 
-  private validateDistrictId(districtId: string): void {
+  static validateDistrictId(districtId: string): void {
     if (!districtId || districtId.trim().length === 0) {
       throw new EntityError("Invalid district ID");
     }
   }
 
-  private validateInstituteId(instituteId: string): void {
+  static validateInstituteId(instituteId: string): void {
     if (!instituteId || instituteId.trim().length === 0) {
       throw new EntityError("Invalid institute ID");
     }
   }
 
-  private validateEventStatus(eventStatus: STATUS): void {
+  static validateEventStatus(eventStatus: STATUS): void {
     if (!Object.values(STATUS).includes(eventStatus)) {
       throw new EntityError("Invalid event status");
     }
   }
 
-  private validateMusicType(musicType: MUSIC_TYPE[]): void {
+  static validateMusicType(musicType: MUSIC_TYPE[]): void {
     musicType.forEach((type) => {
       if (!Object.values(MUSIC_TYPE).includes(type)) {
         throw new EntityError("Invalid music type");
@@ -340,25 +344,25 @@ export class Event {
     });
   }
 
-  private validatePackageType(packageType: PACKAGE_TYPE): void {
+  static validatePackageType(packageType: PACKAGE_TYPE): void {
     if (!Object.values(PACKAGE_TYPE).includes(packageType)) {
       throw new EntityError("Invalid package type");
     }
   }
 
-  private validateMenuLink(menuLink: string): void {
+  static validateMenuLink(menuLink: string): void {
     if (!menuLink || menuLink.trim().length === 0) {
       throw new EntityError("Invalid menu link");
     }
   }
 
-  private validateTicketUrl(ticketUrl: string): void {
+  static validateTicketUrl(ticketUrl: string): void {
     if (!ticketUrl || ticketUrl.trim().length === 0) {
       throw new EntityError("Invalid ticket URL");
     }
   }
 
-  private validateCategory(category: CATEGORY): void {
+  static validateCategory(category: CATEGORY): void {
     if (!Object.values(CATEGORY).includes(category)) {
       throw new EntityError("Invalid category");
     }
