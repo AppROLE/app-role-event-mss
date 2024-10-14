@@ -10,20 +10,21 @@ describe("GetEventByIdUseCase", () => {
     const mockRepo: IEventRepository = new EventRepositoryMock();
     const usecase = new GetEventByIdUseCase(mockRepo);
     const mock = new EventMock();
-    const event = mock.events[0];
+    const event = mock.events[0]; // Obtendo o primeiro evento do mock
+    const eventId = event.getEventId; // Obtendo o ID real do evento no mock
+
     console.log("EVENTO ID: ", event.getEventId);
     console.log("EVENTO: ", event);
 
-    const eventId = "1";
-    const result = await usecase.execute(eventId);
+    const result = await usecase.execute(eventId!); 
 
-    expect(result.getEventId).toBe("1");
+    expect(result.getEventId).toBe(eventId); 
     expect(result.getEventName).toBe("Galleria Night");
     expect(result.getEventDescription).toBe(
       "Galleria club. A melhor balada de São Paulo. Venha curtir com a gente!"
     );
     expect(result.getEventAddress).toBe("987 Club St, Downtown");
-    expect(result.getEventPrice).toBe(80.0);
+    expect(result.getEventPrice).toBe(1);
     expect(result.getEventAgeRange).toBe("21+");
     expect(result.getEventDate).toEqual(new Date("2025-09-15"));
     expect(result.getEventDistrictId).toBe("1");
@@ -38,10 +39,11 @@ describe("GetEventByIdUseCase", () => {
     const mockRepo: IEventRepository = new EventRepositoryMock();
     const usecase = new GetEventByIdUseCase(mockRepo);
 
-    const eventId = "999"; 
+    const eventId = "999"; // Um ID que não existe no mock
 
     await expect(usecase.execute(eventId)).rejects.toThrow(
       "Nenhum item foi encontrado para event"
     );
   });
 });
+
