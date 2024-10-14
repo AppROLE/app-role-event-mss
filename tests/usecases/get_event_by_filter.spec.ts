@@ -24,12 +24,12 @@ describe("GetEventsByFilterUseCase", () => {
     const useCase = new GetEventsByFilterUseCase(mockRepo);
 
     const filter = {
-      price: 80.0,
+      price: 1,
     };
 
     const events = await useCase.execute(filter);
 
-    expect(events).toHaveLength(1);
+    expect(events).toHaveLength(3);
     expect(events[0].getEventName).toBe("Galleria Night");
   });
 
