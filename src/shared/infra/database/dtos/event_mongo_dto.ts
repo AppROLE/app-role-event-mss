@@ -2,6 +2,7 @@ import eventModel, { IEvent as EventDocument } from "../models/event.model";
 import { Event } from "../../../domain/entities/event";
 import { STATUS } from "../../../domain/enums/status_enum";
 import { MUSIC_TYPE } from "src/shared/domain/enums/music_type_enum";
+import { CATEGORY } from "src/shared/domain/enums/category_enum";
 
 export interface EventMongoDTOProps {
   _id: string;
@@ -104,6 +105,7 @@ export class EventMongoDTO {
       instituteId: eventMongoDTO.institute_id,
       eventStatus: STATUS.ACTIVE,
       bannerUrl: eventMongoDTO.banner_url,
+      category: eventMongoDTO.category as CATEGORY,
       ticketUrl: eventMongoDTO.ticket_url,
     });
   }
