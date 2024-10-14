@@ -6,8 +6,9 @@ import {
 import { DeleteInstituteByIdUseCase } from "./delete_institute_by_id_usecase";
 import { DeleteInstituteByIdController } from "./delete_institute_by_id_controller";
 
-const repo = Environments.getInstituteRepo();
-const usecase = new DeleteInstituteByIdUseCase(repo);
+const instituteRepository = Environments.getInstituteRepo();
+const eventRepository = Environments.getEventRepo();
+const usecase = new DeleteInstituteByIdUseCase(instituteRepository, eventRepository);
 const controller = new DeleteInstituteByIdController(usecase);
 
 export async function deleteInstituteByIdPresenter(event: Record<string, any>) {
