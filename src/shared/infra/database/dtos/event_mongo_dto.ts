@@ -1,6 +1,7 @@
 import eventModel, { IEvent as EventDocument } from "../models/event.model";
 import { Event } from "../../../domain/entities/event";
 import { STATUS } from "../../../domain/enums/status_enum";
+import { MUSIC_TYPE } from "src/shared/domain/enums/music_type_enum";
 
 export interface EventMongoDTOProps {
   _id: string;
@@ -55,7 +56,7 @@ export class EventMongoDTO {
     this.event_date = props.event_date;
     this.district_id = props.district_id;
     this.features = props.features;
-    this.music_type = props.music_type;
+    this.music_type = props.music_type || [];
     this.menu_link = props.menu_link;
     this.event_photo_link = props.event_photo_link || "";
     this.galery_link = props.galery_link;
@@ -83,7 +84,7 @@ export class EventMongoDTO {
       galery_link: eventDoc.galery_link,
       package_type: eventDoc.package_type,
       category: eventDoc.category,
-      ticket_url: eventDoc.ticket_url
+      ticket_url: eventDoc.ticket_url,
     });
   }
 
@@ -97,6 +98,7 @@ export class EventMongoDTO {
       ageRange: eventMongoDTO.age_range,
       eventDate: eventMongoDTO.event_date,
       districtId: eventMongoDTO.district_id,
+      musicType: eventMongoDTO.music_type.map((type) => type as MUSIC_TYPE),
       eventPhotoLink: eventMongoDTO.event_photo_link,
       galeryLink: eventMongoDTO.galery_link,
       instituteId: eventMongoDTO.institute_id,
