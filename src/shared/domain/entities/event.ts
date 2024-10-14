@@ -294,14 +294,14 @@ export class Event {
   }
 
   private validatePrice(price: number): void {
-    if (price < 0) {
-      throw new EntityError("Price cannot be negative");
+    if (price < 0 || price > 6) {
+      throw new EntityError("preço");
     }
   }
 
   private validateAgeRange(ageRange: string): void {
     if (!ageRange || ageRange.trim().length === 0) {
-      throw new EntityError("Age range must be a non-empty string");
+      throw new EntityError("faixa etária");
     }
   }
 
