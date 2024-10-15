@@ -77,4 +77,21 @@ export class PresenceRepositoryMongo implements IPresenceRepository {
       throw new Error("Error confirming presence");
     }
   }
+
+  async countPresencesByEvent(eventIds: string[]): Promise<{ eventId: string, count: number }[]> {
+    try {
+      const db = await connectDB();
+      const presenceMongoClient = db.connections[0].db?.collection<IPresence>("Presence");
+
+      const counts = await Promise.all(eventIds.map(async (eventId) => {
+        const count = await presenceMongoClient?.countDocuments({ event_id: eventId });
+        return { eventId, count: count || 0 };
+      }));
+
+      return counts;
+    } catch (error) {
+      throw new Error(`Error counting presences: ${error}`);
+    }
+  }
 }
+
