@@ -5,6 +5,7 @@ import { ForbiddenAction, NoItemsFound } from "src/shared/helpers/errors/usecase
 import { EntityError } from "src/shared/helpers/errors/domain_errors";
 import { MissingParameters, WrongTypeParameters } from "src/shared/helpers/errors/controller_errors";
 import { UserAPIGatewayDTO } from "src/shared/infra/dto/user_api_gateway_dto";
+import { CreateReviewViewModel } from "./create_review_viewmodel";
 
 export class CreateReviewController {
     constructor(private readonly usecase: CreateReviewUseCase) {}
@@ -28,7 +29,8 @@ export class CreateReviewController {
 
             await this.usecase.execute(star, review, reviewedAt, eventId, parsedUserApiGateway.username);
 
-            return new Created("Avaliação criada com sucesso");
+            const viewmodel = new CreateReviewViewModel("Avaliação criada com sucesso");
+            return new Created(viewmodel);
         } catch (error: any) {
             if (
                 error instanceof EntityError ||
