@@ -21,6 +21,8 @@ export class LambdaStack extends Construct {
   uploadEventPhotoFunction: lambda.Function 
   uploadGalleryEventFunction: lambda.Function
 
+  createReviewFunction: lambda.Function
+
   createInstituteFunction: lambda.Function
   getAllInstitutesFunction: lambda.Function
   getInstituteByIdFunction: lambda.Function
@@ -93,6 +95,9 @@ export class LambdaStack extends Construct {
     this.uploadGalleryEventFunction = this.createLambdaApiGatewayIntegration('upload_galery_event', 'POST', apiGatewayResource, environmentVariables)
     this.getTopEventsFunction = this.createLambdaApiGatewayIntegration('get_top_events', 'GET', apiGatewayResource, environmentVariables)
 
+    // review routes
+    this.createReviewFunction = this.createLambdaApiGatewayIntegration('create_review', 'POST', apiGatewayResource, environmentVariables, authorizer)
+
     // institute routes
     this.createInstituteFunction = this.createLambdaApiGatewayIntegration('create_institute', 'POST', apiGatewayResource, environmentVariables)
     this.getAllInstitutesFunction = this.createLambdaApiGatewayIntegration('get_all_institutes', 'GET', apiGatewayResource, environmentVariables)
@@ -116,6 +121,8 @@ export class LambdaStack extends Construct {
       this.uploadInstitutePhotoFunction
     ]
 
-    this.functionsThatNeedCognitoPermissions = []
+    this.functionsThatNeedCognitoPermissions = [
+      this.createReviewFunction
+    ]
   }
 }
