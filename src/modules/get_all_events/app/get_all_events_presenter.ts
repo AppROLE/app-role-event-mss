@@ -26,3 +26,5 @@ export async function lambda_handler(event: any, context: any) {
   const response = await getAllEventsPresenter(event);
   return response;
 }
+
+
