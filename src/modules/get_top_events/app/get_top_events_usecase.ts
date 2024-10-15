@@ -10,6 +10,8 @@ export class GetTopEventsUseCase {
   ) {}
 
   async execute(): Promise<any> {
+    console.log('ENTROU NO USECASE EXECUTE')
+    console.log('ENTROU NO USECASE EXECUTE')
     const { nextThursday, nextFriday, nextSaturday } = getUpcomingWeekdays();
     const dates = [nextThursday, nextFriday, nextSaturday];
     const dateLabels = ["Thursday", "Friday", "Saturday"]; 

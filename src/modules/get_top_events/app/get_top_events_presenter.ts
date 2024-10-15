@@ -7,10 +7,14 @@ import { PresenceRepositoryMongo } from "src/shared/infra/database/repositories/
 import { GetTopEventsUseCase } from "./get_top_events_usecase";
 import { GetTopEventsController } from "./get_top_events_controller";
 
+console.log("Loading FUNCTIONNN");
 const eventRepo = new EventRepositoryMongo();
 const presenceRepo = new PresenceRepositoryMongo();
+console.log('TEMOS os dois repos')
 const usecase = new GetTopEventsUseCase(eventRepo, presenceRepo);
+console.log('TEMOS usecase')
 const controller = new GetTopEventsController(usecase);
+console.log('TEMOS controller')
 
 export async function getTopEventsPresenter(event: Record<string, any>) {
   const httpRequest = new LambdaHttpRequest(event);
