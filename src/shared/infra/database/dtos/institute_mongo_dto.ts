@@ -17,7 +17,7 @@ export interface InstituteMongoDTOProps {
   price: number;
   district_id: string;
   photos: { url: string }[];
-  events: string[]; 
+  events: string[];
 }
 
 export class InstituteMongoDTO {
@@ -37,7 +37,7 @@ export class InstituteMongoDTO {
   constructor(props: InstituteMongoDTOProps) {
     this._id = props._id;
     this.name = props.name;
-    this.logo_photo = props.logo_photo || "";
+    this.logo_photo = props.logo_photo ;
     this.description = props.description;
     this.institute_type = props.institute_type as INSTITUTE_TYPE;
     this.partner_type = props.partner_type;
@@ -62,9 +62,7 @@ export class InstituteMongoDTO {
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
       photos_url: instituteMongoDTO.photos.map((photo) => photo.url),
-      events_id: instituteMongoDTO.events.filter(
-        (eventId) => eventId !== undefined
-      ),
+      events_id: instituteMongoDTO.events,
     });
   }
 
@@ -81,7 +79,7 @@ export class InstituteMongoDTO {
       price: institute.institutePrice || 0,
       district_id: institute.instituteDistrictId || "",
       photos: institute.institutePhotosUrl?.map((url) => ({ url })) || [],
-      events: institute.instituteEventsId || [], 
+      events: institute.instituteEventsId || [],
     });
   }
 
@@ -98,17 +96,7 @@ export class InstituteMongoDTO {
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
       photos: instituteMongoDTO.photos,
-      events: instituteMongoDTO.events.map((eventId) => ({
-        _id: eventId,
-        name: "", 
-        banner_url: "",
-        address: "",
-        price: 0,
-        description: "",
-        age_range: "",
-        event_date: new Date(), 
-        features: [],
-      })),
+      events: instituteMongoDTO.events,
     });
 
     return instituteDocument as InstituteDocument;
@@ -116,18 +104,18 @@ export class InstituteMongoDTO {
 
   static fromMongo(institute: any): InstituteMongoDTO {
     return new InstituteMongoDTO({
-      _id: institute._id || "",
+      _id: institute._id, 
       name: institute.name,
-      logo_photo: institute.logo_photo || "",
+      logo_photo: institute.logo_photo ,
       description: institute.description,
       institute_type: institute.institute_type,
       partner_type: institute.partner_type,
-      phone: institute.phone || "",
-      address: institute.address || "",
+      phone: institute.phone ,
+      address: institute.address ,
       price: institute.price || 0,
-      district_id: institute.district_id || "",
-      photos: institute.photos || [],
-      events: institute.events.map((event: { _id: string }) => event._id) || [],
+      district_id: institute.district_id ,
+      photos: institute.photos,
+      events: institute.events,
     });
   }
 }
