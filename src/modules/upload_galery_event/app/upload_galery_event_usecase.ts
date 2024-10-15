@@ -1,6 +1,7 @@
 import { IEventRepository } from "src/shared/domain/irepositories/event_repository_interface";
 import { IFileRepository } from "src/shared/domain/irepositories/file_repository_interface";
 import { Environments } from "src/shared/environments";
+import { FailedToAddToGallery } from "src/shared/helpers/errors/usecase_errors";
 
 export class UploadGalleryEventUseCase {
   constructor(
@@ -19,6 +20,10 @@ export class UploadGalleryEventUseCase {
     const nameFormat = eventName.replace(/\s+/g, "-");
 
     const numberImages = await this.eventRepo.countGalleryEvent(eventId);
+
+    if (numberImages.valueOf() >= 5) {
+      throw new FailedToAddToGallery();
+    }
 
     const imageKey = `${nameFormat}-${numberImages.valueOf() + 1}${typePhoto}`;
 
