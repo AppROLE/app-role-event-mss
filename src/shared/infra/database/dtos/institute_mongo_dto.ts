@@ -16,7 +16,7 @@ export interface InstituteMongoDTOProps {
   address: string;
   price: number;
   district_id: string;
-  photos: { url: string }[];
+  photos: string[];
   events: string[];
 }
 
@@ -31,13 +31,13 @@ export class InstituteMongoDTO {
   private address: string;
   private price: number;
   private district_id: string;
-  private photos: { url: string }[];
+  private photos: string[];
   private events: string[];
 
   constructor(props: InstituteMongoDTOProps) {
     this._id = props._id;
     this.name = props.name;
-    this.logo_photo = props.logo_photo ;
+    this.logo_photo = props.logo_photo;
     this.description = props.description;
     this.institute_type = props.institute_type as INSTITUTE_TYPE;
     this.partner_type = props.partner_type;
@@ -61,7 +61,7 @@ export class InstituteMongoDTO {
       address: instituteMongoDTO.address,
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
-      photos_url: instituteMongoDTO.photos.map((photo) => photo.url),
+      photos_url: instituteMongoDTO.photos,
       events_id: instituteMongoDTO.events,
     });
   }
@@ -78,7 +78,7 @@ export class InstituteMongoDTO {
       address: institute.instituteAddress || "",
       price: institute.institutePrice || 0,
       district_id: institute.instituteDistrictId || "",
-      photos: institute.institutePhotosUrl?.map((url) => ({ url })) || [],
+      photos: institute.institutePhotosUrl || [],
       events: institute.instituteEventsId || [],
     });
   }
@@ -104,16 +104,16 @@ export class InstituteMongoDTO {
 
   static fromMongo(institute: any): InstituteMongoDTO {
     return new InstituteMongoDTO({
-      _id: institute._id, 
+      _id: institute._id,
       name: institute.name,
-      logo_photo: institute.logo_photo ,
+      logo_photo: institute.logo_photo,
       description: institute.description,
       institute_type: institute.institute_type,
       partner_type: institute.partner_type,
-      phone: institute.phone ,
-      address: institute.address ,
-      price: institute.price || 0,
-      district_id: institute.district_id ,
+      phone: institute.phone,
+      address: institute.address,
+      price: institute.price,
+      district_id: institute.district_id,
       photos: institute.photos,
       events: institute.events,
     });
