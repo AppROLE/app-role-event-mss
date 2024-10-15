@@ -32,6 +32,6 @@ export class FailToSendEmail extends BaseError {
 
 export class FailedToAddToGallery extends BaseError {
   constructor() {
-    super("Falha ao adicionar à galeria");
+    super("Você atingiu o limite de fotos na galeria");
   }
 }
