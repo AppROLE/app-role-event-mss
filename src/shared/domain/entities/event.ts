@@ -5,6 +5,14 @@ import { CATEGORY } from "../enums/category_enum";
 import { MUSIC_TYPE } from "../enums/music_type_enum";
 import { PACKAGE_TYPE } from "../enums/package_type_enum";
 
+export interface ReviewProps {
+  instituteId: string;
+  eventId: string;
+  star: number;
+  review: string;
+  reviewedAt?: Date;
+}
+
 interface EventProps {
   eventId?: string;
   name: string;
@@ -25,6 +33,7 @@ interface EventProps {
   packageType?: PACKAGE_TYPE[];
   category?: CATEGORY;
   ticketUrl?: string;
+  reviews?: ReviewProps[];
 }
 
 export class Event {
@@ -47,6 +56,7 @@ export class Event {
   private packageType?: PACKAGE_TYPE[];
   private category?: CATEGORY;
   private ticketUrl?: string;
+  private reviews?: ReviewProps[];
 
   constructor(props: EventProps) {
     this.validate(props);
@@ -72,6 +82,7 @@ export class Event {
     this.packageType = props.packageType || [];
     this.category = props.category;
     this.ticketUrl = props.ticketUrl;
+    this.reviews = props.reviews || [];
   }
 
   get getEventId(): string | undefined {
@@ -148,6 +159,10 @@ export class Event {
 
   get getTicketUrl(): string | undefined {
     return this.ticketUrl;
+  }
+
+  get getReviews(): ReviewProps[] | undefined {
+    return this.reviews;
   }
 
   set setEventName(name: string) {
@@ -239,6 +254,10 @@ export class Event {
   set setTicketUrl(ticketUrl: string) {
     Event.validateTicketUrl(ticketUrl);
     this.ticketUrl = ticketUrl;
+  }
+
+  set setReviews(reviews: ReviewProps[]) {
+    this.reviews = reviews;
   }
 
   private validate(props: EventProps): void {
