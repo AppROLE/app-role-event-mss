@@ -11,7 +11,6 @@ export class GetTopEventsUseCase {
 
   async execute(): Promise<any> {
     console.log("ENTROU NO USECASE EXECUTE");
-    console.log("ENTROU NO USECASE EXECUTE");
     const { nextThursday, nextFriday, nextSaturday } = getUpcomingWeekdays();
     const dates = [nextThursday, nextFriday, nextSaturday];
     const dateLabels = ["Thursday", "Friday", "Saturday"];
@@ -19,8 +18,6 @@ export class GetTopEventsUseCase {
     const events = await this.eventRepo.getEventsByUpcomingDates(dates);
 
     console.log("EVENTOS RETORNADOS: ", events);
-
-    console.log("GetTopEventsUseCase -> execute -> events", events);
 
     const eventsByDate = dates.map((date, index) => {
       const eventsForDate = events.filter(
