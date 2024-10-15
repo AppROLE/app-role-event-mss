@@ -253,6 +253,8 @@ export class EventRepositoryMongo implements IEventRepository {
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
 
+      console.log("DATES AQUI: ", dates);
+
       const events = await eventMongoClient
         ?.find({
           event_date: { $in: dates },
