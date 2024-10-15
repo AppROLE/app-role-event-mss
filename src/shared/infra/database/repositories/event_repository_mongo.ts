@@ -123,6 +123,9 @@ export class EventRepositoryMongo implements IEventRepository {
 
       return EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc));
     } catch (error) {
+      if(error instanceof NoItemsFound) {
+        throw new NoItemsFound("evento");
+      }
       throw new Error(`Error retrieving event by ID from MongoDB: ${error}`);
     }
   }
