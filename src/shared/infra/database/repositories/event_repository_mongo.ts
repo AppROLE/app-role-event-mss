@@ -249,7 +249,7 @@ export class EventRepositoryMongo implements IEventRepository {
 
   async getEventsByUpcomingDates(dates: Date[]): Promise<Event[]> {
     try {
-      console.log("DADOS DAS DATAS: ", dates);
+      console.log("DADOS DAS DATAS: ", dates.map(date => date.toISOString()));
   
       if (!dates || dates.length === 0) {
         throw new Error("Dates array is empty or undefined.");
@@ -260,8 +260,12 @@ export class EventRepositoryMongo implements IEventRepository {
   
       const query = {
         $or: dates.map(date => {
-          const startOfDay = new Date(date.setUTCHours(0, 0, 0, 0)); 
-          const endOfDay = new Date(date.setUTCHours(23, 59, 59, 999)); 
+          const startOfDay = new Date(date);
+          startOfDay.setUTCHours(0, 0, 0, 0); 
+  
+          const endOfDay = new Date(date);
+          endOfDay.setUTCHours(23, 59, 59, 999); 
+  
           return {
             event_date: {
               $gte: startOfDay,
@@ -271,7 +275,7 @@ export class EventRepositoryMongo implements IEventRepository {
         })
       };
   
-      console.log("QUERY AQUI: ", query);
+      console.log("QUERY AQUI: ", JSON.stringify(query, null, 2));
   
       const events = await eventMongoClient?.find(query).toArray();
   
@@ -286,6 +290,7 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Error retrieving events by upcoming dates: ${error}`);
     }
   }
+  
   
 
   async createReview(star: number, review: string, reviewedAt: Date, eventId: string, username: string): Promise<void> {
