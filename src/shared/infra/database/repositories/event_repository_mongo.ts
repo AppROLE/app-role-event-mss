@@ -292,7 +292,25 @@ export class EventRepositoryMongo implements IEventRepository {
       if (!eventDoc) {
         throw new NoItemsFound("event");
       }
+      if(eventDoc.reviews.find((review) => review.username === username)) {
+        throw new Error("User already reviewed this event");
+      }
 
+      const reviewObj = {
+        username,
+        star,
+        review,
+        reviewedAt
+      };
+
+      const result = await eventMongoClient?.updateOne(
+        { _id: eventId },
+        { $push: { reviews: reviewObj } }
+      )
+
+      if (!result?.modifiedCount) {
+        throw new Error("Error adding review to event");
+      }
     } catch(error: any) {
       throw new Error(`Error retrieving events by upcoming dates: ${error}`);
     }
