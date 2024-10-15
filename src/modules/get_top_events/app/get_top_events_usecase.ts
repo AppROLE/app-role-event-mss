@@ -28,8 +28,6 @@ export class GetTopEventsUseCase {
             date.toISOString().slice(0, 10)
         );
 
-        console.log("EVENTOS PARA O DIA: ", dateLabels[index], eventsForDate);
-
         return {
           date: dateLabels[index],
           events:
@@ -59,7 +57,18 @@ export class GetTopEventsUseCase {
         }));
       });
 
-      return eventsByDate;
+      const topEventsByDate = eventsByDate.map((day) => {
+        const validEvents = day.events.filter((event) => event.presenceCount > 0);
+        if (validEvents.length === 0) {
+          return { date: day.date, events: [] }; 
+        }
+        const topEvent = validEvents.reduce((prev, current) =>
+          current.presenceCount > prev.presenceCount ? current : prev
+        );
+        return { date: day.date, events: [topEvent] };
+      });
+
+      return topEventsByDate;
     } catch (error: any) {
       console.error("Error in GetTopEventsUseCase:", error);
       throw new Error(`Error executing GetTopEventsUseCase: ${error.message}`);
