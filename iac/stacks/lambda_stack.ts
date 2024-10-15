@@ -16,6 +16,7 @@ export class LambdaStack extends Construct {
   getAllEventsFunction: lambda.Function
   getAllEventsByFilterFunction: lambda.Function
   getEventByIdFunction: lambda.Function
+  getTopEventsFunction: lambda.Function
   deleteEventByIdFunction: lambda.Function
   uploadEventPhotoFunction: lambda.Function 
   uploadGalleryEventFunction: lambda.Function
@@ -90,6 +91,7 @@ export class LambdaStack extends Construct {
     this.deleteEventByIdFunction = this.createLambdaApiGatewayIntegration('delete_event_by_id', 'DELETE', apiGatewayResource, environmentVariables)
     this.uploadEventPhotoFunction = this.createLambdaApiGatewayIntegration('upload_event_photo', 'POST', apiGatewayResource, environmentVariables)
     this.uploadGalleryEventFunction = this.createLambdaApiGatewayIntegration('upload_galery_event', 'POST', apiGatewayResource, environmentVariables)
+    this.getTopEventsFunction = this.createLambdaApiGatewayIntegration('get_top_events', 'GET', apiGatewayResource, environmentVariables)
 
     // institute routes
     this.createInstituteFunction = this.createLambdaApiGatewayIntegration('create_institute', 'POST', apiGatewayResource, environmentVariables)
