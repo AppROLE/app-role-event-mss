@@ -152,4 +152,11 @@ export class EventRepositoryMock implements IEventRepository {
     }
     return event.getGaleryLink ? event.getGaleryLink.length : 0;
   }
+
+  async createReview(star: number, review: string, reviewedAt: Date, eventId: string, username: string): Promise<void> {
+    const event = this.events.find((event) => event.getEventId === eventId);
+    if (!event) {
+      throw new NoItemsFound("event");
+    }
+  }
 }
