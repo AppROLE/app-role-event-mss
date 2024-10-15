@@ -83,15 +83,15 @@ export class EventMongoDTO {
       age_range: eventDoc.age_range,
       event_date: eventDoc.event_date,
       district_id: eventDoc.district_id,
-      features: eventDoc.features || [],  // Adicionando fallback para array vazio
-      music_type: eventDoc.music_type || [],  // Adicionando fallback para array vazio
+      features: eventDoc.features || [],  
+      music_type: eventDoc.music_type || [],  
       menu_link: eventDoc.menu_link,
       event_photo_link: eventDoc.event_photo_link,
-      galery_link: eventDoc.galery_link || [],  // Adicionando fallback para array vazio
-      package_type: eventDoc.package_type || [],  // Adicionando fallback para array vazio
+      galery_link: eventDoc.galery_link || [],  
+      package_type: eventDoc.package_type || [],  
       category: eventDoc.category,
       ticket_url: eventDoc.ticket_url || "",
-      reviews: eventDoc.reviews || []  // Adicionando fallback para array vazio
+      reviews: eventDoc.reviews || []  
     });
   }
   
