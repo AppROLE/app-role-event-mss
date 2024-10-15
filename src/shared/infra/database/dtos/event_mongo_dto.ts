@@ -100,6 +100,7 @@ export class EventMongoDTO {
       eventDate: eventMongoDTO.event_date,
       districtId: eventMongoDTO.district_id,
       musicType: eventMongoDTO.music_type.map((type) => type as MUSIC_TYPE),
+      menuLink: eventMongoDTO.menu_link,
       eventPhotoLink: eventMongoDTO.event_photo_link,
       galeryLink: eventMongoDTO.galery_link,
       instituteId: eventMongoDTO.institute_id,
