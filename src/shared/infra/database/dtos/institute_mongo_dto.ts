@@ -10,24 +10,14 @@ export interface InstituteMongoDTOProps {
   name: string;
   logo_photo: string;
   description: string;
-  institute_type: string; 
-  partner_type: string; 
+  institute_type: string;
+  partner_type: string;
   phone: string;
   address: string;
   price: number;
   district_id: string;
   photos: { url: string }[];
-  events: {
-    _id: string;
-    name: string;
-    banner_url: string;
-    address: string;
-    price: number;
-    description: string;
-    age_range: string;
-    event_date: Date;
-    features: { name: string }[];
-  }[];
+  events: string[]; 
 }
 
 export class InstituteMongoDTO {
@@ -35,31 +25,21 @@ export class InstituteMongoDTO {
   private name: string;
   private logo_photo: string;
   private description: string;
-  private institute_type: INSTITUTE_TYPE; 
-  private partner_type: string; 
+  private institute_type: INSTITUTE_TYPE;
+  private partner_type: string;
   private phone: string;
   private address: string;
   private price: number;
   private district_id: string;
   private photos: { url: string }[];
-  private events: {
-    _id: string;
-    name: string;
-    banner_url: string;
-    address: string;
-    price: number;
-    description: string;
-    age_range: string;
-    event_date: Date;
-    features: { name: string }[];
-  }[];
+  private events: string[];
 
   constructor(props: InstituteMongoDTOProps) {
     this._id = props._id;
     this.name = props.name;
-    this.logo_photo = props.logo_photo;
+    this.logo_photo = props.logo_photo || "";
     this.description = props.description;
-    this.institute_type = props.institute_type as INSTITUTE_TYPE; 
+    this.institute_type = props.institute_type as INSTITUTE_TYPE;
     this.partner_type = props.partner_type;
     this.phone = props.phone;
     this.address = props.address;
@@ -82,7 +62,9 @@ export class InstituteMongoDTO {
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
       photos_url: instituteMongoDTO.photos.map((photo) => photo.url),
-      events_id: instituteMongoDTO.events.map((event) => event._id).filter(id => id !== undefined), 
+      events_id: instituteMongoDTO.events.filter(
+        (eventId) => eventId !== undefined
+      ),
     });
   }
 
@@ -99,18 +81,7 @@ export class InstituteMongoDTO {
       price: institute.institutePrice || 0,
       district_id: institute.instituteDistrictId || "",
       photos: institute.institutePhotosUrl?.map((url) => ({ url })) || [],
-      events:
-        institute.instituteEventsId?.map((eventId) => ({
-          _id: eventId,
-          name: "",
-          banner_url: "",
-          address: "",
-          price: 0,
-          description: "",
-          age_range: "",
-          event_date: new Date(), 
-          features: [],
-        })) || [],
+      events: institute.instituteEventsId || [], 
     });
   }
 
@@ -127,16 +98,16 @@ export class InstituteMongoDTO {
       price: instituteMongoDTO.price,
       district_id: instituteMongoDTO.district_id,
       photos: instituteMongoDTO.photos,
-      events: instituteMongoDTO.events.map((event) => ({
-        _id: event._id,
-        name: event.name || "", 
-        banner_url: event.banner_url || "",
-        address: event.address || "",
-        price: event.price || 0,
-        description: event.description || "",
-        age_range: event.age_range || "",
-        event_date: event.event_date || new Date(), 
-        features: event.features || [],
+      events: instituteMongoDTO.events.map((eventId) => ({
+        _id: eventId,
+        name: "", 
+        banner_url: "",
+        address: "",
+        price: 0,
+        description: "",
+        age_range: "",
+        event_date: new Date(), 
+        features: [],
       })),
     });
 
@@ -156,7 +127,7 @@ export class InstituteMongoDTO {
       price: institute.price || 0,
       district_id: institute.district_id || "",
       photos: institute.photos || [],
-      events: institute.events || [],
+      events: institute.events.map((event: { _id: string }) => event._id) || [],
     });
   }
 }
