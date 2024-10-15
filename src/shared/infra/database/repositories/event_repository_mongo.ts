@@ -257,7 +257,6 @@ export class EventRepositoryMongo implements IEventRepository {
   
       const db = await connectDB();
   
-      // Garantindo que a conexão foi estabelecida e a coleção está acessível
       if (!db || !db.connections[0] || !db.connections[0].db) {
         throw new Error("Failed to connect to MongoDB or retrieve the database.");
       }
@@ -289,20 +288,28 @@ export class EventRepositoryMongo implements IEventRepository {
   
       const events = await eventMongoClient.find(query).toArray();
   
-      console.log("EVENTOS AQUI VINDO DO REPO DO MONGOOOOO PORRA: ", events);
+      console.log("EVENTOS AQUI VINDO DO REPO DO MONGOOOOO: ", events);
   
       if (!events || events.length === 0) {
         throw new Error("No events found for the provided dates.");
       }
   
-      return events.map((eventDoc) =>
-        EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
-      );
+      const mappedEvents = events.map((eventDoc) => {
+        if (!eventDoc) {
+          console.error("Documento de evento inválido:", eventDoc);
+          throw new Error("Invalid event document from MongoDB.");
+        }
+  
+        return EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc));
+      });
+  
+      return mappedEvents;
     } catch (error: any) {
       console.error("Error retrieving events by upcoming dates:", error);
       throw new Error(`Error retrieving events by upcoming dates: ${error.message}`);
     }
   }
+  
   
 
   async createReview(
