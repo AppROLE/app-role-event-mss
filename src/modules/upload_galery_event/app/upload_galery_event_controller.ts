@@ -8,7 +8,7 @@ import {
   OK,
 } from "src/shared/helpers/external_interfaces/http_codes";
 import { EntityError } from "src/shared/helpers/errors/domain_errors";
-import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { FailedToAddToGallery, NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 import { IRequest } from "src/shared/helpers/external_interfaces/external_interface";
 
 export class UploadGalleryEventController {
@@ -47,6 +47,9 @@ export class UploadGalleryEventController {
 
       return new OK(viewmodel.toJSON());
     } catch (error: any) {
+      if (error instanceof FailedToAddToGallery) {
+        return new BadRequest(error.message);
+      }
       if (error instanceof EntityError) {
         return new BadRequest(error.message);
       }
