@@ -249,40 +249,46 @@ export class EventRepositoryMongo implements IEventRepository {
 
   async getEventsByUpcomingDates(dates: Date[]): Promise<Event[]> {
     try {
-      console.log("DADOS DAS DATAS: ", dates.map(date => date.toISOString()));
-  
+      console.log(
+        "DADOS DAS DATAS: ",
+        dates.map((date) => date.toISOString())
+      );
+
       if (!dates || dates.length === 0) {
         throw new Error("Dates array is empty or undefined.");
       }
-  
+
       const db = await connectDB();
-      const eventMongoClient = db.connections[0].db?.collection<IEvent>("Event");
-  
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
       const query = {
-        $or: dates.map(date => {
+        $or: dates.map((date) => {
           const startOfDay = new Date(date);
-          startOfDay.setUTCHours(0, 0, 0, 0); 
-  
+          startOfDay.setUTCHours(0, 0, 0, 0);
+
           const endOfDay = new Date(date);
-          endOfDay.setUTCHours(23, 59, 59, 999); 
-  
+          endOfDay.setUTCHours(23, 59, 59, 999);
+
           return {
             event_date: {
               $gte: startOfDay,
-              $lt: endOfDay
-            }
+              $lt: endOfDay,
+            },
           };
-        })
+        }),
       };
-  
+
       console.log("QUERY AQUI: ", JSON.stringify(query, null, 2));
-  
+
       const events = await eventMongoClient?.find(query).toArray();
-  
+
+      console.log("EVENTOS AQUI VINDO DO REPO DO MONGOOOOO PORRA: ", events);
+
       if (!events || events.length === 0) {
         throw new NoItemsFound("events");
       }
-  
+
       return events.map((eventDoc) =>
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
@@ -290,20 +296,25 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Error retrieving events by upcoming dates: ${error}`);
     }
   }
-  
-  
 
-  async createReview(star: number, review: string, reviewedAt: Date, eventId: string, username: string): Promise<void> {
+  async createReview(
+    star: number,
+    review: string,
+    reviewedAt: Date,
+    eventId: string,
+    username: string
+  ): Promise<void> {
     try {
       const db = await connectDB();
-      const eventMongoClient = db.connections[0].db?.collection<IEvent>("Event");
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
 
       if (!eventDoc) {
         throw new NoItemsFound("event");
       }
-      if(eventDoc.reviews.find((review) => review.username === username)) {
+      if (eventDoc.reviews.find((review) => review.username === username)) {
         throw new Error("User already reviewed this event");
       }
 
@@ -311,18 +322,18 @@ export class EventRepositoryMongo implements IEventRepository {
         username,
         star,
         review,
-        reviewedAt
+        reviewedAt,
       };
 
       const result = await eventMongoClient?.updateOne(
         { _id: eventId },
         { $push: { reviews: reviewObj } }
-      )
+      );
 
       if (!result?.modifiedCount) {
         throw new Error("Error adding review to event");
       }
-    } catch(error: any) {
+    } catch (error: any) {
       throw new Error(`Error retrieving events by upcoming dates: ${error}`);
     }
   }
