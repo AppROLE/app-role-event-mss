@@ -123,7 +123,7 @@ export class EventRepositoryMongo implements IEventRepository {
 
       return EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc));
     } catch (error) {
-      if(error instanceof NoItemsFound) {
+      if (error instanceof NoItemsFound) {
         throw new NoItemsFound("evento");
       }
       throw new Error(`Error retrieving event by ID from MongoDB: ${error}`);
@@ -195,7 +195,6 @@ export class EventRepositoryMongo implements IEventRepository {
         throw new NoItemsFound("event");
       }
 
-
       if (!eventDoc.galery_link) {
         await eventMongoClient?.updateOne(
           { _id: eventId },
@@ -203,7 +202,11 @@ export class EventRepositoryMongo implements IEventRepository {
         );
       }
 
-      console.log("TIPO DO GALERY", typeof eventDoc.galery_link, typeof(eventDoc.galery_link));
+      console.log(
+        "TIPO DO GALERY",
+        typeof eventDoc.galery_link,
+        typeof eventDoc.galery_link
+      );
 
       const result = await eventMongoClient?.updateOne(
         { _id: eventId },
@@ -241,6 +244,30 @@ export class EventRepositoryMongo implements IEventRepository {
       return eventDoc.galery_link ? eventDoc.galery_link.length : 0;
     } catch (error) {
       throw new Error(`Error counting event gallery on MongoDB: ${error}`);
+    }
+  }
+
+  async getEventsByUpcomingDates(dates: Date[]): Promise<Event[]> {
+    try {
+      const db = await connectDB();
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
+      const events = await eventMongoClient
+        ?.find({
+          event_date: { $in: dates },
+        })
+        .toArray();
+
+      if (!events || events.length === 0) {
+        throw new NoItemsFound("events");
+      }
+
+      return events.map((eventDoc) =>
+        EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
+      );
+    } catch (error) {
+      throw new Error(`Error retrieving events by upcoming dates: ${error}`);
     }
   }
 }
