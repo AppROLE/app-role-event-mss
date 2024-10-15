@@ -21,7 +21,7 @@ export class DeleteInstituteByIdUseCase {
 
     if (institute.instituteEventsId) {
       for (const eventId of institute.instituteEventsId) {
-        console.log("AQUI CACETEEEEEEEEEEE", eventId);
+        console.log("AQUI CACETEEEEEEEEEEE PORRA ", eventId);
         await this.eventRepository.deleteEventById(eventId);
       }
     }
