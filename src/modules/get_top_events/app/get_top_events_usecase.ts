@@ -16,6 +16,8 @@ export class GetTopEventsUseCase {
 
     const events = await this.eventRepo.getEventsByUpcomingDates(dates);
 
+    console.log("GetTopEventsUseCase -> execute -> events", events)
+
     const eventsByDate = dates.map((date, index) => {
       const eventsForDate = events.filter((event: Event) => event.getEventDate.toISOString().slice(0, 10) === date.toISOString().slice(0, 10));
 
