@@ -17,7 +17,7 @@ export class GetTopEventsUseCase {
 
     const events = await this.eventRepo.getEventsByUpcomingDates(dates);
 
-    console.log("EVENTOS RETORNADOS: ", events);
+    console.log("EVENTOS RETORNADOS DO USECASE: ", events);
 
     const eventsByDate = dates.map((date, index) => {
       const eventsForDate = events.filter(
@@ -25,6 +25,8 @@ export class GetTopEventsUseCase {
           event.getEventDate.toISOString().slice(0, 10) ===
           date.toISOString().slice(0, 10)
       );
+
+      console.log("EVENTOS PARA O DIA: ", dateLabels[index], eventsForDate);
 
       if (eventsForDate.length === 0) {
         return { date: dateLabels[index], events: [] };
