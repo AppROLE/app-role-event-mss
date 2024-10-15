@@ -252,19 +252,28 @@ export class EventRepositoryMongo implements IEventRepository {
       const db = await connectDB();
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
-
-      console.log("DATES AQUI: ", dates);
-
-      const events = await eventMongoClient
-        ?.find({
-          event_date: { $in: dates },
+  
+      const query = {
+        $or: dates.map(date => {
+          const startOfDay = new Date(date.setUTCHours(0, 0, 0, 0)); 
+          const endOfDay = new Date(date.setUTCHours(23, 59, 59, 999)); 
+          return {
+            event_date: {
+              $gte: startOfDay,
+              $lt: endOfDay
+            }
+          };
         })
-        .toArray();
-
+      };
+  
+      console.log("QUERY AQUI: ", query);
+  
+      const events = await eventMongoClient?.find(query).toArray();
+  
       if (!events || events.length === 0) {
         throw new NoItemsFound("events");
       }
-
+  
       return events.map((eventDoc) =>
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
