@@ -249,31 +249,37 @@ export class EventRepositoryMongo implements IEventRepository {
 
   async getEventsByUpcomingDates(dates: Date[]): Promise<Event[]> {
     try {
+      console.log("DADOS DAS DATAS: ", dates);
+
+      if (!dates || dates.length === 0) {
+        throw new Error("Dates array is empty or undefined.");
+      }
+
       const db = await connectDB();
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
-  
+
       const query = {
-        $or: dates.map(date => {
-          const startOfDay = new Date(date.setUTCHours(0, 0, 0, 0)); 
-          const endOfDay = new Date(date.setUTCHours(23, 59, 59, 999)); 
+        $or: dates.map((date) => {
+          const startOfDay = new Date(date.setUTCHours(0, 0, 0, 0));
+          const endOfDay = new Date(date.setUTCHours(23, 59, 59, 999));
           return {
             event_date: {
               $gte: startOfDay,
-              $lt: endOfDay
-            }
+              $lt: endOfDay,
+            },
           };
-        })
+        }),
       };
-  
+
       console.log("QUERY AQUI: ", query);
-  
+
       const events = await eventMongoClient?.find(query).toArray();
-  
+
       if (!events || events.length === 0) {
         throw new NoItemsFound("events");
       }
-  
+
       return events.map((eventDoc) =>
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
@@ -282,18 +288,24 @@ export class EventRepositoryMongo implements IEventRepository {
     }
   }
 
-  async createReview(star: number, review: string, reviewedAt: Date, eventId: string, username: string): Promise<void> {
+  async createReview(
+    star: number,
+    review: string,
+    reviewedAt: Date,
+    eventId: string,
+    username: string
+  ): Promise<void> {
     try {
       const db = await connectDB();
-      const eventMongoClient = db.connections[0].db?.collection<IEvent>("Event");
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
 
       const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
 
       if (!eventDoc) {
         throw new NoItemsFound("event");
       }
-
-    } catch(error: any) {
+    } catch (error: any) {
       throw new Error(`Error retrieving events by upcoming dates: ${error}`);
     }
   }
