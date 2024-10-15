@@ -6,8 +6,7 @@ import { MUSIC_TYPE } from "../enums/music_type_enum";
 import { PACKAGE_TYPE } from "../enums/package_type_enum";
 
 export interface ReviewProps {
-  instituteId: string;
-  eventId: string;
+  username: string;
   star: number;
   review: string;
   reviewedAt?: Date;

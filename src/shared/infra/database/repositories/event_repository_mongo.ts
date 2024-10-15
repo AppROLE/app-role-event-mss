@@ -272,4 +272,20 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Error retrieving events by upcoming dates: ${error}`);
     }
   }
+
+  async createReview(star: number, review: string, reviewedAt: Date, eventId: string, username: string): Promise<void> {
+    try {
+      const db = await connectDB();
+      const eventMongoClient = db.connections[0].db?.collection<IEvent>("Event");
+
+      const eventDoc = await eventMongoClient?.findOne({ _id: eventId });
+
+      if (!eventDoc) {
+        throw new NoItemsFound("event");
+      }
+
+    } catch(error: any) {
+      throw new Error(`Error retrieving events by upcoming dates: ${error}`);
+    }
+  }
 }

@@ -2,8 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 
 interface IReview {
-  institute_id: string;
-  event_id: string;
+  username: string;
   star: number;
   review: string;
   reviewed_at?: Date;
@@ -29,8 +28,7 @@ export interface IEvent extends Document {
   reviews: IReview[];
 }
 const ReviewSchema = new Schema<IReview>({
-  institute_id: { type: String, ref: "Institute" },
-  event_id: { type: String, ref: "Event" },
+  username: { type: String },
   star: { type: Number, required: true },
   review: { type: String, required: true },
   reviewed_at: { type: Date, default: Date.now },

@@ -9,5 +9,12 @@ export interface IEventRepository {
   updateEventPhoto(eventId: string, profilePhoto: string): Promise<string>;
   updateGalleryArray(evenetId: string, imageKey: string): Promise<void>;
   countGalleryEvent(eventId: string): Promise<Number>;
-  getEventsByUpcomingDates(dates: Date[]): Promise<Event[]>
+  getEventsByUpcomingDates(dates: Date[]): Promise<Event[]>;
+  createReview(
+    star: number,
+    review: string,
+    reviewedAt: Date,
+    eventId: string,
+    username: string
+  ): Promise<void>;
 }
