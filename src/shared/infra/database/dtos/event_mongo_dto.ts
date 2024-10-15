@@ -117,8 +117,7 @@ export class EventMongoDTO {
       category: eventMongoDTO.category as CATEGORY,
       ticketUrl: eventMongoDTO.ticket_url,
       reviews: eventMongoDTO.reviews.map(review => ({
-        instituteId: review.instituteId,
-        eventId: review.eventId,
+        username: review.username,
         star: review.star,
         review: review.review,
         reviewedAt: review.reviewedAt
@@ -147,8 +146,7 @@ export class EventMongoDTO {
       category: event.getCategoryType,
       ticket_url: event.getTicketUrl || "",
       reviews: event.getReviews?.map(review => ({
-        instituteId: review.instituteId,
-        eventId: review.eventId,
+        username: review.username,
         star: review.star,
         review: review.review,
         reviewedAt: review.reviewedAt
@@ -178,8 +176,7 @@ export class EventMongoDTO {
       created_at: new Date(),
       ticket_url: eventMongoDTO.ticket_url,
       reviews: eventMongoDTO.reviews.map(review => ({
-        institute_id: review.instituteId,
-        event_id: review.eventId,
+        username: review.username,
         star: review.star,
         review: review.review,
         reviewed_at: review.reviewedAt
