@@ -9,4 +9,5 @@ export interface IPresenceRepository {
     profilePhoto?: string,
     promoterCode?: string
   ): Promise<void>;
+  countPresencesByEvent(eventIds: string[]): Promise<{ eventId: string, count: number }[]>;
 }
