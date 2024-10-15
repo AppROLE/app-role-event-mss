@@ -249,27 +249,33 @@ export class EventRepositoryMongo implements IEventRepository {
 
   async getEventsByUpcomingDates(dates: Date[]): Promise<Event[]> {
     try {
-      console.log(
-        "DADOS DAS DATAS: ",
-        dates.map((date) => date.toISOString())
-      );
-
+      console.log("DADOS DAS DATAS: ", dates.map((date) => date.toISOString()));
+  
       if (!dates || dates.length === 0) {
         throw new Error("Dates array is empty or undefined.");
       }
-
+  
       const db = await connectDB();
-      const eventMongoClient =
-        db.connections[0].db?.collection<IEvent>("Event");
-
+  
+      // Garantindo que a conexão foi estabelecida e a coleção está acessível
+      if (!db || !db.connections[0] || !db.connections[0].db) {
+        throw new Error("Failed to connect to MongoDB or retrieve the database.");
+      }
+  
+      const eventMongoClient = db.connections[0].db.collection<IEvent>("Event");
+  
+      if (!eventMongoClient) {
+        throw new Error("Failed to retrieve Event collection from MongoDB.");
+      }
+  
       const query = {
         $or: dates.map((date) => {
           const startOfDay = new Date(date);
           startOfDay.setUTCHours(0, 0, 0, 0);
-
+  
           const endOfDay = new Date(date);
           endOfDay.setUTCHours(23, 59, 59, 999);
-
+  
           return {
             event_date: {
               $gte: startOfDay,
@@ -278,24 +284,26 @@ export class EventRepositoryMongo implements IEventRepository {
           };
         }),
       };
-
+  
       console.log("QUERY AQUI: ", JSON.stringify(query, null, 2));
-
-      const events = await eventMongoClient?.find(query).toArray();
-
+  
+      const events = await eventMongoClient.find(query).toArray();
+  
       console.log("EVENTOS AQUI VINDO DO REPO DO MONGOOOOO PORRA: ", events);
-
+  
       if (!events || events.length === 0) {
-        throw new NoItemsFound("events");
+        throw new Error("No events found for the provided dates.");
       }
-
+  
       return events.map((eventDoc) =>
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
-    } catch (error) {
-      throw new Error(`Error retrieving events by upcoming dates: ${error}`);
+    } catch (error: any) {
+      console.error("Error retrieving events by upcoming dates:", error);
+      throw new Error(`Error retrieving events by upcoming dates: ${error.message}`);
     }
   }
+  
 
   async createReview(
     star: number,
