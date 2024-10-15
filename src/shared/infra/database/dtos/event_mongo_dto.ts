@@ -1,5 +1,5 @@
 import eventModel, { IEvent as EventDocument } from "../models/event.model";
-import { Event } from "../../../domain/entities/event";
+import { Event, ReviewProps } from "../../../domain/entities/event";
 import { STATUS } from "../../../domain/enums/status_enum";
 import { MUSIC_TYPE } from "src/shared/domain/enums/music_type_enum";
 import { CATEGORY } from "src/shared/domain/enums/category_enum";
@@ -25,6 +25,7 @@ export interface EventMongoDTOProps {
   package_type?: string[];
   category?: string;
   ticket_url?: string;
+  reviews: ReviewProps[];
 }
 
 export class EventMongoDTO {
@@ -46,6 +47,7 @@ export class EventMongoDTO {
   private package_type: string[];
   private category?: string;
   private ticket_url?: string;
+  private reviews: ReviewProps[];
 
   constructor(props: EventMongoDTOProps) {
     this._id = props._id;
@@ -66,6 +68,7 @@ export class EventMongoDTO {
     this.package_type = props.package_type || [];
     this.category = props.category;
     this.ticket_url = props.ticket_url || "";
+    this.reviews = props.reviews;
   }
 
   static fromMongo(eventDoc: any): EventMongoDTO {
@@ -88,6 +91,7 @@ export class EventMongoDTO {
       package_type: eventDoc.package_type,
       category: eventDoc.category,
       ticket_url: eventDoc.ticket_url,
+      reviews: eventDoc.reviews,
     });
   }
 
@@ -112,6 +116,13 @@ export class EventMongoDTO {
       packageType: eventMongoDTO.package_type.map((type) => type as PACKAGE_TYPE),
       category: eventMongoDTO.category as CATEGORY,
       ticketUrl: eventMongoDTO.ticket_url,
+      reviews: eventMongoDTO.reviews.map(review => ({
+        instituteId: review.instituteId,
+        eventId: review.eventId,
+        star: review.star,
+        review: review.review,
+        reviewedAt: review.reviewedAt
+      }))
     });
   }
 
@@ -135,6 +146,13 @@ export class EventMongoDTO {
       package_type: event.getPackageType || [],
       category: event.getCategoryType,
       ticket_url: event.getTicketUrl || "",
+      reviews: event.getReviews?.map(review => ({
+        instituteId: review.instituteId,
+        eventId: review.eventId,
+        star: review.star,
+        review: review.review,
+        reviewedAt: review.reviewedAt
+      })) || []
     });
   }
 
@@ -159,6 +177,13 @@ export class EventMongoDTO {
       category: eventMongoDTO.category,
       created_at: new Date(),
       ticket_url: eventMongoDTO.ticket_url,
+      reviews: eventMongoDTO.reviews.map(review => ({
+        institute_id: review.instituteId,
+        event_id: review.eventId,
+        star: review.star,
+        review: review.review,
+        reviewed_at: review.reviewedAt
+      })),
     });
 
     return eventDocument as EventDocument;
