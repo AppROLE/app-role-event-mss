@@ -11,6 +11,25 @@ export class EventRepositoryMock implements IEventRepository {
     this.events = eventMock.events;
   }
 
+  async getEventsByUpcomingDates(dates: Date[]): Promise<Event[]> {
+    if (!dates || dates.length === 0) {
+      return [];
+    }
+
+    const upcomingEvents = this.events.filter((event) => {
+      const eventDate = new Date(event.getEventDate);
+      return dates.some(
+        (date) => eventDate.toISOString() === date.toISOString()
+      );
+    });
+
+    if (upcomingEvents.length === 0) {
+      throw new NoItemsFound("eventos");
+    }
+
+    return upcomingEvents;
+  }
+
   async createEvent(event: Event): Promise<Event> {
     this.events.push(event);
     return event;
@@ -126,7 +145,7 @@ export class EventRepositoryMock implements IEventRepository {
     event.setGaleryLink.push(imageKey);
   }
 
-  async countGalleryEvent (eventId: string): Promise<Number> {
+  async countGalleryEvent(eventId: string): Promise<Number> {
     const event = this.events.find((event) => event.getEventId === eventId);
     if (!event) {
       throw new NoItemsFound("event");
