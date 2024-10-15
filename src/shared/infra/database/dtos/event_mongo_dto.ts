@@ -3,6 +3,8 @@ import { Event } from "../../../domain/entities/event";
 import { STATUS } from "../../../domain/enums/status_enum";
 import { MUSIC_TYPE } from "src/shared/domain/enums/music_type_enum";
 import { CATEGORY } from "src/shared/domain/enums/category_enum";
+import { PACKAGE_TYPE } from "src/shared/domain/enums/package_type_enum";
+import { FEATURE } from "src/shared/domain/enums/feature_enum";
 
 export interface EventMongoDTOProps {
   _id: string;
@@ -99,6 +101,7 @@ export class EventMongoDTO {
       ageRange: eventMongoDTO.age_range,
       eventDate: eventMongoDTO.event_date,
       districtId: eventMongoDTO.district_id,
+      features: eventMongoDTO.features.map((feature) => feature as FEATURE),
       musicType: eventMongoDTO.music_type.map((type) => type as MUSIC_TYPE),
       menuLink: eventMongoDTO.menu_link,
       eventPhotoLink: eventMongoDTO.event_photo_link,
@@ -106,6 +109,7 @@ export class EventMongoDTO {
       instituteId: eventMongoDTO.institute_id,
       eventStatus: STATUS.ACTIVE,
       bannerUrl: eventMongoDTO.banner_url,
+      packageType: eventMongoDTO.package_type.map((type) => type as PACKAGE_TYPE),
       category: eventMongoDTO.category as CATEGORY,
       ticketUrl: eventMongoDTO.ticket_url,
     });
