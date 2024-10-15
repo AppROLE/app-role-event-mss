@@ -94,7 +94,7 @@ export class LambdaStack extends Construct {
     // institute routes
     this.createInstituteFunction = this.createLambdaApiGatewayIntegration('create_institute', 'POST', apiGatewayResource, environmentVariables)
     this.getAllInstitutesFunction = this.createLambdaApiGatewayIntegration('get_all_institutes', 'GET', apiGatewayResource, environmentVariables)
-    this.getInstituteByIdFunction = this.createLambdaApiGatewayIntegration('get_institute_by_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
+    this.getInstituteByIdFunction = this.createLambdaApiGatewayIntegration('get_institute_by_id', 'GET', apiGatewayResource, environmentVariables)
     this.deleteInstituteByIdFunction = this.createLambdaApiGatewayIntegration('delete_institute_by_id', 'DELETE', apiGatewayResource, environmentVariables)
     this.getAllInstitutesByPartnerTypeFuntion = this.createLambdaApiGatewayIntegration('get_all_institutes_by_partner_type', 'GET', apiGatewayResource, environmentVariables)
     this.uploadInstitutePhotoFunction = this.createLambdaApiGatewayIntegration('upload_institute_photo', 'POST', apiGatewayResource, environmentVariables)
