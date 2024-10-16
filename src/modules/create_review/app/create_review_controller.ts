@@ -1,7 +1,7 @@
 import { IRequest } from "src/shared/helpers/external_interfaces/external_interface";
 import { CreateReviewUseCase } from "./create_review_usecase";
-import { BadRequest, Created, InternalServerError, NotFound, Unauthorized } from "src/shared/helpers/external_interfaces/http_codes";
-import { ForbiddenAction, NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { BadRequest, Conflict, Created, InternalServerError, NotFound, Unauthorized } from "src/shared/helpers/external_interfaces/http_codes";
+import { ConflictItems, ForbiddenAction, NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 import { EntityError } from "src/shared/helpers/errors/domain_errors";
 import { MissingParameters, WrongTypeParameters } from "src/shared/helpers/errors/controller_errors";
 import { UserAPIGatewayDTO } from "src/shared/infra/dto/user_api_gateway_dto";
@@ -39,7 +39,9 @@ export class CreateReviewController {
             ) {
                 return new BadRequest(error.message)
             }
-        
+            if (error instanceof ConflictItems) {
+                return new Conflict(error.message);
+            }
             if (error instanceof ForbiddenAction) {
                 return new Unauthorized(error.message)
             }

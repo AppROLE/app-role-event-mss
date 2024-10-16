@@ -5,6 +5,7 @@ import { EventMongoDTO } from "../dtos/event_mongo_dto";
 import { connectDB } from "../models";
 import { IEventRepository } from "../../../domain/irepositories/event_repository_interface";
 import {
+  ConflictItems,
   FailedToAddToGallery,
   NoItemsFound,
 } from "../../../../../src/shared/helpers/errors/usecase_errors";
@@ -330,7 +331,7 @@ export class EventRepositoryMongo implements IEventRepository {
         throw new NoItemsFound("event");
       }
       if (eventDoc.reviews.find((review) => review.username === username)) {
-        throw new Error("User already reviewed this event");
+        throw new ConflictItems("event");
       }
 
       const reviewObj = {
