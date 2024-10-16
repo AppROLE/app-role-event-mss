@@ -63,6 +63,7 @@ export class GetEventByIdViewModel {
       packageType: this.packageType,
       category: this.category,
       ticketUrl: this.ticketUrl,
+      rating: this.reviews != undefined ? this.reviews?.reduce((acc, review) => acc + review.star, 0) / this.reviews?.length : 0,
       reviews: this.reviews,
     };
   }
