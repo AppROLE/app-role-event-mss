@@ -3,7 +3,7 @@ import { ConfirmEventUseCase } from "./confirm_event_usecase";
 import { EntityError } from "src/shared/helpers/errors/domain_errors";
 import { MissingParameters, WrongTypeParameters } from "src/shared/helpers/errors/controller_errors";
 import { UserAPIGatewayDTO } from "src/shared/infra/dto/user_api_gateway_dto";
-import { ForbiddenAction, NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { ForbiddenAction, NoItemsFound, UserAlreadyConfirmedEvent } from "src/shared/helpers/errors/usecase_errors";
 import { ConfirmEventViewmodel } from "./confirm_event_viewmodel";
 import { BadRequest, InternalServerError, NotFound, OK, Unauthorized } from "src/shared/helpers/external_interfaces/http_codes";
 
@@ -46,6 +46,10 @@ export class ConfirmEventController {
         error instanceof MissingParameters ||
         error instanceof WrongTypeParameters
       ) {
+        return new BadRequest(error.message)
+      }
+
+      if (error instanceof UserAlreadyConfirmedEvent) {
         return new BadRequest(error.message)
       }
 
