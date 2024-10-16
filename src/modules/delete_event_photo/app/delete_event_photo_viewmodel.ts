@@ -1,4 +1,4 @@
-export class DeleteEventPhotoByIdViewModel {
+export class DeleteEventPhotoViewModel {
     message: string;
   
     constructor(message: string) {
