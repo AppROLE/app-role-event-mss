@@ -93,5 +93,28 @@ export class PresenceRepositoryMongo implements IPresenceRepository {
       throw new Error(`Error counting presences: ${error}`);
     }
   }
+
+  async getPresenceByEventAndUser(eventId: string, username: string): Promise<Presence | null> {
+    try {
+      const db = await connectDB();
+      const presenceMongoClient = db.connections[0].db?.collection<IPresence>("Presence");
+
+      const presenceDoc = await presenceMongoClient?.findOne({ event_id: eventId, username });
+
+      if (!presenceDoc) return null;
+
+      return new Presence({
+        id: presenceDoc._id,
+        eventId: presenceDoc.event_id,
+        username: presenceDoc.username,
+        nickname: presenceDoc.nickname,
+        profilePhoto: presenceDoc.profile_photo,
+        promoterCode: presenceDoc.promoter_code,
+        checkedInAt: presenceDoc.checked_in_at || new Date()
+      });
+    } catch (error) {
+      throw new Error(`Error getting presence by event and user: ${error}`);
+    }
+  }
 }
 
