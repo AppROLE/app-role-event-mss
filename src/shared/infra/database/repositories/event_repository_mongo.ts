@@ -69,13 +69,15 @@ export class EventRepositoryMongo implements IEventRepository {
         console.error.bind(console, "connection error:");
         throw new Error("Erro ao conectar ao MongoDB");
       });
-
+  
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
-
+  
       const query: any = {};
-
-      if (filter.name) query.name = filter.name;
+  
+      if (filter.name) {
+        query.name = { $regex: new RegExp(filter.name, "i") };
+      }
       if (filter.price) query.price = Number(filter.price);
       if (filter.address) query.address = filter.address;
       if (filter.age_range) query.age_range = filter.age_range;
@@ -89,15 +91,15 @@ export class EventRepositoryMongo implements IEventRepository {
       if (filter.package_type)
         query.package_type = { $in: filter.package_type };
       if (filter.ticket_url) query.ticket_url = filter.ticket_url;
-
+  
       const eventDocs = (await eventMongoClient
         ?.find(query)
         .toArray()) as IEvent[];
-
+  
       if (!eventDocs || eventDocs.length === 0) {
         throw new NoItemsFound("evento");
       }
-
+  
       return eventDocs.map((eventDoc) =>
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
@@ -105,6 +107,7 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Erro ao buscar eventos com filtro no MongoDB: ${error}`);
     }
   }
+  
 
   async getEventById(eventId: string): Promise<Event> {
     try {

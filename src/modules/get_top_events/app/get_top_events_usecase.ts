@@ -39,6 +39,11 @@ export class GetTopEventsUseCase {
               ? eventsForDate.map((event) => ({
                   eventId: event.getEventId,
                   name: event.getEventName,
+                  districtId: event.getEventDistrictId,
+                  date: event.getEventDate,
+                  rating: event.getReviews != undefined ? event.getReviews?.reduce((acc, review) => acc + review.star, 0) / event.getReviews?.length : 0,
+                  eventPhoto: event.getEventPhotoLink,
+                  friends: [],
                   presenceCount: 0,
                 }))
               : [],
