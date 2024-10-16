@@ -21,6 +21,7 @@ export class LambdaStack extends Construct {
   uploadEventPhotoFunction: lambda.Function 
   uploadGalleryEventFunction: lambda.Function
   getAllConfirmedEventsFunction: lambda.Function
+  deleteEventPhotoFunction: lambda.Function
 
   createReviewFunction: lambda.Function
 
@@ -96,6 +97,7 @@ export class LambdaStack extends Construct {
     this.uploadGalleryEventFunction = this.createLambdaApiGatewayIntegration('upload_galery_event', 'POST', apiGatewayResource, environmentVariables)
     this.getTopEventsFunction = this.createLambdaApiGatewayIntegration('get_top_events', 'GET', apiGatewayResource, environmentVariables)
     this.getAllConfirmedEventsFunction = this.createLambdaApiGatewayIntegration('get_all_confirmed_event', 'GET', apiGatewayResource, environmentVariables, authorizer)
+    this.deleteEventPhotoFunction = this.createLambdaApiGatewayIntegration('delete_event_photo', 'POST', apiGatewayResource, environmentVariables)
 
     // review routes
     this.createReviewFunction = this.createLambdaApiGatewayIntegration('create_review', 'POST', apiGatewayResource, environmentVariables, authorizer)
