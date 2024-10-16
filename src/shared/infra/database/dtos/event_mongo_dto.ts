@@ -18,6 +18,7 @@ export interface EventMongoDTOProps {
   event_date: Date;
   district_id: string;
   features: string[];
+  eventStatus?: string;
   music_type: string[];
   menu_link: string;
   event_photo_link?: string;
@@ -40,6 +41,7 @@ export class EventMongoDTO {
   private event_date: Date;
   private district_id: string;
   private features: string[];
+  private eventStatus?: string;
   private music_type: string[];
   private menu_link: string;
   private event_photo_link?: string;
@@ -61,6 +63,7 @@ export class EventMongoDTO {
     this.event_date = props.event_date;
     this.district_id = props.district_id;
     this.features = props.features;
+    this.eventStatus = props.eventStatus || STATUS.ACTIVE;
     this.music_type = props.music_type || [];
     this.menu_link = props.menu_link;
     this.event_photo_link = props.event_photo_link || "";
@@ -83,7 +86,8 @@ export class EventMongoDTO {
       age_range: eventDoc.age_range,
       event_date: eventDoc.event_date,
       district_id: eventDoc.district_id,
-      features: eventDoc.features || [],  
+      features: eventDoc.features || [], 
+      eventStatus: eventDoc.eventStatus || STATUS.ACTIVE, 
       music_type: eventDoc.music_type || [],  
       menu_link: eventDoc.menu_link,
       event_photo_link: eventDoc.event_photo_link,
@@ -138,6 +142,7 @@ export class EventMongoDTO {
       event_date: event.getEventDate,
       district_id: event.getEventDistrictId,
       features: event.getFeatures,
+      eventStatus: event.getEventStatus,
       music_type: event.getMusicType || [],
       menu_link: event.getMenuLink || "",
       event_photo_link: event.getEventPhotoLink || "",
@@ -167,6 +172,7 @@ export class EventMongoDTO {
       event_date: eventMongoDTO.event_date,
       district_id: eventMongoDTO.district_id,
       features: eventMongoDTO.features,
+      eventStatus: eventMongoDTO.eventStatus,
       music_type: eventMongoDTO.music_type,
       menu_link: eventMongoDTO.menu_link,
       event_photo_link: eventMongoDTO.event_photo_link,
