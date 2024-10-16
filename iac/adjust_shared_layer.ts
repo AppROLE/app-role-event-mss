@@ -44,15 +44,6 @@ export function adjustLayerDirectory(): void {
     `Copying files from ${sourceDirectory} to ${destinationDirectory}`
   );
   copyFolderSync(sourceDirectory, destinationDirectory);
-
-  // Cria e ajusta o diretório para sqlalchemy
-  // const sqlalchemySitePackagesDir = path.join(iacDirectory, REQUIREMENTS_DIR_NAME, ...SITE_PACKAGES_DIR_NAMES);
-
-  // if (fs.existsSync(sqlalchemySitePackagesDir)) {
-  //   fs.rmSync(sqlalchemySitePackagesDir, { recursive: true, force: true });
-  // }
-
-  // fs.mkdirSync(sqlalchemySitePackagesDir, { recursive: true });
 }
 
 function copyFolderSync(src: string, dest: string): void {
