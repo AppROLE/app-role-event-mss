@@ -350,6 +350,12 @@ export class EventRepositoryMongo implements IEventRepository {
         throw new Error("Error adding review to event");
       }
     } catch (error: any) {
+      if (error instanceof NoItemsFound) {
+        throw new NoItemsFound("event");
+      }
+      if (error instanceof ConflictItems) {
+        throw new ConflictItems("event");
+      }
       throw new Error(`Error retrieving events by upcoming dates: ${error}`);
     }
   }
