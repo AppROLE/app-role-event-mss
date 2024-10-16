@@ -10,6 +10,7 @@ import {
   NoItemsFound,
 } from "../../../../../src/shared/helpers/errors/usecase_errors";
 import { v4 as uuidv4 } from "uuid";
+import { IPresence } from "../models/presence.model";
 
 export class EventRepositoryMongo implements IEventRepository {
   async createEvent(event: Event): Promise<Event> {
@@ -357,6 +358,34 @@ export class EventRepositoryMongo implements IEventRepository {
         throw new ConflictItems("event");
       }
       throw new Error(`Error retrieving events by upcoming dates: ${error}`);
+    }
+  }
+
+  async getAllConfirmedEvents(username: string): Promise<Event[]> {
+    try {
+      const db = await connectDB();
+      const presenceMongoClient =
+        db.connections[0].db?.collection<IPresence>("Presence");
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
+      const presences = await presenceMongoClient?.find({ username}).toArray();
+
+      if (!presences || presences.length === 0) {
+        throw new NoItemsFound("event");
+      }
+
+      const eventIds = presences.map((presence) => presence.event_id);
+
+      const events = await eventMongoClient?.find({ _id: { $in: eventIds } }).toArray();
+
+      if (!events || events.length === 0) {
+        throw new NoItemsFound("event");
+      }
+
+      return events.map((eventDoc) => EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc)));
+    } catch (error: any) {
+      throw new Error(`Error retrieving all confirmed events: ${error}`);
     }
   }
 }
