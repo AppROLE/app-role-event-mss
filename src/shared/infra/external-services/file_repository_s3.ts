@@ -1,5 +1,7 @@
 import { S3 } from "aws-sdk";
 import { IFileRepository } from "src/shared/domain/irepositories/file_repository_interface";
+import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { BadRequest } from "src/shared/helpers/external_interfaces/http_codes";
 
 export class FileRepositoryS3 implements IFileRepository {
   s3BucketName: string;
@@ -63,7 +65,7 @@ export class FileRepositoryS3 implements IFileRepository {
       const eventName = filename.substring(
         filename.lastIndexOf("-") + 1,
         filename.lastIndexOf(".")
-      ); 
+      );
 
       if (!eventName) {
         throw new Error("Nome do evento não encontrado no nome do arquivo.");
@@ -84,9 +86,7 @@ export class FileRepositoryS3 implements IFileRepository {
       );
 
       if (matchingFiles.length === 0) {
-        throw new Error(
-          `Nenhum arquivo encontrado com o nome do evento: ${eventName}`
-        );
+        throw new NoItemsFound("foto do evento");
       }
 
       const deletePromises = matchingFiles.map(async (file) => {
@@ -101,9 +101,9 @@ export class FileRepositoryS3 implements IFileRepository {
 
       await Promise.all(deletePromises);
     } catch (error: any) {
-      throw new Error(
-        `FileRepositoryS3, Error on deleteEventPhotoByEventName: ${error.message}`
-      );
+      if (error instanceof NoItemsFound) {
+        throw new NoItemsFound(error.message);
+      }
     }
   }
 }
