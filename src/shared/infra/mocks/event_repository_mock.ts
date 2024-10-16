@@ -159,4 +159,8 @@ export class EventRepositoryMock implements IEventRepository {
       throw new NoItemsFound("event");
     }
   }
+
+  async getAllConfirmedEvents(username: string): Promise<Event[]> {
+    return this.events.filter((event) => event.getEventId?.includes(username));
+  }
 }
