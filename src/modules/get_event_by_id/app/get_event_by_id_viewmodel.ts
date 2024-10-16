@@ -1,4 +1,4 @@
-import { Event } from "../../../shared/domain/entities/event";
+import { Event, ReviewProps } from "../../../shared/domain/entities/event";
 
 export class GetEventByIdViewModel {
   private eventId?: string;
@@ -19,6 +19,7 @@ export class GetEventByIdViewModel {
   private packageType?: string[];
   private category?: string;
   private ticketUrl?: string;
+  private reviews?: ReviewProps[];
 
   constructor(event: Event) {
     this.eventId = event.getEventId;
@@ -39,6 +40,7 @@ export class GetEventByIdViewModel {
     this.packageType = event.getPackageType;
     this.category = event.getCategoryType;
     this.ticketUrl = event.getTicketUrl;
+    this.reviews = event.getReviews;
   }
 
   toJSON() {
@@ -61,6 +63,7 @@ export class GetEventByIdViewModel {
       packageType: this.packageType,
       category: this.category,
       ticketUrl: this.ticketUrl,
+      reviews: this.reviews,
     };
   }
 }
