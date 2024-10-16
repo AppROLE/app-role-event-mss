@@ -35,3 +35,9 @@ export class FailedToAddToGallery extends BaseError {
     super("Você atingiu o limite de fotos na galeria");
   }
 }
+
+export class UserAlreadyConfirmedEvent extends BaseError {
+  constructor() {
+    super("Usuário já confirmou presença neste evento");
+  }
+}
