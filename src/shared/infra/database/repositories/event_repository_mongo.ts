@@ -117,7 +117,6 @@ export class EventRepositoryMongo implements IEventRepository {
     }
   }
 
-
   async getEventById(eventId: string): Promise<Event> {
     try {
       const db = await connectDB();
