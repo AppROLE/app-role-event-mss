@@ -121,20 +121,18 @@ export class CreateEventController {
         instituteId,
         eventStatus: STATUS[eventStatus as keyof typeof STATUS],
         musicType: musicType
-          ? [MUSIC_TYPE[musicType as keyof typeof MUSIC_TYPE]]
+          ? (musicType as string[]).map((type) => MUSIC_TYPE[type as keyof typeof MUSIC_TYPE])
           : undefined,
         menuLink: typeof menuLink === "string" ? menuLink : undefined,
         galeryLink: typeof galeryLink === "string" ? [galeryLink] : undefined,
         bannerUrl: typeof bannerUrl === "string" ? bannerUrl : undefined,
-        features: (features as string[]).map(
-          (feature) => FEATURE[feature as keyof typeof FEATURE]
-        ),
-        packageType: (packageType as string[]).map(
-          (pkg) => PACKAGE_TYPE[pkg as keyof typeof PACKAGE_TYPE]
-        ),
-        category: category
-          ? CATEGORY[category as keyof typeof CATEGORY]
+        features: features
+          ? (features as string[]).map((feature) => FEATURE[feature as keyof typeof FEATURE])
           : undefined,
+        packageType: packageType
+          ? (packageType as string[]).map((pkg) => PACKAGE_TYPE[pkg as keyof typeof PACKAGE_TYPE])
+          : undefined,
+        category: category ? CATEGORY[category as keyof typeof CATEGORY] : undefined,
         ticketUrl: typeof ticketUrl === "string" ? ticketUrl : undefined,
       });
 
