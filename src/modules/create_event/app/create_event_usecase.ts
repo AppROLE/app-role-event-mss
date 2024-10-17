@@ -1,4 +1,5 @@
 import { Event } from "src/shared/domain/entities/event";
+import { AGE_ENUM } from "src/shared/domain/enums/age_enum";
 import { CATEGORY } from "src/shared/domain/enums/category_enum";
 import { FEATURE } from "src/shared/domain/enums/feature_enum";
 import { MUSIC_TYPE } from "src/shared/domain/enums/music_type_enum";
@@ -11,7 +12,7 @@ interface CreateEventParams {
   description: string;
   address: string;
   price: number;
-  ageRange: string;
+  ageRange: AGE_ENUM;
   eventDate: Date;
   districtId: string;
   instituteId: string;
