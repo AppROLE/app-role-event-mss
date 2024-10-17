@@ -4,6 +4,7 @@ import { FEATURE } from "../enums/feature_enum";
 import { CATEGORY } from "../enums/category_enum";
 import { MUSIC_TYPE } from "../enums/music_type_enum";
 import { PACKAGE_TYPE } from "../enums/package_type_enum";
+import { AGE_ENUM } from "../enums/age_enum";
 
 export interface ReviewProps {
   username: string;
@@ -18,7 +19,7 @@ interface EventProps {
   description: string;
   address: string;
   price: number;
-  ageRange: string;
+  ageRange: AGE_ENUM;
   eventDate: Date; // e.g., new Date('2023-10-01T00:00:00Z')
   districtId: string;
   instituteId: string;
@@ -42,7 +43,7 @@ export class Event {
   private bannerUrl?: string;
   private address: string;
   private price: number;
-  private ageRange: string;
+  private ageRange: AGE_ENUM;
   private eventDate: Date;
   private districtId: string;
   private instituteId: string;
@@ -112,7 +113,7 @@ export class Event {
     return this.price;
   }
 
-  get getEventAgeRange(): string {
+  get getEventAgeRange(): AGE_ENUM {
     return this.ageRange;
   }
 
@@ -188,7 +189,7 @@ export class Event {
     this.price = price;
   }
 
-  set setEventAgeRange(ageRange: string) {
+  set setEventAgeRange(ageRange: AGE_ENUM) {
     Event.validateAgeRange(ageRange);
     this.ageRange = ageRange;
   }
@@ -320,12 +321,12 @@ export class Event {
     }
   }
 
-  static validateAgeRange(ageRange: string): void {
-    if (!ageRange || ageRange.trim().length === 0) {
+  static validateAgeRange(ageRange: AGE_ENUM): void {
+    if (!ageRange || !Object.values(AGE_ENUM).includes(ageRange)) {
       throw new EntityError("faixa etária");
     }
   }
-  
+
   static validateEventDate(eventDate: Date | string) {
     if (typeof eventDate === "string") {
       eventDate = new Date(eventDate);
@@ -338,51 +339,51 @@ export class Event {
 
   static validateDistrictId(districtId: string): void {
     if (!districtId || districtId.trim().length === 0) {
-      throw new EntityError("Invalid district ID");
+      throw new EntityError("district ID");
     }
   }
 
   static validateInstituteId(instituteId: string): void {
     if (!instituteId || instituteId.trim().length === 0) {
-      throw new EntityError("Invalid institute ID");
+      throw new EntityError("institute ID");
     }
   }
 
   static validateEventStatus(eventStatus: STATUS): void {
     if (!Object.values(STATUS).includes(eventStatus)) {
-      throw new EntityError("Invalid event status");
+      throw new EntityError("event status");
     }
   }
 
   static validateMusicType(musicType: MUSIC_TYPE[]): void {
     musicType.forEach((type) => {
       if (!Object.values(MUSIC_TYPE).includes(type)) {
-        throw new EntityError("Invalid music type");
+        throw new EntityError("music type");
       }
     });
   }
 
   static validatePackageType(packageType: PACKAGE_TYPE): void {
     if (!Object.values(PACKAGE_TYPE).includes(packageType)) {
-      throw new EntityError("Invalid package type");
+      throw new EntityError("package type");
     }
   }
 
   static validateMenuLink(menuLink: string): void {
     if (!menuLink || menuLink.trim().length === 0) {
-      throw new EntityError("Invalid menu link");
+      throw new EntityError("menu link");
     }
   }
 
   static validateTicketUrl(ticketUrl: string): void {
     if (!ticketUrl || ticketUrl.trim().length === 0) {
-      throw new EntityError("Invalid ticket URL");
+      throw new EntityError("ticket URL");
     }
   }
 
   static validateCategory(category: CATEGORY): void {
     if (!Object.values(CATEGORY).includes(category)) {
-      throw new EntityError("Invalid category");
+      throw new EntityError("category");
     }
   }
 }
