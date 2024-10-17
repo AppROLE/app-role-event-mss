@@ -34,6 +34,14 @@ export class CreateReviewUseCase {
 
         const reviwedDate = new Date(reviewedAt);
 
-        await this.repo.createReview(star, review, reviwedDate, eventId, name, photoUrl, username);
+        await this.repo.createReview(
+            star,
+            review,
+            reviwedDate,
+            eventId,
+            name,
+            photoUrl,
+            username
+        );
     }
 }
