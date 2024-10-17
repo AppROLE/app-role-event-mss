@@ -338,9 +338,9 @@ export class EventRepositoryMongo implements IEventRepository {
     review: string,
     reviewedAt: Date,
     eventId: string,
-    username: string,
     name: string,
-    photoUrl: string
+    photoUrl: string,
+    username: string
   ): Promise<void> {
     try {
       const db = await connectDB();
