@@ -338,7 +338,9 @@ export class EventRepositoryMongo implements IEventRepository {
     review: string,
     reviewedAt: Date,
     eventId: string,
-    username: string
+    username: string,
+    name: string,
+    photoUrl: string
   ): Promise<void> {
     try {
       const db = await connectDB();
@@ -357,6 +359,8 @@ export class EventRepositoryMongo implements IEventRepository {
       const reviewObj = {
         username,
         star,
+        photoUrl,
+        name,
         review,
         reviewedAt,
       };
