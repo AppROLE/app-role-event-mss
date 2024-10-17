@@ -116,7 +116,7 @@ export class CreateEventController {
         description,
         address,
         price,
-        ageRange: AGE_ENUM[ageRange as keyof typeof AGE_ENUM],
+        ageRange: Object.values(AGE_ENUM).includes(ageRange as AGE_ENUM) ? (ageRange as AGE_ENUM) : AGE_ENUM.DEFAULT, // Replace 'DEFAULT' with an appropriate default value from AGE_ENUM
         eventDate,
         districtId,
         instituteId,
