@@ -69,37 +69,46 @@ export class EventRepositoryMongo implements IEventRepository {
         console.error.bind(console, "connection error:");
         throw new Error("Erro ao conectar ao MongoDB");
       });
-  
+
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
-  
+
       const query: any = {};
-  
+
       if (filter.name) {
         query.name = { $regex: new RegExp(filter.name, "i") };
       }
       if (filter.price) query.price = Number(filter.price);
-      if (filter.address) query.address = filter.address;
       if (filter.age_range) query.age_range = filter.age_range;
       if (filter.event_date)
         query.event_date = { $gte: new Date(filter.event_date) };
       if (filter.district_id) query.district_id = filter.district_id;
-      if (filter.institute_id) query.institute_id = filter.institute_id;
-      if (filter.music_type) query.music_type = { $in: filter.music_type };
-      if (filter.features) query.features = { $in: filter.features };
-      if (filter.category) query.category = filter.category;
-      if (filter.package_type)
-        query.package_type = { $in: filter.package_type };
-      if (filter.ticket_url) query.ticket_url = filter.ticket_url;
-  
+      // if (filter.institute_id) query.institute_id = filter.institute_id;
+
+      if (filter.music_type) {
+        const musicTypes = filter.music_type.split(" ");
+        query.music_type = { $in: musicTypes };
+      }
+      if (filter.features) {
+        const features = filter.features.split(" ");
+        query.features = { $in: features };
+      }
+
+      // if (filter.package_type) {
+      //   const packageTypes = filter.package_type.split(" ");
+      //   query.package_type = { $in: packageTypes };
+      // }
+
+      // if (filter.category) query.category = filter.category;
+
       const eventDocs = (await eventMongoClient
         ?.find(query)
         .toArray()) as IEvent[];
-  
+
       if (!eventDocs || eventDocs.length === 0) {
         throw new NoItemsFound("evento");
       }
-  
+
       return eventDocs.map((eventDoc) =>
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
@@ -107,7 +116,7 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Erro ao buscar eventos com filtro no MongoDB: ${error}`);
     }
   }
-  
+
 
   async getEventById(eventId: string): Promise<Event> {
     try {
@@ -254,32 +263,37 @@ export class EventRepositoryMongo implements IEventRepository {
 
   async getEventsByUpcomingDates(dates: Date[]): Promise<Event[]> {
     try {
-      console.log("DADOS DAS DATAS: ", dates.map((date) => date.toISOString()));
-  
+      console.log(
+        "DADOS DAS DATAS: ",
+        dates.map((date) => date.toISOString())
+      );
+
       if (!dates || dates.length === 0) {
         throw new Error("Dates array is empty or undefined.");
       }
-  
+
       const db = await connectDB();
-  
+
       if (!db || !db.connections[0] || !db.connections[0].db) {
-        throw new Error("Failed to connect to MongoDB or retrieve the database.");
+        throw new Error(
+          "Failed to connect to MongoDB or retrieve the database."
+        );
       }
-  
+
       const eventMongoClient = db.connections[0].db.collection<IEvent>("Event");
-  
+
       if (!eventMongoClient) {
         throw new Error("Failed to retrieve Event collection from MongoDB.");
       }
-  
+
       const query = {
         $or: dates.map((date) => {
           const startOfDay = new Date(date);
           startOfDay.setUTCHours(0, 0, 0, 0);
-  
+
           const endOfDay = new Date(date);
           endOfDay.setUTCHours(23, 59, 59, 999);
-  
+
           return {
             event_date: {
               $gte: startOfDay,
@@ -288,34 +302,34 @@ export class EventRepositoryMongo implements IEventRepository {
           };
         }),
       };
-  
+
       console.log("QUERY AQUI: ", JSON.stringify(query, null, 2));
-  
+
       const events = await eventMongoClient.find(query).toArray();
-  
+
       console.log("EVENTOS AQUI VINDO DO REPO DO MONGOOOOO: ", events);
-  
+
       if (!events || events.length === 0) {
         throw new Error("No events found for the provided dates.");
       }
-  
+
       const mappedEvents = events.map((eventDoc) => {
         if (!eventDoc) {
           console.error("Documento de evento inválido:", eventDoc);
           throw new Error("Invalid event document from MongoDB.");
         }
-  
+
         return EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc));
       });
-  
+
       return mappedEvents;
     } catch (error: any) {
       console.error("Error retrieving events by upcoming dates:", error);
-      throw new Error(`Error retrieving events by upcoming dates: ${error.message}`);
+      throw new Error(
+        `Error retrieving events by upcoming dates: ${error.message}`
+      );
     }
   }
-  
-  
 
   async createReview(
     star: number,
@@ -372,7 +386,7 @@ export class EventRepositoryMongo implements IEventRepository {
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
 
-      const presences = await presenceMongoClient?.find({ username}).toArray();
+      const presences = await presenceMongoClient?.find({ username }).toArray();
 
       if (!presences || presences.length === 0) {
         throw new NoItemsFound("event");
@@ -380,13 +394,17 @@ export class EventRepositoryMongo implements IEventRepository {
 
       const eventIds = presences.map((presence) => presence.event_id);
 
-      const events = await eventMongoClient?.find({ _id: { $in: eventIds } }).toArray();
+      const events = await eventMongoClient
+        ?.find({ _id: { $in: eventIds } })
+        .toArray();
 
       if (!events || events.length === 0) {
         throw new NoItemsFound("event");
       }
 
-      return events.map((eventDoc) => EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc)));
+      return events.map((eventDoc) =>
+        EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
+      );
     } catch (error: any) {
       throw new Error(`Error retrieving all confirmed events: ${error}`);
     }
