@@ -5,6 +5,8 @@ interface IReview {
   username: string;
   star: number;
   review: string;
+  name: string;
+  photoUrl: string;
   reviewed_at?: Date;
 }
 export interface IEvent extends Document {
@@ -29,6 +31,8 @@ export interface IEvent extends Document {
 }
 const ReviewSchema = new Schema<IReview>({
   username: { type: String },
+  name: { type: String },
+  photoUrl: { type: String },
   star: { type: Number, required: true },
   review: { type: String, required: true },
   reviewed_at: { type: Date, default: Date.now },
