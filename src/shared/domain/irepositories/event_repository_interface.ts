@@ -15,6 +15,8 @@ export interface IEventRepository {
     review: string,
     reviewedAt: Date,
     eventId: string,
+    name: string,
+    photoUrl: string,
     username: string
   ): Promise<void>;
   getAllConfirmedEvents(username: string): Promise<Event[]>;
