@@ -31,7 +31,15 @@ export class CreateReviewController {
             if (typeof photoUrl !== "string") throw new WrongTypeParameters("photoUrl", "string", typeof photoUrl);
             if (typeof name !== "string") throw new WrongTypeParameters("name", "string", typeof name);
 
-            await this.usecase.execute(star, review, reviewedAt, eventId, parsedUserApiGateway.username, name, photoUrl);
+            await this.usecase.execute(
+                star,
+                review,
+                reviewedAt,
+                eventId,
+                parsedUserApiGateway.username,
+                name,
+                photoUrl
+            );
 
             const viewmodel = new CreateReviewViewModel("Avaliação criada com sucesso");
             return new Created(viewmodel);
