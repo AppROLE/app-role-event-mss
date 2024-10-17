@@ -99,7 +99,10 @@ export class EventRepositoryMongo implements IEventRepository {
       //   query.package_type = { $in: packageTypes };
       // }
 
-      // if (filter.category) query.category = filter.category;
+      if (filter.category) {
+        const category = filter.category.split(" ");
+        query.category = { $in: category };
+      }
 
       const eventDocs = (await eventMongoClient
         ?.find(query)
