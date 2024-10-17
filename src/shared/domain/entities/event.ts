@@ -26,6 +26,7 @@ interface EventProps {
   instituteId: string;
   eventStatus: STATUS;
   musicType?: MUSIC_TYPE[];
+  
   menuLink?: string;
   eventPhotoLink?: string;
   galeryLink?: string[];
