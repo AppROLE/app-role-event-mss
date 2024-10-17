@@ -124,7 +124,9 @@ export class EventMongoDTO {
       ticketUrl: eventMongoDTO.ticket_url,
       reviews: (eventMongoDTO.reviews || []).map((review) => ({
         username: review.username,
+        name: review.name,
         star: review.star,
+        photoUrl: review.photoUrl,
         review: review.review,
         reviewedAt: review.reviewedAt,
       })),
@@ -155,6 +157,8 @@ export class EventMongoDTO {
       reviews:
         event.getReviews?.map((review) => ({
           username: review.username,
+          name: review.name,
+          photoUrl: review.photoUrl,
           star: review.star,
           review: review.review,
           reviewedAt: review.reviewedAt,
