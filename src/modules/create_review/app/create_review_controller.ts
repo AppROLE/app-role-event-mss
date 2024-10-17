@@ -15,19 +15,23 @@ export class CreateReviewController {
             const parsedUserApiGateway = UserAPIGatewayDTO.fromAPIGateway(requesterUser).getParsedData();
             if (!parsedUserApiGateway) throw new ForbiddenAction("usuário")
 
-            const { star, review, reviewedAt, eventId } = req.data;
+            const { star, review, reviewedAt, eventId, photoUrl, name } = req.data;
 
             if (!star) throw new MissingParameters("star");
             if (!review) throw new MissingParameters("review");
             if (!reviewedAt) throw new MissingParameters("reviewedAt");
             if (!eventId) throw new MissingParameters("eventId");
+            if (!photoUrl) throw new MissingParameters("photoUrl");
+            if (!name) throw new MissingParameters("name");
 
             if (typeof star !== "number") throw new WrongTypeParameters("star", "number", typeof star);
             if (typeof review !== "string") throw new WrongTypeParameters("review", "string", typeof review);
             if (typeof reviewedAt !== "number") throw new WrongTypeParameters("reviewedAt", "number", typeof reviewedAt);
             if (typeof eventId !== "string") throw new WrongTypeParameters("eventId", "string", typeof eventId);
+            if (typeof photoUrl !== "string") throw new WrongTypeParameters("photoUrl", "string", typeof photoUrl);
+            if (typeof name !== "string") throw new WrongTypeParameters("name", "string", typeof name);
 
-            await this.usecase.execute(star, review, reviewedAt, eventId, parsedUserApiGateway.username);
+            await this.usecase.execute(star, review, reviewedAt, eventId, parsedUserApiGateway.username, name, photoUrl);
 
             const viewmodel = new CreateReviewViewModel("Avaliação criada com sucesso");
             return new Created(viewmodel);
