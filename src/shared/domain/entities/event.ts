@@ -9,6 +9,8 @@ export interface ReviewProps {
   username: string;
   star: number;
   review: string;
+  name: string;
+  photoUrl: string;
   reviewedAt?: Date;
 }
 
