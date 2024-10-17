@@ -4,4 +4,5 @@ export enum AGE_ENUM {
   ADULT = "26-30",
   MATURE_ADULT = "31-40",
   SENIOR = "40+",
+  DEFAULT = "TODAS"
 }
