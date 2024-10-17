@@ -405,6 +405,9 @@ export class EventRepositoryMongo implements IEventRepository {
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
     } catch (error: any) {
+      if(error instanceof NoItemsFound) {
+        throw new NoItemsFound("event");
+      }
       throw new Error(`Error retrieving all confirmed events: ${error}`);
     }
   }
