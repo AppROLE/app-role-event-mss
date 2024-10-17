@@ -37,7 +37,7 @@ export class CreateReviewController {
                 reviewedAt,
                 eventId,
                 parsedUserApiGateway.username,
-                name,
+                name.split(" ")[0],
                 photoUrl
             );
 
