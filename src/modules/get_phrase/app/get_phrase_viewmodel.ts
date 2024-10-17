@@ -6,7 +6,8 @@ export class GetPhraseViewModel {
     
     toJSON() {
         return {
-            phrase: `${this.phrase.replace("${username}", this.username)}`,
+            phrase: `${this.phrase}`,
+            username: this.username
         };
     }
 }
