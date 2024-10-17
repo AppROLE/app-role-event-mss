@@ -80,8 +80,19 @@ export class EventRepositoryMongo implements IEventRepository {
       }
       if (filter.price) query.price = Number(filter.price);
       if (filter.age_range) query.age_range = filter.age_range;
-      if (filter.event_date)
-        query.event_date = { $gte: new Date(filter.event_date) };
+      if (filter.event_date) {
+        const startOfDay = new Date(filter.event_date);
+        startOfDay.setUTCHours(0, 0, 0, 0);
+
+        const endOfDay = new Date(filter.event_date);
+        endOfDay.setUTCHours(23, 59, 59, 999);
+
+        query.event_date = {
+          $gte: startOfDay,
+          $lte: endOfDay,
+        };
+      }
+
       if (filter.district_id) query.district_id = filter.district_id;
       // if (filter.institute_id) query.institute_id = filter.institute_id;
 
@@ -412,7 +423,7 @@ export class EventRepositoryMongo implements IEventRepository {
         EventMongoDTO.toEntity(EventMongoDTO.fromMongo(eventDoc))
       );
     } catch (error: any) {
-      if(error instanceof NoItemsFound) {
+      if (error instanceof NoItemsFound) {
         throw new NoItemsFound("event");
       }
       throw new Error(`Error retrieving all confirmed events: ${error}`);

@@ -17,6 +17,7 @@ import { MUSIC_TYPE } from "src/shared/domain/enums/music_type_enum";
 import { FEATURE } from "src/shared/domain/enums/feature_enum";
 import { PACKAGE_TYPE } from "src/shared/domain/enums/package_type_enum";
 import { CATEGORY } from "src/shared/domain/enums/category_enum";
+import { AGE_ENUM } from "src/shared/domain/enums/age_enum";
 
 export class CreateEventController {
   constructor(private readonly usecase: CreateEventUseCase) {}
@@ -115,24 +116,32 @@ export class CreateEventController {
         description,
         address,
         price,
-        ageRange,
+        ageRange: AGE_ENUM[ageRange as keyof typeof AGE_ENUM],
         eventDate,
         districtId,
         instituteId,
         eventStatus: STATUS[eventStatus as keyof typeof STATUS],
         musicType: musicType
-          ? (musicType as string[]).map((type) => MUSIC_TYPE[type as keyof typeof MUSIC_TYPE])
+          ? (musicType as string[]).map(
+              (type) => MUSIC_TYPE[type as keyof typeof MUSIC_TYPE]
+            )
           : undefined,
         menuLink: typeof menuLink === "string" ? menuLink : undefined,
         galeryLink: typeof galeryLink === "string" ? [galeryLink] : undefined,
         bannerUrl: typeof bannerUrl === "string" ? bannerUrl : undefined,
         features: features
-          ? (features as string[]).map((feature) => FEATURE[feature as keyof typeof FEATURE])
+          ? (features as string[]).map(
+              (feature) => FEATURE[feature as keyof typeof FEATURE]
+            )
           : undefined,
         packageType: packageType
-          ? (packageType as string[]).map((pkg) => PACKAGE_TYPE[pkg as keyof typeof PACKAGE_TYPE])
+          ? (packageType as string[]).map(
+              (pkg) => PACKAGE_TYPE[pkg as keyof typeof PACKAGE_TYPE]
+            )
           : undefined,
-        category: category ? CATEGORY[category as keyof typeof CATEGORY] : undefined,
+        category: category
+          ? CATEGORY[category as keyof typeof CATEGORY]
+          : undefined,
         ticketUrl: typeof ticketUrl === "string" ? ticketUrl : undefined,
       });
 

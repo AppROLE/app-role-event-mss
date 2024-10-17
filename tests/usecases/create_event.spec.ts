@@ -16,7 +16,7 @@ describe("CreateEventUseCase", () => {
         "Galleria club. A melhor balada de São Paulo. Venha curtir com a gente!",
       address: "987 Club St, Downtown",
       price: 2,
-      ageRange: "21+",
+      ageRange: "18-20",
       eventDate: new Date("2025-09-15"),
       districtId: "1",
       instituteId: "1",
@@ -40,7 +40,7 @@ describe("CreateEventUseCase", () => {
     );
     expect(result.address).toBe("987 Club St, Downtown");
     expect(result.price).toBe(2);
-    expect(result.ageRange).toBe("21+");
+    expect(result.ageRange).toBe("18-20");
     expect(result.eventDate).toEqual(new Date("2025-09-15"));
     expect(result.districtId).toBe("1");
     expect(result.instituteId).toBe("1");

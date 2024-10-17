@@ -5,6 +5,7 @@ import { MUSIC_TYPE } from "src/shared/domain/enums/music_type_enum";
 import { CATEGORY } from "src/shared/domain/enums/category_enum";
 import { PACKAGE_TYPE } from "src/shared/domain/enums/package_type_enum";
 import { FEATURE } from "src/shared/domain/enums/feature_enum";
+import { AGE_ENUM } from "src/shared/domain/enums/age_enum";
 
 export interface EventMongoDTOProps {
   _id: string;
@@ -14,7 +15,7 @@ export interface EventMongoDTOProps {
   address: string;
   price: number;
   description: string;
-  age_range: string;
+  age_range: AGE_ENUM;
   event_date: Date;
   district_id: string;
   features: string[];
@@ -37,7 +38,7 @@ export class EventMongoDTO {
   private address: string;
   private price: number;
   private description: string;
-  private age_range: string;
+  private age_range: AGE_ENUM;
   private event_date: Date;
   private district_id: string;
   private features: string[];

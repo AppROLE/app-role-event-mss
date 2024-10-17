@@ -1,5 +1,6 @@
 import { Event } from "../entities/event";
 import { STATUS } from "../../domain/enums/status_enum";
+import { AGE_ENUM } from "../enums/age_enum";
 
 export class EventMock {
   public events: Event[];
@@ -16,7 +17,7 @@ export class EventMock {
                 "Galleria club. A melhor balada de São Paulo. Venha curtir com a gente!",
               address: "987 Club St, Downtown",
               price: 1,
-              ageRange: "21+",
+              ageRange: AGE_ENUM.ADOLESCENT,
               eventDate: new Date("2025-09-15"),
               districtId: "1",
               instituteId: "1",
@@ -31,7 +32,7 @@ export class EventMock {
                 "Vila Mix Festival. O maior festival de música sertaneja do Brasil.",
               address: "321 Mix Ave, City Center",
               price: 1,
-              ageRange: "18+",
+              ageRange: AGE_ENUM.ADOLESCENT,
               eventDate: new Date("2025-10-05"),
               districtId: "2",
               instituteId: "2",
@@ -46,7 +47,7 @@ export class EventMock {
                 "Modular. A melhor festa de música eletrônica de São Paulo.",
               address: "258 Dance Ln, Old Town",
               price: 1,
-              ageRange: "18+",
+              ageRange: AGE_ENUM.ADOLESCENT,
               eventDate: new Date("2025-11-20"),
               districtId: "3",
               instituteId: "3",

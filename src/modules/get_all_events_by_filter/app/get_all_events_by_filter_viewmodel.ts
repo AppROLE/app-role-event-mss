@@ -1,3 +1,4 @@
+import { AGE_ENUM } from "src/shared/domain/enums/age_enum";
 import { Event } from "../../../shared/domain/entities/event";
 
 export class EventViewModel {
@@ -7,7 +8,7 @@ export class EventViewModel {
   private address: string;
   private price: number;
   private description: string;
-  private ageRange: string;
+  private ageRange: AGE_ENUM;
   private eventDate: Date;
   private districtId: string;
   private instituteId: string;

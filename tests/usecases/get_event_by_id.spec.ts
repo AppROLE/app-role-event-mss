@@ -25,7 +25,7 @@ describe("GetEventByIdUseCase", () => {
     );
     expect(result.getEventAddress).toBe("987 Club St, Downtown");
     expect(result.getEventPrice).toBe(1);
-    expect(result.getEventAgeRange).toBe("21+");
+    expect(result.getEventAgeRange).toBe("18-20");
     expect(result.getEventDate).toEqual(new Date("2025-09-15"));
     expect(result.getEventDistrictId).toBe("1");
     expect(result.getInstituteId).toBe("1");
