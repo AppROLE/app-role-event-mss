@@ -20,4 +20,5 @@ export interface IEventRepository {
     username: string
   ): Promise<void>;
   getAllConfirmedEvents(username: string): Promise<Event[]>;
+  updateEvent(eventId: string, updatedFields: any): Promise<Event>;
 }
