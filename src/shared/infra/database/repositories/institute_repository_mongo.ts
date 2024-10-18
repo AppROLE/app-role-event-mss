@@ -182,4 +182,64 @@ export class InstituteRepositoryMongo implements IInstituteRepository {
       throw new Error(`Error updating profile photo on MongoDB: ${error}`);
     }
   }
+
+  async updateInstitute(institute: Institute): Promise<void> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on('error', () => {
+        console.error('connection error:');
+        throw new Error('Error connecting to MongoDB');
+      });
+  
+      const instituteMongoClient = db.connections[0].db?.collection<IInstitute>('Institute');
+  
+      // Verificar se o documento do instituto existe
+      const instituteDoc = await instituteMongoClient?.findOne({ _id: institute.instituteId });
+  
+      if (!instituteDoc) {
+        throw new NoItemsFound('institute');
+      }
+  
+      // Criação do objeto de atualizações, apenas com os campos que foram enviados
+      const updateData: Partial<Institute> = {};
+  
+      if (institute.instituteDescription) {
+        updateData.instituteDescription = institute.instituteDescription;
+      }
+      if (institute.instituteInstituteType) {
+        updateData.instituteInstituteType = institute.instituteInstituteType;
+      }
+      if (institute.institutePartnerType) {
+        updateData.institutePartnerType = institute.institutePartnerType;
+      }
+      if (institute.instituteName) {
+        updateData.instituteName = institute.instituteName;
+      }
+      if (institute.instituteAddress) {
+        updateData.instituteAddress = institute.instituteAddress;
+      }
+      if (institute.instituteDistrictId) {
+        updateData.instituteDistrictId = institute.instituteDistrictId;
+      }
+      if (institute.institutePrice) {
+        updateData.institutePrice = institute.institutePrice;
+      }
+      if (institute.institutePhone) {
+        updateData.institutePhone = institute.institutePhone;
+      }
+  
+      // Atualizando o documento no MongoDB
+      const result = await instituteMongoClient?.updateOne(
+        { _id: institute.instituteId },
+        { $set: updateData }
+      );
+  
+      if (result?.modifiedCount === 0) {
+        throw new Error('No institute was updated');
+      }
+    } catch (error: any) {
+      throw new Error(`Error updating institute on MongoDB: ${error.message}`);
+    }
+  }
+  
 }
