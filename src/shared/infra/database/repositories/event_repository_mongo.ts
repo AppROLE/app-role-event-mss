@@ -429,4 +429,34 @@ export class EventRepositoryMongo implements IEventRepository {
       throw new Error(`Error retrieving all confirmed events: ${error}`);
     }
   }
+
+  async updateEvent(
+    eventId: string,
+    updatedFields: Partial<IEvent>
+  ): Promise<Event> {
+    try {
+      const db = await connectDB();
+      db.connections[0].on("error", () => {
+        console.error.bind(console, "connection error:");
+        throw new Error("Error connecting to MongoDB");
+      });
+
+      const eventMongoClient =
+        db.connections[0].db?.collection<IEvent>("Event");
+
+      const updatedEvent = await eventMongoClient?.findOneAndUpdate(
+        { _id: eventId },
+        { $set: updatedFields },
+        { returnDocument: "after" }
+      );
+
+      if (!updatedEvent) {
+        throw new Error(`Event with ID ${eventId} not found`);
+      }
+
+      return EventMongoDTO.toEntity(EventMongoDTO.fromMongo(updatedEvent));
+    } catch (error) {
+      throw new Error(`Error updating event in MongoDB: ${error}`);
+    }
+  }
 }
