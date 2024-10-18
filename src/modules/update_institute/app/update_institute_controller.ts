@@ -1,10 +1,12 @@
 import { IRequest } from "src/shared/helpers/external_interfaces/external_interface";
 import { UpdateInstituteUseCase } from "./update_institute_usecase";
-import { InternalServerError, OK } from "src/shared/helpers/external_interfaces/http_codes";
+import { BadRequest, InternalServerError, NotFound, OK } from "src/shared/helpers/external_interfaces/http_codes";
 import { MissingParameters, WrongTypeParameters } from "src/shared/helpers/errors/controller_errors";
 import { INSTITUTE_TYPE } from "src/shared/domain/enums/institute_type_enum";
 import { PARTNER_TYPE } from "src/shared/domain/enums/partner_type_enum";
 import { UpdateInstituteViewModel } from "./update_institute_viewmodel";
+import { EntityError } from "src/shared/helpers/errors/domain_errors";
+import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 
 export class UpdateInstituteController {
     constructor(private readonly usecase: UpdateInstituteUseCase) {}
@@ -101,6 +103,18 @@ export class UpdateInstituteController {
             const viewmodel = new UpdateInstituteViewModel("Instituto atualizado com sucesso");
             return new OK(viewmodel);
         } catch (error: any) {
+            if (
+                error instanceof MissingParameters ||
+                error instanceof WrongTypeParameters
+            ) {
+            return new BadRequest(error.message);
+            }
+            if (error instanceof EntityError) {
+            return new BadRequest(error.message);
+            }
+            if (error instanceof NoItemsFound) {
+            return new NoItemsFound(error.message);
+            }
             return new InternalServerError(`CreateEventController, Error on handle: ${error.message}`);
         }
     }
