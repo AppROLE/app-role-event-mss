@@ -101,7 +101,8 @@ export class UpdateInstituteController {
             );
 
             const viewmodel = new UpdateInstituteViewModel("Instituto atualizado com sucesso");
-            return new OK(viewmodel);
+
+            return new OK(viewmodel.toJSON());
         } catch (error: any) {
             if (
                 error instanceof MissingParameters ||
