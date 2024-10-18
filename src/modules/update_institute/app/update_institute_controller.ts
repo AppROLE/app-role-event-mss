@@ -38,29 +38,38 @@ export class UpdateInstituteController {
             if (typeof institute_id !== "string") {
                 throw new WrongTypeParameters("institute_id", "string", typeof institute_id);
             }
-            if (typeof description !== "string") {
-                throw new WrongTypeParameters(
-                    "description",
-                    "string",
-                    typeof description
-                );
+            
+            if (description !== undefined) {
+                if (typeof description !== "string") {
+                    throw new WrongTypeParameters(
+                        "description",
+                        "string",
+                        typeof description
+                    );
+                }
             }
-            if (typeof institute_type !== "string") {
-                throw new WrongTypeParameters(
-                    "institute_type",
-                    "string",
-                    typeof institute_type
-                );
+            if (institute_type !== undefined) {
+                if (typeof institute_type !== "string") {
+                    throw new WrongTypeParameters(
+                        "institute_type",
+                        "string",
+                        typeof institute_type
+                    );
+                }
             }
-            if (typeof partner_type !== "string") {
-                throw new WrongTypeParameters(
-                    "partner_type",
-                    "string",
-                    typeof partner_type
-                );
+            if (partner_type !== undefined) {
+                if (typeof partner_type !== "string") {
+                    throw new WrongTypeParameters(
+                        "partner_type",
+                        "string",
+                        typeof partner_type
+                    );
+                }
             }
-            if (typeof name !== "string") {
-                throw new WrongTypeParameters("name", "string", typeof name);
+            if (name !== undefined) {
+                if (typeof name !== "string") {
+                    throw new WrongTypeParameters("name", "string", typeof name);
+                }
             }
     
             if (address !== undefined) {
