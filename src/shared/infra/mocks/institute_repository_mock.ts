@@ -50,4 +50,15 @@ export class InstituteRepositoryMock implements IInstituteRepository {
     
     return Promise.resolve(); 
   }
+
+  async updateInstitute(institute: Institute): Promise<void> {
+    const instituteIndex = this.institutes.findIndex(
+      (institute) => institute.instituteId === institute.instituteId
+    );
+    if (instituteIndex === -1) {
+      throw new NoItemsFound("institute");
+    }
+    this.institutes[instituteIndex] = institute;
+    return Promise.resolve();
+  }
 }
