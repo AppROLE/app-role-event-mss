@@ -17,34 +17,33 @@ export class UpdateInstituteUseCase {
         price?: number,
         phone?: string
     ) {
-        let institute = {};
-
+        const institute = {} as Partial<Institute>;
         if (institute_id) {
-            institute = { ...institute, institute_id };
+            institute.instituteId = institute_id;
         }
         if (description) {
-            institute = { ...institute, description };
+            institute.instituteDescription = description;
         }
         if (institute_type) {
-            institute = { ...institute, institute_type };
+            institute.instituteInstituteType = institute_type;
         }
         if (partner_type) {
-            institute = { ...institute, partner_type };
+            institute.institutePartnerType = partner_type;
         }
         if (name) {
-            institute = { ...institute, name };
+            institute.instituteName = name;
         }
         if (address) {
-            institute = { ...institute, address };
+            institute.instituteAddress = address;
         }
         if (district_id) {
-            institute = { ...institute, district_id };
+            institute.instituteDistrictId = district_id;
         }
         if (price) {
-            institute = { ...institute, price };
+            institute.institutePrice = price;
         }
         if (phone) {
-            institute = { ...institute, phone };
+            institute.institutePhone = phone;
         }
 
         await this.repo.updateInstitute(institute as Institute);
