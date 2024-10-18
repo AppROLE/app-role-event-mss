@@ -8,7 +8,8 @@ import { DeleteInstituteByIdController } from "./delete_institute_by_id_controll
 
 const instituteRepository = Environments.getInstituteRepo();
 const eventRepository = Environments.getEventRepo();
-const usecase = new DeleteInstituteByIdUseCase(instituteRepository, eventRepository);
+const fileRepository = Environments.getFileRepo();
+const usecase = new DeleteInstituteByIdUseCase(instituteRepository, eventRepository, fileRepository);
 const controller = new DeleteInstituteByIdController(usecase);
 
 export async function deleteInstituteByIdPresenter(event: Record<string, any>) {
