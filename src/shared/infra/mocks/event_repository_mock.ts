@@ -10,6 +10,9 @@ export class EventRepositoryMock implements IEventRepository {
     const eventMock = new EventMock();
     this.events = eventMock.events;
   }
+  updateEvent(eventId: string, updatedFields: any): Promise<Event> {
+    throw new Error("Method not implemented.");
+  }
 
   async getEventsByUpcomingDates(dates: Date[]): Promise<Event[]> {
     if (!dates || dates.length === 0) {
