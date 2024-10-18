@@ -114,7 +114,7 @@ export class UpdateInstituteController {
             return new BadRequest(error.message);
             }
             if (error instanceof NoItemsFound) {
-            return new NoItemsFound(error.message);
+            return new NotFound(error.message);
             }
             return new InternalServerError(`CreateEventController, Error on handle: ${error.message}`);
         }
