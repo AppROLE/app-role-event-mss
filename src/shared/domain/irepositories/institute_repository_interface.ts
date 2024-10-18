@@ -8,4 +8,5 @@ export interface IInstituteRepository {
   getInstituteById(instituteId: string): Promise<Institute>;
   deleteInstituteById(instituteId: string): Promise<void>;
   updateInstitutePhoto(name: string, institutePhoto: string): Promise<string>;
+  updateInstitute(institute: Institute): Promise<void>;
 }
