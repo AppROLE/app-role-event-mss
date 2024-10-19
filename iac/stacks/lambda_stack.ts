@@ -126,7 +126,8 @@ export class LambdaStack extends Construct {
 
     this.functionsThatNeedS3Permissions = [
       this.uploadEventPhotoFunction,
-      this.uploadInstitutePhotoFunction
+      this.uploadInstitutePhotoFunction,
+      this.deleteEventPhotoFunction
     ]
 
     this.functionsThatNeedCognitoPermissions = [
