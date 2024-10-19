@@ -16,6 +16,7 @@ export class UploadEventPhotoUseCase {
     extensionName: string,
     mimetype: string
   ) {
+    console.log("EVENT ID PORRA" + eventId);
     const event = await this.mongoRepo.getEventById(eventId);
 
     if (!event) {
