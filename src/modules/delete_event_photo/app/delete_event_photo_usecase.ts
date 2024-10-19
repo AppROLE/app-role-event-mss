@@ -14,5 +14,9 @@ export class DeleteEventPhotoUseCase {
       throw new NoItemsFound("event");
     }
     await this.fileRepository.deleteEventPhotoByEventId(eventId);
+
+    await this.eventRepository.updateEvent(eventId, {
+      eventPhoto: "",
+    });
   }
 }
