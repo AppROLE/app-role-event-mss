@@ -195,7 +195,7 @@ export class EventRepositoryMongo implements IEventRepository {
 
       const result = await eventMongoClient?.updateOne(
         { _id: eventId },
-        { $set: { eventPhotoLink: eventPhoto } }
+        { $set: { event_photo_link: eventPhoto } }
       );
 
       if (!result?.modifiedCount) {
