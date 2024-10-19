@@ -16,7 +16,7 @@ export class DeleteEventPhotoUseCase {
     await this.fileRepository.deleteEventPhotoByEventId(eventId);
 
     await this.eventRepository.updateEvent(eventId, {
-      eventPhoto: "",
+      event_photo_link: "",
     });
   }
 }
