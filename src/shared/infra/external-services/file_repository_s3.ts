@@ -57,18 +57,13 @@ export class FileRepositoryS3 implements IFileRepository {
     }
   }
 
-  async deleteEventPhotoByEventName(filename: string): Promise<void> {
+  async deleteEventPhotoByEventId(eventId: string): Promise<void> {
     try {
       const s3 = new S3();
       console.log("s3BucketName: ", this.s3BucketName);
 
-      const eventName = filename.substring(
-        filename.lastIndexOf("-") + 1,
-        filename.lastIndexOf(".")
-      );
-
-      if (!eventName) {
-        throw new Error("Nome do evento não encontrado no nome do arquivo.");
+      if (!eventId) {
+        throw new Error("Event ID não fornecido.");
       }
 
       const listParams: S3.ListObjectsV2Request = {
@@ -82,7 +77,7 @@ export class FileRepositoryS3 implements IFileRepository {
       }
 
       const matchingFiles = listedObjects.Contents.filter((file) =>
-        file.Key?.includes(eventName)
+        file.Key?.includes(eventId)
       );
 
       if (matchingFiles.length === 0) {
@@ -104,6 +99,7 @@ export class FileRepositoryS3 implements IFileRepository {
       if (error instanceof NoItemsFound) {
         throw new NoItemsFound(error.message);
       }
+      throw new Error(`Erro ao deletar fotos: ${error.message}`);
     }
   }
 }
