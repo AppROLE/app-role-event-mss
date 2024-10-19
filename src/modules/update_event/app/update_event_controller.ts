@@ -34,7 +34,7 @@ export class UpdateEventController {
       });
 
       const viewmodel = new UpdateEventViewModel(
-        "Instituto atualizado com sucesso"
+        "ROLE atualizado com sucesso"
       );
 
       return new OK(viewmodel.toJSON());
