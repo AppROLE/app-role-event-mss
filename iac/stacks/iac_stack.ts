@@ -81,14 +81,16 @@ export class IacStack extends Stack {
       effect: iam.Effect.ALLOW,
       actions: [
         "s3:ListBucket", // Listar o bucket
-        "s3:GetObject", // Obter objetos do bucket
+        "s3:GetObject",  // Obter objetos do bucket
         "s3:DeleteObject", // Deletar objetos do bucket
+        "s3:PutObject",  // Fazer upload de objetos no bucket (permite PUT)
       ],
       resources: [
-        `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}`, // O bucket (sem o /*)
+        `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}`,   // O bucket (sem o /*)
         `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}/*`, // Objetos dentro do bucket
       ],
     });
+    
 
     for (const fn of lambdaStack.functionsThatNeedS3Permissions) {
       fn.addToRolePolicy(s3Policy);
