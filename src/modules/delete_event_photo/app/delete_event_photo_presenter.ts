@@ -7,7 +7,8 @@ import { DeleteEventPhotoUseCase } from "./delete_event_photo_usecase";
 import { deleteEventPhotoController } from "./delete_event_photo_controller";
 
 const fileRepository = Environments.getFileRepo();
-const usecase = new DeleteEventPhotoUseCase(fileRepository);
+const eventRepository = Environments.getEventRepo();
+const usecase = new DeleteEventPhotoUseCase(fileRepository, eventRepository);
 const controller = new deleteEventPhotoController(usecase);
 
 export async function deleteEventPhotoPresenter(event: Record<string, any>) {
