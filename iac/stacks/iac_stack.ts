@@ -80,14 +80,13 @@ export class IacStack extends Stack {
     const s3Policy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: [
-        "s3:ListBucket", // Permissão necessária para listar o bucket
-        "s3:GetObject", // Certifique-se de incluir ações necessárias
-        "s3:DeleteObject", // Permissão para deletar objetos
-        "s3:PutObject",
+        "s3:ListBucket", // Listar o bucket
+        "s3:GetObject", // Obter objetos do bucket
+        "s3:DeleteObject", // Deletar objetos do bucket
       ],
       resources: [
-        `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}`, // Permissão para o bucket
-        `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}/*`, // Permissão para os objetos no bucket
+        `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}`, // O bucket (sem o /*)
+        `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}/*`, // Objetos dentro do bucket
       ],
     });
 
