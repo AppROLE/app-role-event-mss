@@ -188,13 +188,20 @@ export class EventRepositoryMongo implements IEventRepository {
       const eventMongoClient =
         db.connections[0].db?.collection<IEvent>("Event");
 
+      const event = await eventMongoClient?.findOne({ _id: eventId });
+      if (!event) {
+        throw new NoItemsFound("event");
+      }
+
       const result = await eventMongoClient?.updateOne(
         { _id: eventId },
-        { $set: { event_photo_link: eventPhoto } }
+        { $set: { eventPhotoLink: eventPhoto } }
       );
 
       if (!result?.modifiedCount) {
-        throw new NoItemsFound("event");
+        throw new Error(
+          "Error updating event photo, no modifications detected."
+        );
       }
 
       return eventPhoto;
