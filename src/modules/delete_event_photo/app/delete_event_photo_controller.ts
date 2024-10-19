@@ -20,7 +20,7 @@ export class deleteEventPhotoController {
     } catch (error: any) {
       if (error instanceof Error) {
         return new InternalServerError(
-          `DeleteInstituteController, Error on handle: ${error.message}`
+          `DeleteEventPhotoController, Error on handle: ${error.message}`
         );
       }
     }
