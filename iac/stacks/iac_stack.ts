@@ -3,7 +3,11 @@ import { stage } from "../get_stage_env";
 import { LambdaStack } from "./lambda_stack";
 import { Stack, StackProps } from "aws-cdk-lib";
 import { envs } from "../../src/shared/helpers/envs/envs";
-import { Cors, RestApi, CognitoUserPoolsAuthorizer } from "aws-cdk-lib/aws-apigateway";
+import {
+  Cors,
+  RestApi,
+  CognitoUserPoolsAuthorizer,
+} from "aws-cdk-lib/aws-apigateway";
 import * as cognito from "aws-cdk-lib/aws-cognito";
 import * as iam from "aws-cdk-lib/aws-iam";
 
@@ -30,24 +34,28 @@ export class IacStack extends Stack {
       },
     });
 
-    let userPoolId = ""
+    let userPoolId = "";
 
     if (stage === "DEV") userPoolId = envs.AWS_COGNITO_USER_POOL_ID_DEV;
     if (stage === "PROD") userPoolId = envs.AWS_COGNITO_USER_POOL_ID_PROD;
-    if (stage === "HOMOLOG") userPoolId = envs.AWS_COGNITO_USER_POOL_ID_HOMOLOG
+    if (stage === "HOMOLOG") userPoolId = envs.AWS_COGNITO_USER_POOL_ID_HOMOLOG;
 
     const userpool = cognito.UserPool.fromUserPoolId(
       this,
       `${envs.STACK_NAME}-UserPool`,
       userPoolId
-    )
+    );
 
-    const authorizer = new CognitoUserPoolsAuthorizer(this, `${envs.STACK_NAME}-Authorizer`, {
-      cognitoUserPools: [userpool],
-      identitySource: "method.request.header.Authorization",
-    });
+    const authorizer = new CognitoUserPoolsAuthorizer(
+      this,
+      `${envs.STACK_NAME}-Authorizer`,
+      {
+        cognitoUserPools: [userpool],
+        identitySource: "method.request.header.Authorization",
+      }
+    );
 
-    let cloudFrontUrl = ""
+    let cloudFrontUrl = "";
     if (stage === "DEV") cloudFrontUrl = envs.CLOUD_FRONT_URL_DEV;
     if (stage === "PROD") cloudFrontUrl = envs.CLOUD_FRONT_URL_PROD;
     if (stage === "HOMOLOG") cloudFrontUrl = envs.CLOUD_FRONT_URL_HOMOLOG;
@@ -71,8 +79,16 @@ export class IacStack extends Stack {
 
     const s3Policy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      actions: ["s3:*"],
-      resources: [`arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}/*`],
+      actions: [
+        "s3:ListBucket", // Permissão necessária para listar o bucket
+        "s3:GetObject", // Certifique-se de incluir ações necessárias
+        "s3:DeleteObject", // Permissão para deletar objetos
+        "s3:PutObject",
+      ],
+      resources: [
+        `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}`, // Permissão para o bucket
+        `arn:aws:s3:::${envs.S3_BUCKET_NAME}${stage.toLowerCase()}/*`, // Permissão para os objetos no bucket
+      ],
     });
 
     for (const fn of lambdaStack.functionsThatNeedS3Permissions) {
