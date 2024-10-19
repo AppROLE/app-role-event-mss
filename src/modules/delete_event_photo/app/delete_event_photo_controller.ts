@@ -11,8 +11,8 @@ export class deleteEventPhotoController {
 
   async handle(req: IRequest): Promise<any> {
     try {
-      const { filename } = req.data;
-      await this.usecase.execute(filename as string);
+      const { eventId } = req.data;
+      await this.usecase.execute(eventId as string);
       const viewmodel = new DeleteEventPhotoViewModel(
         "Foto do evento deletada com sucesso"
       );
