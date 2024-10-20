@@ -330,7 +330,8 @@ export class EventRepositoryMongo implements IEventRepository {
       console.log("EVENTOS AQUI VINDO DO REPO DO MONGOOOOO: ", events);
 
       if (!events || events.length === 0) {
-        throw new Error("No events found for the provided dates.");
+        console.warn("No events found for the provided dates.");
+        return []; 
       }
 
       const mappedEvents = events.map((eventDoc) => {
