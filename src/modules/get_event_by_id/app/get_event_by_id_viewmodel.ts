@@ -21,6 +21,7 @@ export class GetEventByIdViewModel {
   private category?: string;
   private ticketUrl?: string;
   private reviews?: ReviewProps[];
+  private eventStatus: string;
 
   constructor(event: Event) {
     this.eventId = event.getEventId;
@@ -42,6 +43,7 @@ export class GetEventByIdViewModel {
     this.category = event.getCategoryType;
     this.ticketUrl = event.getTicketUrl;
     this.reviews = event.getReviews;
+    this.eventStatus = event.getEventStatus;
   }
 
   toJSON() {
@@ -66,6 +68,7 @@ export class GetEventByIdViewModel {
       ticketUrl: this.ticketUrl,
       rating: this.reviews != undefined ? this.reviews?.reduce((acc, review) => acc + review.star, 0) / this.reviews?.length : 0,
       reviews: this.reviews,
+      eventStatus: this.eventStatus,
     };
   }
 }
