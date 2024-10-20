@@ -23,7 +23,14 @@ export class UploadEventPhotoUseCase {
       throw new NoItemsFound("Evento");
     }
 
-    const imageKey = `${eventId}-${event.getEventName}${extensionName}`;
+    // isso seria legal de implementar, uma validaçao de tamanho de imagem
+    // caso não for da extensão correta, ou do tamanho correto, retornar um erro
+    // teria de criar o erro
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg"];
+
+    const nameFormat = event.getEventName.replace(/\s/g, "+");
+
+    const imageKey = `${eventId}-${nameFormat}${extensionName}`;
 
     await this.fileRepo.uploadEventPhoto(imageKey, eventPhoto, mimetype);
 
