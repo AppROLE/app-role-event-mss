@@ -19,7 +19,7 @@ export interface EventMongoDTOProps {
   event_date: Date;
   district_id: string;
   features: string[];
-  eventStatus?: string;
+  eventStatus: string;
   music_type: string[];
   menu_link: string;
   event_photo_link?: string;
@@ -42,7 +42,7 @@ export class EventMongoDTO {
   private event_date: Date;
   private district_id: string;
   private features: string[];
-  private eventStatus?: string;
+  private eventStatus: string;
   private music_type: string[];
   private menu_link: string;
   private event_photo_link?: string;
@@ -64,7 +64,7 @@ export class EventMongoDTO {
     this.event_date = props.event_date;
     this.district_id = props.district_id;
     this.features = props.features;
-    this.eventStatus = props.eventStatus || STATUS.ACTIVE;
+    this.eventStatus = props.eventStatus;
     this.music_type = props.music_type || [];
     this.menu_link = props.menu_link;
     this.event_photo_link = props.event_photo_link || "";
@@ -88,7 +88,7 @@ export class EventMongoDTO {
       event_date: eventDoc.event_date,
       district_id: eventDoc.district_id,
       features: eventDoc.features || [],
-      eventStatus: eventDoc.eventStatus || STATUS.ACTIVE,
+      eventStatus: eventDoc.eventStatus,
       music_type: eventDoc.music_type || [],
       menu_link: eventDoc.menu_link,
       event_photo_link: eventDoc.event_photo_link,
@@ -111,13 +111,13 @@ export class EventMongoDTO {
       eventDate: eventMongoDTO.event_date,
       districtId: eventMongoDTO.district_id,
       features: (eventMongoDTO.features || []).filter((feature) => feature !== null).map((feature) => feature as FEATURE),
+      eventStatus: eventMongoDTO.eventStatus as STATUS,
       musicType: (eventMongoDTO.music_type || []).map((type) => type as MUSIC_TYPE
       ),
       menuLink: eventMongoDTO.menu_link,
       eventPhotoLink: eventMongoDTO.event_photo_link,
       galeryLink: eventMongoDTO.galery_link || [],
       instituteId: eventMongoDTO.institute_id,
-      eventStatus: STATUS.ACTIVE,
       bannerUrl: eventMongoDTO.banner_url,
       packageType: (eventMongoDTO.package_type || []).map((type) => type as PACKAGE_TYPE
       ),
