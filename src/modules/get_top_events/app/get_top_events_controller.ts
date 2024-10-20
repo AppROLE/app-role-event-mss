@@ -24,7 +24,7 @@ export class GetTopEventsController {
       }
       if (error instanceof Error) {
         return new InternalServerError(
-          `CreateEventController, Error on handle: ${error.message}`
+          `GetTopEventController, Error on handle: ${error.message}`
         );
       }
     }
