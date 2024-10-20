@@ -1,15 +1,21 @@
 import { IEventRepository } from "src/shared/domain/irepositories/event_repository_interface";
+import { IFileRepository } from "src/shared/domain/irepositories/file_repository_interface";
 import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 
 export class DeleteEventByIdUseCase {
-  constructor(private readonly repo: IEventRepository) {}
+  constructor(
+    private readonly eventRepository: IEventRepository,
+    private readonly fileRepository: IFileRepository
+  ) {}
 
   async execute(eventId: string): Promise<void> {
-    const event = await this.repo.getEventById(eventId);
+    const event = await this.eventRepository.getEventById(eventId);
     if (!event) {
       throw new NoItemsFound("event");
     }
 
-    await this.repo.deleteEventById(eventId);
+    await this.fileRepository.deleteEventPhotoByEventId(eventId);
+
+    await this.eventRepository.deleteEventById(eventId);
   }
 }
