@@ -9,90 +9,93 @@ export class GetTopEventsUseCase {
   ) {}
 
   async execute(): Promise<any> {
-    try {
-      console.log("ENTROU NO USECASE EXECUTE");
+    console.log("ENTROU NO USECASE EXECUTE");
 
-      const { nextThursday, nextFriday, nextSaturday } = getUpcomingWeekdays();
-      const dates = [nextThursday, nextFriday, nextSaturday];
-      const dateLabels = ["Thursday", "Friday", "Saturday"];
+    const { nextThursday, nextFriday, nextSaturday } = getUpcomingWeekdays();
+    const dates = [nextThursday, nextFriday, nextSaturday];
+    const dateLabels = ["Thursday", "Friday", "Saturday"];
 
-      console.log("DADOS DAS DATAS: ", dates);
+    console.log("DADOS DAS DATAS: ", dates);
 
-      const events =
-        (await this.eventRepo.getEventsByUpcomingDates(dates)) || [];
+    const events = (await this.eventRepo.getEventsByUpcomingDates(dates)) || [];
 
-      console.log("EVENTOS RETORNADOS DO USECASE: ", events);
+    console.log("EVENTOS RETORNADOS DO USECASE: ", events);
 
-      const eventsByDate = dates.map((date, index) => {
-        const eventsForDate = events.filter(
-          (event: Event) =>
-            event.getEventDate?.toISOString().slice(0, 10) ===
-            date.toISOString().slice(0, 10)
-        );
-
-        console.log(`Eventos para ${dateLabels[index]}: `, eventsForDate);
-
-        return {
-          date: dateLabels[index],
-          events:
-            eventsForDate.length > 0
-              ? eventsForDate.map((event) => ({
-                  eventId: event.getEventId,
-                  name: event.getEventName,
-                  districtId: event.getEventDistrictId,
-                  date: event.getEventDate,
-                  rating: event.getReviews != undefined ? event.getReviews?.reduce((acc, review) => acc + review.star, 0) / event.getReviews?.length : 0,
-                  eventPhoto: event.getEventPhotoLink,
-                  friends: [],
-                  presenceCount: 0,
-                }))
-              : [],
-        };
-      });
-
-      const eventIds = events
-        .map((event) => event.getEventId)
-        .filter((id): id is string => id !== undefined);
-
-      console.log("EVENT IDs: ", eventIds);
-
-      const presencesCount = await this.presenceRepo.countPresencesByEvent(
-        eventIds
+    const eventsByDate = dates.map((date, index) => {
+      const eventsForDate = events.filter(
+        (event: Event) =>
+          event.getEventDate?.toISOString().slice(0, 10) ===
+          date.toISOString().slice(0, 10)
       );
 
-      console.log("PRESENCES COUNT: ", presencesCount);
+      console.log(`Eventos para ${dateLabels[index]}: `, eventsForDate);
 
-      eventsByDate.forEach((day) => {
-        day.events = day.events.map((event) => ({
-          ...event,
-          presenceCount:
-            presencesCount.find((p) => p.eventId === event.eventId)?.count || 0,
-        }));
+      return {
+        date: dateLabels[index],
+        events:
+          eventsForDate.length > 0
+            ? eventsForDate.map((event) => ({
+                eventId: event.getEventId,
+                name: event.getEventName,
+                districtId: event.getEventDistrictId,
+                date: event.getEventDate,
+                rating:
+                  event.getReviews != undefined
+                    ? event.getReviews?.reduce(
+                        (acc, review) => acc + review.star,
+                        0
+                      ) / event.getReviews?.length
+                    : 0,
+                eventPhoto: event.getEventPhotoLink,
+                friends: [],
+                presenceCount: 0,
+              }))
+            : [],
+      };
+    });
 
-        console.log(`Eventos atualizados para ${day.date}: `, day.events);
-      });
+    const eventIds = events
+      .map((event) => event.getEventId)
+      .filter((id): id is string => id !== undefined);
 
-      const topEventsByDate = eventsByDate.map((day) => {
-        const validEvents = day.events.filter(
-          (event) => event.presenceCount > 0
-        );
-        if (validEvents.length === 0) {
-          console.log(`Nenhum evento com presença para ${day.date}`);
-          return { date: day.date, events: [] };
-        }
-        const topEvent = validEvents.reduce((prev, current) =>
-          current.presenceCount > prev.presenceCount ? current : prev
-        );
-        console.log(`Evento com mais presença para ${day.date}: `, topEvent);
-        return { date: day.date, events: [topEvent] };
-      });
+    console.log("EVENT IDs: ", eventIds);
 
-      console.log("TOP EVENTS BY DATE: ", topEventsByDate);
+    const presencesCount = await this.presenceRepo.countPresencesByEvent(
+      eventIds
+    );
 
-      return topEventsByDate;
-    } catch (error: any) {
-      console.error("Error in GetTopEventsUseCase:", error);
-      throw new Error(`Error executing GetTopEventsUseCase: ${error.message}`);
-    }
+    console.log("PRESENCES COUNT: ", presencesCount);
+
+    eventsByDate.forEach((day) => {
+      day.events = day.events.map((event) => ({
+        ...event,
+        presenceCount:
+          presencesCount.find((p) => p.eventId === event.eventId)?.count || 0,
+      }));
+
+      console.log(`Eventos atualizados para ${day.date}: `, day.events);
+    });
+
+    const topEventsByDate = eventsByDate.map((day) => {
+      const validEvents = day.events.filter((event) => event.presenceCount > 0);
+      if (validEvents.length === 0) {
+        console.log(`Nenhum evento com presença para ${day.date}`);
+        return { date: day.date, events: [] }; 
+      }
+      const topEvent = validEvents.reduce((prev, current) =>
+        current.presenceCount > prev.presenceCount ? current : prev
+      );
+      console.log(`Evento com mais presença para ${day.date}: `, topEvent);
+      return { date: day.date, events: [topEvent] };
+    });
+
+    const allDatesWithEvents = dateLabels.map((label, index) => {
+      const dayWithEvents = topEventsByDate.find((day) => day.date === label);
+      return dayWithEvents || { date: label, events: [] }; 
+    });
+
+    console.log("TOP EVENTS BY DATE: ", allDatesWithEvents);
+
+    return allDatesWithEvents;
   }
 }
