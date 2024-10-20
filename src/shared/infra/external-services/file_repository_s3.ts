@@ -102,4 +102,47 @@ export class FileRepositoryS3 implements IFileRepository {
       throw new Error(`Erro ao deletar fotos: ${error.message}`);
     }
   }
+
+  async deleteInstitutePhoto(name: string): Promise<void> {
+    try {
+      const s3 = new S3();
+      console.log("s3BucketName: ", this.s3BucketName);
+
+      if (!name) {
+        throw new Error("InstituteName não fornecido.");
+      }
+
+      const listParams: S3.ListObjectsV2Request = {
+        Bucket: this.s3BucketName,
+      };
+
+      const listedObjects = await s3.listObjectsV2(listParams).promise();
+
+      if (!listedObjects.Contents || listedObjects.Contents.length === 0) {
+        throw new Error("Nenhum arquivo encontrado no bucket.");
+      }
+
+      const matchingFiles = listedObjects.Contents.filter((file) =>
+        file.Key?.includes(`${name.replace(" ", "-")}-logo`)
+      );
+
+      if (matchingFiles.length === 0) {
+        throw new NoItemsFound("foto do evento");
+      }
+
+      const deletePromises = matchingFiles.map(async (file) => {
+        const deleteParams: S3.DeleteObjectRequest = {
+          Bucket: this.s3BucketName,
+          Key: file.Key!,
+        };
+
+        await s3.deleteObject(deleteParams).promise();
+        console.log(`Foto deletada com sucesso: ${file.Key}`);
+      });
+
+      await Promise.all(deletePromises);
+    } catch(error: any) {
+      throw new Error(`FileRepositoryS3, Error on deleteInstitutePhoto: ${error.message}`);
+    }
+  }
 }
