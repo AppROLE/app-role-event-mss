@@ -33,6 +33,7 @@ export class UploadGalleryEventUseCase {
     );
 
     await this.fileRepo.uploadEventGalleryPhoto(
+      eventId,
       eventName,
       imageKey,
       eventPhoto,
