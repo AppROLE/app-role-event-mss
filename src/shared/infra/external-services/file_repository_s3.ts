@@ -44,7 +44,7 @@ export class FileRepositoryS3 implements IFileRepository {
       console.log("s3BucketName: ", this.s3BucketName);
       const params: S3.PutObjectRequest = {
         Bucket: this.s3BucketName,
-        Key: `${eventId}-${eventName}/gallery/${imageNameKey}`,
+        Key: `${eventId}+${eventName}/gallery/${imageNameKey}`,
         Body: eventPhoto,
         ContentType: mimetype,
       };
@@ -141,8 +141,46 @@ export class FileRepositoryS3 implements IFileRepository {
       });
 
       await Promise.all(deletePromises);
-    } catch(error: any) {
-      throw new Error(`FileRepositoryS3, Error on deleteInstitutePhoto: ${error.message}`);
+    } catch (error: any) {
+      throw new Error(
+        `FileRepositoryS3, Error on deleteInstitutePhoto: ${error.message}`
+      );
+    }
+  }
+
+  async deleteGallery(eventId: string): Promise<void> {
+    try {
+      const s3 = new S3();
+      console.log("s3BucketName: ", this.s3BucketName);
+
+      if (!eventId) {
+        throw new Error("Event ID não fornecido.");
+      }
+
+      const listParams: S3.ListObjectsV2Request = {
+        Bucket: this.s3BucketName,
+        Prefix: `${eventId}+`, 
+      };
+
+      const listedObjects = await s3.listObjectsV2(listParams).promise();
+
+      if (!listedObjects.Contents || listedObjects.Contents.length === 0) {
+        throw new Error("Nenhum arquivo encontrado no bucket.");
+      }
+
+      const deleteParams: S3.DeleteObjectsRequest = {
+        Bucket: this.s3BucketName,
+        Delete: {
+          Objects: listedObjects.Contents.map((file) => ({ Key: file.Key! })),
+        },
+      };
+
+      await s3.deleteObjects(deleteParams).promise();
+      console.log(
+        `Pasta e arquivos da galeria do evento ${eventId} deletados com sucesso.`
+      );
+    } catch (error: any) {
+      throw new Error(`Erro ao deletar a pasta da galeria: ${error.message}`);
     }
   }
 }
