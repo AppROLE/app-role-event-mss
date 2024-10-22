@@ -1,7 +1,6 @@
 import { S3 } from "aws-sdk";
 import { IFileRepository } from "src/shared/domain/irepositories/file_repository_interface";
 import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
-import { BadRequest } from "src/shared/helpers/external_interfaces/http_codes";
 
 export class FileRepositoryS3 implements IFileRepository {
   s3BucketName: string;
@@ -34,6 +33,7 @@ export class FileRepositoryS3 implements IFileRepository {
   }
 
   async uploadEventGalleryPhoto(
+    eventId: string,
     eventName: string,
     imageNameKey: string,
     eventPhoto: Buffer,
@@ -44,7 +44,7 @@ export class FileRepositoryS3 implements IFileRepository {
       console.log("s3BucketName: ", this.s3BucketName);
       const params: S3.PutObjectRequest = {
         Bucket: this.s3BucketName,
-        Key: `${eventName}/gallery/${imageNameKey}`,
+        Key: `${eventId}-${eventName}/gallery/${imageNameKey}`,
         Body: eventPhoto,
         ContentType: mimetype,
       };
