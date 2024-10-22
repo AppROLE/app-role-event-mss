@@ -28,6 +28,7 @@ export interface IEvent extends Document {
   features: string[];
   ticket_url: string;
   reviews: IReview[];
+  eventStatus: string;
 }
 const ReviewSchema = new Schema<IReview>({
   username: { type: String },
@@ -57,6 +58,7 @@ const EventSchema: Schema = new Schema<IEvent>({
   category: { type: String },
   ticket_url: { type: String },
   reviews: [ReviewSchema],
+  eventStatus: { type: String, required: true },
 });
 
 export default mongoose.model<IEvent>("Event", EventSchema);
