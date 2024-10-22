@@ -116,5 +116,16 @@ export class PresenceRepositoryMongo implements IPresenceRepository {
       throw new Error(`Error getting presence by event and user: ${error}`);
     }
   }
+
+  async unConfirmPresence(eventId: string, username: string): Promise<void> {
+    try {
+      const db = await connectDB();
+      const presenceMongoClient = db.connections[0].db?.collection<IPresence>("Presence");
+
+      await presenceMongoClient?.deleteOne({ event_id: eventId, username });
+    } catch (error) {
+      throw new Error(`Error unconfirming presence: ${error}`);
+    }
+  }
 }
 
