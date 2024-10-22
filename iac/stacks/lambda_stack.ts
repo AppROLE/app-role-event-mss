@@ -41,6 +41,7 @@ export class LambdaStack extends Construct {
 
   getAllPresencesByEventIdFunction: lambda.Function
   confirmEventFunction: lambda.Function
+  unConfirmEventFunction: lambda.Function
 
   createLambdaApiGatewayIntegration(
     moduleName: string, 
@@ -119,6 +120,8 @@ export class LambdaStack extends Construct {
     // presence routes
     this.getAllPresencesByEventIdFunction = this.createLambdaApiGatewayIntegration('get_all_presences_by_event_id', 'GET', apiGatewayResource, environmentVariables, authorizer)
     this.confirmEventFunction = this.createLambdaApiGatewayIntegration('confirm_event', 'POST', apiGatewayResource, environmentVariables, authorizer)
+    this.unConfirmEventFunction = this.createLambdaApiGatewayIntegration('unconfirm_event', 'POST', apiGatewayResource, environmentVariables, authorizer)
+
 
     // district routes
     this.createDistrictFunction = this.createLambdaApiGatewayIntegration('create_district', 'POST', apiGatewayResource, environmentVariables, authorizer)
