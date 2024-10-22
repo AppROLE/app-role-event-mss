@@ -17,5 +17,7 @@ export class DeleteEventByIdUseCase {
     await this.fileRepository.deleteEventPhotoByEventId(eventId);
 
     await this.eventRepository.deleteEventById(eventId);
+
+    await this.fileRepository.deleteGallery(eventId);
   }
 }
