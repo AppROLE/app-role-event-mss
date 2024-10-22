@@ -11,4 +11,5 @@ export interface IPresenceRepository {
   ): Promise<void>;
   countPresencesByEvent(eventIds: string[]): Promise<{ eventId: string, count: number }[]>;
   getPresenceByEventAndUser(eventId: string, username: string): Promise<Presence | null>;
+  unConfirmPresence(eventId: string, username: string): Promise<void>;
 }
