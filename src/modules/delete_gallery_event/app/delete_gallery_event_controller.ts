@@ -8,6 +8,7 @@ import {
 import { EntityError } from "src/shared/helpers/errors/domain_errors";
 import {
   FailedToAddToGallery,
+  galleryEmpty,
   NoItemsFound,
 } from "src/shared/helpers/errors/usecase_errors";
 import { IRequest } from "src/shared/helpers/external_interfaces/external_interface";
@@ -43,6 +44,9 @@ export class DeleteGalleryEventController {
         return new NotFound(error.message);
       }
       if (error instanceof MissingParameters) {
+        return new BadRequest(error.message);
+      }
+      if (error instanceof galleryEmpty) {
         return new BadRequest(error.message);
       }
       if (error instanceof Error) {
