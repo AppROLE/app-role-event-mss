@@ -9,10 +9,13 @@ export class DeleteGalleryEventUseCase {
   ) {}
 
   async execute(eventId: string) {
+    console.log("ESTOU NO USECASE - EVENT ID PORRA: ", eventId);
     const event = await this.eventRepository.getEventById(eventId);
     if (!event) {
       throw new NoItemsFound("evento");
     }
+    console.log("EVENTO: ", event);
+    console.log("ACHEI O EVENTO - ESTOU NO USECASE: ", event);
     await this.fileRepository.deleteGallery(eventId);
 
     await this.eventRepository.updateEvent(eventId, {
