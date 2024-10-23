@@ -27,7 +27,7 @@ export class DeleteInstituteByIdUseCase {
         await this.eventRepository.deleteEventById(eventId);
       }
     }
-    if(institute.instituteLogoPhoto !== ''){
+    if(institute.instituteLogoPhoto){
       await this.fileRepository.deleteInstitutePhoto(institute.instituteName);
     }
 
