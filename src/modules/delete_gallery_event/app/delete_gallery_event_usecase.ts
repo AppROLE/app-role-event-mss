@@ -1,6 +1,6 @@
 import { IEventRepository } from "src/shared/domain/irepositories/event_repository_interface";
 import { IFileRepository } from "src/shared/domain/irepositories/file_repository_interface";
-import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
+import { galleryEmpty, NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 
 export class DeleteGalleryEventUseCase {
   constructor(
@@ -16,8 +16,8 @@ export class DeleteGalleryEventUseCase {
     }
     console.log("EVENTO: ", event);
     console.log("ACHEI O EVENTO - ESTOU NO USECASE: ", event);
-    if (event.galery_link.length === 0) {
-      throw new NoItemsFound("galeria");
+    if (!event?.getGaleryLink || event.getGaleryLink.length === 0) {
+      throw new galleryEmpty();
     }
     await this.fileRepository.deleteGallery(eventId);
 
