@@ -4,15 +4,19 @@ import { NoItemsFound } from "src/shared/helpers/errors/usecase_errors";
 
 export class DeleteGalleryEventUseCase {
   constructor(
-    private readonly eventRepo: IEventRepository,
-    private readonly fileRepo: IFileRepository
+    private readonly eventRepository: IEventRepository,
+    private readonly fileRepository: IFileRepository
   ) {}
 
   async execute(eventId: string) {
-    const event = await this.eventRepo.getEventById(eventId);
+    const event = await this.eventRepository.getEventById(eventId);
     if (!event) {
       throw new NoItemsFound("evento");
     }
-    await this.fileRepo.deleteGallery(eventId);
+    await this.fileRepository.deleteGallery(eventId);
+
+    await this.eventRepository.updateEvent(eventId, {
+      galery_link: "",
+    });
   }
 }
