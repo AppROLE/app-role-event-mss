@@ -16,7 +16,7 @@ export class DeleteGalleryEventUseCase {
     await this.fileRepository.deleteGallery(eventId);
 
     await this.eventRepository.updateEvent(eventId, {
-      galery_link: "",
+      galery_link: [],
     });
   }
 }
