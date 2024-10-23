@@ -134,7 +134,8 @@ export class LambdaStack extends Construct {
       this.uploadInstitutePhotoFunction,
       this.deleteEventPhotoFunction,
       this.deleteEventByIdFunction,
-      this.deleteInstituteByIdFunction
+      this.deleteInstituteByIdFunction,
+      this.deleteGalleryEventFunction
     ]
 
     this.functionsThatNeedCognitoPermissions = [
