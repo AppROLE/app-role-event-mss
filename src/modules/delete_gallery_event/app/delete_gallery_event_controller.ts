@@ -19,7 +19,7 @@ export class DeleteGalleryEventController {
 
   async handle(request: IRequest) {
     try {
-      const eventId = request.data;
+      const eventId = request.data.eventId;
 
       if (!eventId) {
         throw new MissingParameters("eventId");
