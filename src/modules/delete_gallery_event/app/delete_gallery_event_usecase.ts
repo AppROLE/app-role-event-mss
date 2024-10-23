@@ -16,6 +16,9 @@ export class DeleteGalleryEventUseCase {
     }
     console.log("EVENTO: ", event);
     console.log("ACHEI O EVENTO - ESTOU NO USECASE: ", event);
+    if (event.galery_link.length === 0) {
+      throw new NoItemsFound("galeria");
+    }
     await this.fileRepository.deleteGallery(eventId);
 
     await this.eventRepository.updateEvent(eventId, {
