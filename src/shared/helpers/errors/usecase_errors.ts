@@ -41,3 +41,9 @@ export class UserAlreadyConfirmedEvent extends BaseError {
     super("Usuário já confirmou presença neste evento");
   }
 }
+
+export class galleryEmpty extends BaseError {
+  constructor() {
+    super("A galeria está vazia");
+  }
+}
